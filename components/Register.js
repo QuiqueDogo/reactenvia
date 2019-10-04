@@ -30,7 +30,7 @@ class registerPage extends Component{
               <Text style={styles.submitLogin}> Iniciar Sesión</Text>
             </TouchableHighlight>
              <TouchableHighlight style={styles.submit} onPress={() =>{
-                 alert('Vamonos')
+                 this.props.navigation.navigate('Details')
                 }}>
               <Text style={styles.submitText}> Registrate</Text>
             </TouchableHighlight>
