@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import EnviaB  from "./EnviaB";
-import RegisterB  from "./RegisterB";
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
 export default function Register() {
   return (
@@ -20,12 +20,24 @@ export default function Register() {
             </Text>
           </View>
          <View style={styles.containerButtons}>
-          <EnviaB  />
-          <RegisterB />
+        <TouchableHighlight style={styles.submit}>
+          <Text style={styles.submitLogin}> Iniciar Sesión</Text>
+        </TouchableHighlight>
+         <TouchableHighlight style={styles.submit} onPress={() =>{
+            alert('Vamonos')
+          }}>
+          <Text style={styles.submitText}> Registrate</Text>
+        </TouchableHighlight>
          </View>   
       </LinearGradient>
     </View>
   );
+}
+
+class registerPage extends Component{
+    return(
+        
+    );
 }
 
 
@@ -70,4 +82,32 @@ const styles = StyleSheet.create({
     height:150,
     
   },
+  submit:{
+    marginRight:40,
+    marginLeft:40,
+    marginTop:10,
+  },
+  submitText:{
+    paddingTop:13,
+    paddingBottom:13,
+    color:'#fff',
+    textAlign:'center',
+    backgroundColor:'transparent',
+    borderRadius: 33,
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  submitLogin:{
+    paddingTop:13,
+    paddingBottom:13,
+    color:'#fff',
+    textAlign:'center',
+    backgroundColor:'#02b2bc',
+    borderRadius: 33,
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: '#02b2bc'
+  },
+
 });
