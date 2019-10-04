@@ -6,7 +6,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 
 
-class registerPage extends Component{
+class mainPage extends Component{
     static navigationOptions ={
         header:null
     }
@@ -30,7 +30,7 @@ class registerPage extends Component{
               <Text style={styles.submitLogin}> Iniciar Sesión</Text>
             </TouchableHighlight>
              <TouchableHighlight style={styles.submit} onPress={() =>{
-                 this.props.navigation.navigate('Details')
+                 this.props.navigation.navigate('Register')
                 }}>
               <Text style={styles.submitText}> Registrate</Text>
             </TouchableHighlight>
@@ -42,11 +42,11 @@ class registerPage extends Component{
 }
 
 
-class DetailsScreen extends Component {
+class registerPage extends Component {
     render() {
         return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Details Screen</Text>
+          <Text>Register Screen</Text>
         </View>
       );
     }
@@ -54,8 +54,8 @@ class DetailsScreen extends Component {
 
 const rootStack = createStackNavigator(
     {
-        Home: registerPage,
-        Details: DetailsScreen
+        Home: mainPage,
+        Register: registerPage
     },
     {
         initialRouteName: "Home",
@@ -141,3 +141,4 @@ const styles = StyleSheet.create({
   },
 
 });
+// https://www.youtube.com/watch?v=bUesHGYxSLg
