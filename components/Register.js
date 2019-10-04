@@ -4,46 +4,76 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
-export default function Register() {
-  return (
-    <View style={styles.container}>
-      <LinearGradient colors={['#8D4EA2' ,'#3E9AB8']} start={[0.9,0.1]} end={[0.2,0.8]} style={styles.background}>
-          <View style={styles.containerLogo}>
-            <Image style={styles.logoImage} source={{uri: "https://www.envia.com/images/envia/logo_enviapaqueteria_home.png"}} />
-          </View>
-          <View style={styles.containerImages}>
-            <Text style={{fontSize:23, color:"white", letterSpacing:2}}>
-              envios
-            </Text>
-            <Text style={styles.textColor}>
-             INTERNACIONALES
-            </Text>
-          </View>
-         <View style={styles.containerButtons}>
-        <TouchableHighlight style={styles.submit}>
-          <Text style={styles.submitLogin}> Iniciar Sesión</Text>
-        </TouchableHighlight>
-         <TouchableHighlight style={styles.submit} onPress={() =>{
-            alert('Vamonos')
-          }}>
-          <Text style={styles.submitText}> Registrate</Text>
-        </TouchableHighlight>
-         </View>   
-      </LinearGradient>
-    </View>
-  );
-}
+
 
 class registerPage extends Component{
-    return(
-        
-    );
+    static navigationOptions ={
+        header:null
+    }
+    render(){
+        return (
+            <View style={styles.container}>
+          <LinearGradient colors={['#8D4EA2' ,'#3E9AB8']} start={[0.9,0.1]} end={[0.2,0.8]} style={styles.background}>
+              <View style={styles.containerLogo}>
+                <Image style={styles.logoImage} source={{uri: "https://www.envia.com/images/envia/logo_enviapaqueteria_home.png"}} />
+              </View>
+              <View style={styles.containerImages}>
+                <Text style={{fontSize:23, color:"white", letterSpacing:2}}>
+                  envios
+                </Text>
+                <Text style={styles.textColor}>
+                 INTERNACIONALES
+                </Text>
+              </View>
+             <View style={styles.containerButtons}>
+            <TouchableHighlight style={styles.submit}>
+              <Text style={styles.submitLogin}> Iniciar Sesión</Text>
+            </TouchableHighlight>
+             <TouchableHighlight style={styles.submit} onPress={() =>{
+                 alert('Vamonos')
+                }}>
+              <Text style={styles.submitText}> Registrate</Text>
+            </TouchableHighlight>
+             </View>   
+          </LinearGradient>
+        </View>
+      );
+    }
 }
 
 
+class DetailsScreen extends Component {
+    render() {
+        return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>Details Screen</Text>
+        </View>
+      );
+    }
+}
+
+const rootStack = createStackNavigator(
+    {
+        Home: registerPage,
+        Details: DetailsScreen
+    },
+    {
+        initialRouteName: "Home",
+    }
+);
+
+const AppContainer = createAppContainer(rootStack);
+
+export default class Register extends Component{
+  render(){
+      return (
+         <AppContainer />
+  )
+}
+}
 const styles = StyleSheet.create({
-  container: {
-    flex:1,
+    container: {
+        flex:1,
     alignItems: "stretch",
     justifyContent: "center",
     flexDirection: "column",
