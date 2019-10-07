@@ -29,16 +29,16 @@ class mainPage extends Component{
                 </Text>
               </View>
              <View style={styles.containerButtons}>
-            <TouchableHighlight underlayColor="#ffffff00" style={styles.submitSession} onPress={()=>{
-              this.props.navigation.push('Register')
-            }}>
-              <Text style={styles.submitText}> Iniciar Sesión</Text>
-            </TouchableHighlight>
-             <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>{
-                 this.props.navigation.push('Register')
+                <TouchableHighlight underlayColor="#ffffff00" style={styles.submitSession} onPress={()=>{
+                  this.props.navigation.push('Register')
                 }}>
-              <Text style={styles.submitText}> Registrate</Text>
-            </TouchableHighlight>
+                  <Text style={styles.submitText}> Iniciar Sesión</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>{
+                    this.props.navigation.push('Register')
+                    }}>
+                  <Text style={styles.submitText}> Registrate</Text>
+                </TouchableHighlight>
              </View>
           </LinearGradient>
         </View>
@@ -94,9 +94,12 @@ const styles = StyleSheet.create({
   },
   containerButtons:{
     flex:2,
-    backgroundColor: "rgba(255,255,255,0.2)",
+    backgroundColor: "rgba(255,255,255,0.1)",
     justifyContent: "center",
     flexDirection: "column",
+    // transform: [
+    //   {skewY: '-5deg'}
+    // ],
   },
   textColor:{
     color:"white",
