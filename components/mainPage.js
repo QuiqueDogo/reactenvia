@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import  RegisterModule  from "./pages/registerModule";
+import SessionModule from "./pages/sessionModule";
 
 
 
@@ -13,6 +15,7 @@ class mainPage extends Component{
     render(){
         return (
             <View style={styles.container}>
+              
           <LinearGradient colors={['#8D4EA2' ,'#3E9AB8']} start={[0.9,0.1]} end={[0.2,0.8]} style={styles.background}>
               <View style={styles.containerLogo}>
                 <Image style={styles.logoImage} source={{uri: "https://www.envia.com/images/envia/logo_enviapaqueteria_home.png"}} />
@@ -26,15 +29,17 @@ class mainPage extends Component{
                 </Text>
               </View>
              <View style={styles.containerButtons}>
-            <TouchableHighlight style={styles.submit}>
-              <Text style={styles.submitLogin}> Iniciar Sesión</Text>
+            <TouchableHighlight underlayColor="#ffffff00" style={styles.submitSession} onPress={()=>{
+              this.props.navigation.push('Register')
+            }}>
+              <Text style={styles.submitText}> Iniciar Sesión</Text>
             </TouchableHighlight>
-             <TouchableHighlight style={styles.submit} onPress={() =>{
+             <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>{
                  this.props.navigation.push('Register')
                 }}>
               <Text style={styles.submitText}> Registrate</Text>
             </TouchableHighlight>
-             </View>   
+             </View>
           </LinearGradient>
         </View>
       );
@@ -45,9 +50,7 @@ class mainPage extends Component{
 class registerPage extends Component {
     render() {
         return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Register Screen</Text>
-        </View>
+          <RegisterModule />
       );
     }
 }
@@ -55,22 +58,28 @@ class registerPage extends Component {
 const rootStack = createStackNavigator(
     {
         Home: mainPage,
-        Register: registerPage
+        Register: registerPage,
     },
     {
         initialRouteName: "Home",
-    }
+        defaultNavigationOptions:{
+          headerStyle: {
+            backgroundColor: "#1e90ff"
+          }
+        } 
+    },
 );
 
 const AppContainer = createAppContainer(rootStack);
 
-export default class Register extends Component{
+export default class MainPage extends Component{
   render(){
       return (
          <AppContainer />
   )
 }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex:1,
@@ -112,33 +121,38 @@ const styles = StyleSheet.create({
     height:150,
     
   },
-  submit:{
+  submitSession:{
     marginRight:40,
     marginLeft:40,
     marginTop:10,
-  },
-  submitText:{
-    paddingTop:13,
-    paddingBottom:13,
-    color:'#fff',
-    textAlign:'center',
-    backgroundColor:'transparent',
-    borderRadius: 33,
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: '#fff'
-  },
-  submitLogin:{
-    paddingTop:13,
-    paddingBottom:13,
-    color:'#fff',
-    textAlign:'center',
+    paddingTop:17,
+    paddingBottom:17,
     backgroundColor:'#02b2bc',
-    borderRadius: 33,
-    fontSize: 18,
+    borderRadius: 25,
     borderWidth: 1,
     borderColor: '#02b2bc'
   },
+  submitRegister:{
+    marginRight:40,
+    marginLeft:40,
+    marginTop:10,
+    paddingTop:17,
+    paddingBottom:17,
+    backgroundColor:'transparent',
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+
+  submitText:{
+    textAlign:'center',
+    color:'#fff',
+    fontSize: 19,
+    letterSpacing: 1.3,
+  },
 
 });
+// Navigation
 // https://www.youtube.com/watch?v=bUesHGYxSLg
+
+// shadow generator https://ethercreative.github.io/react-native-shadow-generator/
