@@ -4,7 +4,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import  RegisterModule  from "./pages/registerModule";
-import SessionModule from "./pages/sessionModule";
 
 
 
@@ -14,8 +13,7 @@ class mainPage extends Component{
     }
     render(){
         return (
-            <View style={styles.container}>
-              
+        <View style={styles.container}>     
           <LinearGradient colors={['#8D4EA2' ,'#3E9AB8']} start={[0.9,0.1]} end={[0.2,0.8]} style={styles.background}>
               <View style={styles.containerLogo}>
                 <Image style={styles.logoImage} source={{uri: "https://www.envia.com/images/envia/logo_enviapaqueteria_home.png"}} />
@@ -29,14 +27,18 @@ class mainPage extends Component{
                 </Text>
               </View>
              <View style={styles.containerButtons}>
-                <TouchableHighlight underlayColor="#ffffff00" style={styles.submitSession} onPress={()=>{
-                  this.props.navigation.push('Register')
-                }}>
+                <TouchableHighlight underlayColor="#ffffff00" style={styles.submitSession} onPress={()=>
+                  this.props.navigation.navigate('Register',{
+                    item: "login",
+                  })
+                }>
                   <Text style={styles.submitText}> Iniciar Sesión</Text>
                 </TouchableHighlight>
-                <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>{
-                    this.props.navigation.push('Register')
-                    }}>
+                <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>
+                    this.props.navigation.navigate('Register',{
+                      item: "signup",
+                    })
+                    }>
                   <Text style={styles.submitText}> Registrate</Text>
                 </TouchableHighlight>
              </View>
@@ -64,7 +66,7 @@ const rootStack = createStackNavigator(
         initialRouteName: "Home",
         defaultNavigationOptions:{
           headerStyle: {
-            backgroundColor: "#1e90ff"
+            backgroundColor: "white"
           }
         } 
     },
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     paddingTop:17,
     paddingBottom:17,
     backgroundColor:'#02b2bc',
-    borderRadius: 25,
+    borderRadius: 30,
     borderWidth: 1,
     borderColor: '#02b2bc'
   },
@@ -142,7 +144,7 @@ const styles = StyleSheet.create({
     paddingTop:17,
     paddingBottom:17,
     backgroundColor:'transparent',
-    borderRadius: 25,
+    borderRadius: 30,
     borderWidth: 1,
     borderColor: '#fff'
   },
