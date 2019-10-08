@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Animated, ScrollView, Dimensi
 import { NavigationEvents } from 'react-navigation';
 import { LinearGradient } from 'expo-linear-gradient';
 import Session from "./Tabs/session";
-import Register from "./Tabs/register"
+import Register from "./Tabs/register";
 
 const {width} = Dimensions.get("window");
 export default class RegisterModule extends Component{
@@ -53,7 +53,6 @@ export default class RegisterModule extends Component{
   }
 
   willFocusAction = (payload) => {
-    console.log(payload)
     let params = payload.state.params;
     if (params && params.item) {
       this.setState({
@@ -64,11 +63,6 @@ export default class RegisterModule extends Component{
       else if(params.item === "login") this.refs.loginTab.props.onPress();
     }
   }
-
-  // componentWillMount(){
-  //   console.log(this.props.item);
-  //   this.refs.registerTaberino.props.onPress()
-  // }
 
   render(){
     let {xTabOne,xTabTwo,translateX,active, translateXTabOne ,translateXTabTwo} = this.state 
@@ -133,7 +127,7 @@ export default class RegisterModule extends Component{
                       </TouchableOpacity>
                   </View>
                   <ScrollView>
-                      <Animated.View style={{transform:[{
+                      <Animated.View style={{flex:1,alignItems: "stretch",justifyContent: "center",flexDirection: "column",transform:[{
                         translateX: translateXTabOne
                       }]}}>
                         <Session />
@@ -142,9 +136,8 @@ export default class RegisterModule extends Component{
                       <Animated.View style={{transform:[{
                         translateX: translateXTabTwo
                       }]}}>
-                        <Text>Hola desde registrate</Text>
+                        <Register />
                       </Animated.View>
-
                   </ScrollView>
                 </View>
               </View>
