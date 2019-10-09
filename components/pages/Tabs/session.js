@@ -11,7 +11,7 @@ export default class Session extends Component {
       }
     render(){
         return(
-            <View style={{marginTop:15,borderColor:"red",borderWidth: 1}}>
+            <View style={styleSession.container}>
                 <TextInput 
                 style={styleSession.submitRegister}
                 onChangeText={name => this.setState({ name })} 
@@ -22,20 +22,25 @@ export default class Session extends Component {
                 onChangeText={pass => this.setState({ pass })} 
                 value={this.state.pass}
                 />
-                <ButtonSubmit style={styleSession.buttonsubmit} />
+                <ButtonSubmit style={styleSession.buttonsubmit}/>
             </View>
         )
     }
 }
 
 const styleSession = StyleSheet.create({
-    submitRegister:{
+    container:{
         flex:1,
+        width:"100%",
+        height:"100%",
+        flexDirection:"column",
+        justifyContent:"space-around",
+        borderWidth:1,
+        borderColor:"red",
+    },
+    submitRegister:{
         height: 50,
         width: "90%",
-        marginLeft: 25,
-        marginTop:15,
-        paddingLeft: 15,
         backgroundColor:'transparent',
         borderRadius: 10,
         borderWidth: 1,
@@ -43,6 +48,7 @@ const styleSession = StyleSheet.create({
       },
     buttonsubmit:{
         position:"absolute",
-        left:150
+        left:150,
+        textAlign:"center"
     }
 })

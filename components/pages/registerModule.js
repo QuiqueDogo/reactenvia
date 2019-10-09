@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Animated, ScrollView, Dimensions} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Animated, Dimensions, TextInput, Platform} from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { LinearGradient } from 'expo-linear-gradient';
-import Session from "./Tabs/session";
+import { Ionicons } from '@expo/vector-icons';
 import Register from "./Tabs/register";
 
 const {width} = Dimensions.get("window");
@@ -18,6 +18,7 @@ export default class RegisterModule extends Component{
       translateX: new Animated.Value(0),
       translateXTabOne:new Animated.Value((props.item == "login") ? 0 : width),
       translateXTabTwo:new Animated.Value((props.item == "signup") ? 0 : width),
+      isFocused: false,
     }
   }
 
@@ -52,6 +53,11 @@ export default class RegisterModule extends Component{
       }
   }
 
+
+
+  handleFocus = () => this.setState({ isFocused: true });
+  handleBlur = () => this.setState({ isFocused: false });
+
   willFocusAction = (payload) => {
     let params = payload.state.params;
     if (params && params.item) {
@@ -66,6 +72,17 @@ export default class RegisterModule extends Component{
 
   render(){
     let {xTabOne,xTabTwo,translateX,active, translateXTabOne ,translateXTabTwo} = this.state 
+    const { isFocused } = this.state;
+    // const labelStyle = {
+    //   position: 'absolute',
+    //   left: 30,
+    //   top: !isFocused ?  (Platform.OS =="android") ? 20 :  25  : (Platform.OS =="android") ? -3 :5,
+    //   fontSize: !isFocused ? 20 : 14,
+    //   color: !isFocused ? '#aaa' : '#000',
+    //   backgroundColor: "white",
+    //   width:"20%",
+    //   textAlign:"center"
+    // };
     
       return (
         <View style={stylesRegister.containerRegister}>
@@ -85,6 +102,7 @@ export default class RegisterModule extends Component{
                 height: active === 0 ? "50%" : "90%" ,
                 top: "-7%",
                 alignItems: "center",
+                justifyContent:"center",
                 backgroundColor:"#fff",
                 borderRadius:15,
                 shadowColor: "#000",
@@ -126,20 +144,53 @@ export default class RegisterModule extends Component{
                         <Text style={{color:  active === 1 ? "#00B3C1" : "#a3bfcd", marginLeft:30}}>Registrate</Text>
                       </TouchableOpacity>
                   </View>
-                  <ScrollView>
-                      <Animated.View style={{flex:1,alignItems: "stretch",justifyContent: "center",flexDirection: "column",transform:[{
+                </View>
+                      <Animated.View style={{
+                        flex:1,
+                        position:"absolute",
+                        alignItems:"center",
+                        width: "90%",
+                        height: "50%",
+                        justifyContent:"space-around",
+                        transform:[{
                         translateX: translateXTabOne
                       }]}}>
-                        <Session />
+                            <TextInput 
+                            style={stylesRegister.submitRegister}
+                            onFocus={this.handleFocus}
+                            onBlur={this.handleBlur}
+                            placeholder="User"
+                            />
+                            {/* <Text style={labelStyle}>TEST</Text> */}
+                            <TextInput 
+                            style={stylesRegister.submitRegister}
+                            secureTextEntry={true}
+                            placeholder="Password"
+                            />
+                            <Text></Text>
+                            <TouchableOpacity style={stylesRegister.buttonlogin}>
+                                <Text style={stylesRegister.text}>Inicia Sesion</Text>
+                                <Ionicons style={{marginLeft:30}} name="ios-arrow-round-forward" size={40} color="white"></Ionicons>
+                            </TouchableOpacity> 
                       </Animated.View>
 
-                      <Animated.View style={{transform:[{
+                      <Animated.View style={{
+                        flex: 1,
+                        height:"70%",
+                        width:"90%",
+                        position: "absolute",
+                        alignItems: 'center',
+                        justifyContent: 'space-around',
+                        transform:[{
                         translateX: translateXTabTwo
                       }]}}>
                         <Register />
+                        <TouchableOpacity style={stylesRegister.buttonsubmit}>
+                                <Text style={stylesRegister.text}>Continuar</Text>
+                                <Ionicons style={{marginLeft:30}} name="ios-arrow-round-forward" size={40} color="white"></Ionicons>
+                        </TouchableOpacity> 
                       </Animated.View>
-                  </ScrollView>
-                </View>
+                 
               </View>
           </View>
         </View>
@@ -169,6 +220,7 @@ const stylesRegister = StyleSheet.create({
     justifyContent: "center",
   },
   insideSession:{
+    flex:1,
     width: "80%",
     marginLeft: 16,
     marginRight: "auto",
@@ -181,8 +233,52 @@ const stylesRegister = StyleSheet.create({
   touchable2:{
     flex:3 ,
     justifyContent:'center',
-    alignItems:"flex-start",
   },
+  submitRegister:{
+      height: 50,
+      width: "90%",
+      backgroundColor:'transparent',
+      borderRadius: 10,
+      borderWidth: 1,
+      borderColor: '#a3bfcd',
+      paddingLeft: 15
+    },
+  buttonlogin:{
+      flex:1, 
+      flexDirection: "row",
+      alignItems:"center",
+      alignContent: 'center',
+      justifyContent: 'center',
+      position:"absolute",
+      width:"80%",
+      height:Platform.OS == "ios" ?"40%": "50%",
+      top: Platform.OS == "android" ? 150 : 200,
+      backgroundColor:'#02b2bc',
+      borderRadius: 30,
+      borderWidth: 1,
+      borderColor: '#02b2bc'
+  },
+  buttonsubmit:{
+    flex:1, 
+    flexDirection: "row",
+    alignItems:"center",
+    alignContent: 'center',
+    justifyContent: 'center',
+    position:"absolute",
+    width:"80%",
+    height:Platform.OS == "ios" ?"15%": "19%",
+    bottom: Platform.OS == "android" ? -88 : -110,
+    backgroundColor:'#02b2bc',
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: '#02b2bc'
+},
+  text:{
+      color:"white",
+      textAlign:"center",
+      letterSpacing:1.3, 
+      fontSize:19,
+  }
 })
 
 
@@ -194,3 +290,6 @@ const stylesRegister = StyleSheet.create({
 
 //for passgin data for components 
 //https://snack.expo.io/@andypandy/catching-values-with-navigation-listeners
+
+//Floating animated
+//https://goshakkk.name/floating-label-input-rn-animated/

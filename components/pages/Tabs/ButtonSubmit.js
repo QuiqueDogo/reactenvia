@@ -25,5 +25,6 @@ const styleSession = StyleSheet.create({
       },
     text:{
         color:"white",
+        textAlign:"center",
     }
 })
