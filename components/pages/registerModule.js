@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Animated, Dimensions, TextInput, Platform} from 'react-native';
-import { NavigationEvents } from 'react-navigation';
+import { StyleSheet, View, TouchableOpacity, Animated, Dimensions, TextInput, Platform} from 'react-native';
+import { NavigationEvents} from 'react-navigation';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { Text } from 'react-native-elements';
 import Register from "./Tabs/register";
+import Header from "./Tabs/header";
+import TextPlane from "./Tabs/text";
 
 const {width} = Dimensions.get("window");
+
+
 export default class RegisterModule extends Component{
   constructor(props){
     super(props);
@@ -65,14 +70,14 @@ export default class RegisterModule extends Component{
         item: params.item,
       });
 
-      if(params.item === "signup") this.refs.registerTab.props.onPress();
-      else if(params.item === "login") this.refs.loginTab.props.onPress();
+      // if(params.item === "signup") this.refs.registerTab.props.onPress();
+      // else if(params.item === "login") this.refs.loginTab.props.onPress();
     }
   }
 
   render(){
     let {xTabOne,xTabTwo,translateX,active, translateXTabOne ,translateXTabTwo} = this.state 
-    const { isFocused } = this.state;
+    // const { isFocused } = this.state;
     // const labelStyle = {
     //   position: 'absolute',
     //   left: 30,
@@ -87,9 +92,9 @@ export default class RegisterModule extends Component{
       return (
         <View style={stylesRegister.containerRegister}>
           <LinearGradient colors={['#8D4EA2' ,'#3E9AB8']} start={[0.5,0.0]} end={[0.1,0.9]} style={stylesRegister.gradiant}>
-             <Text style={{color:"white", fontSize:22}}>BIENVENIDO!</Text>
-             <Text style={{color:"white", fontSize:14, marginTop:10,}}>Inicia Sesion en tu cuenta o registrate con nosotros</Text>
-             <Text style={{color:"white", fontSize:14,}}>para empezar a realizar envios facil y rapido</Text>
+             <Text h4 style={{color:"white", }}>BIENVENIDO!</Text>
+             <Text h5 style={{color:"white",  marginTop:10,}}>Inicia Sesion en tu cuenta o registrate con nosotros</Text>
+             <Text h5 style={{color:"white", }}>para empezar a realizar envios facil y rapido</Text>
              <NavigationEvents 
               onWillFocus={this.willFocusAction}
              />
@@ -115,7 +120,8 @@ export default class RegisterModule extends Component{
                 elevation: 20,
               }}>
                 <View style={stylesRegister.insideSession}>
-                  <View style={{flexDirection:"row",marginTop:14,marginBottom:20,
+                  {/* COMPONENTES */}
+                  {/* <View style={{flexDirection:"row",marginTop:14,marginBottom:20,
                  height:36, position:"relative"}}>
                     <Animated.View className="tabIndicator" style={{position: "absolute",
                       width: "34%",
@@ -142,8 +148,12 @@ export default class RegisterModule extends Component{
                       onPress= {() => this.setState({active:1}, ()=> this.handleSlide(xTabTwo) )}
                       >
                         <Text style={{color:  active === 1 ? "#00B3C1" : "#a3bfcd", marginLeft:30}}>Registrate</Text>
+                        <TextPlane  window={`${active}`} label="Registrate"></TextPlane>
                       </TouchableOpacity>
-                  </View>
+                  </View> */}
+
+
+
                 </View>
                       <Animated.View style={{
                         flex:1,
@@ -167,7 +177,6 @@ export default class RegisterModule extends Component{
                             secureTextEntry={true}
                             placeholder="Password"
                             />
-                            <Text></Text>
                             <TouchableOpacity style={stylesRegister.buttonlogin}>
                                 <Text style={stylesRegister.text}>Inicia Sesion</Text>
                                 <Ionicons style={{marginLeft:30}} name="ios-arrow-round-forward" size={40} color="white"></Ionicons>
@@ -181,6 +190,7 @@ export default class RegisterModule extends Component{
                         position: "absolute",
                         alignItems: 'center',
                         justifyContent: 'space-around',
+
                         transform:[{
                         translateX: translateXTabTwo
                       }]}}>
@@ -197,6 +207,7 @@ export default class RegisterModule extends Component{
   )
 }
 }
+
 
 
 
@@ -293,3 +304,7 @@ const stylesRegister = StyleSheet.create({
 
 //Floating animated
 //https://goshakkk.name/floating-label-input-rn-animated/
+
+//CSS options on react native 
+//https://www.styled-components.com/docs/faqs
+//https://blog.bitsrc.io/styling-in-react-native-c48caddfbe47

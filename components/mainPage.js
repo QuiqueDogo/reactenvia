@@ -32,7 +32,7 @@ class mainPage extends Component{
                     item: "login",
                   })
                 }>
-                  <Text style={styles.submitText}> Iniciar Sesión</Text>
+                  <Text style={styles.submitText}> Iniciar Sesión </Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>
                     this.props.navigation.navigate('Register',{
