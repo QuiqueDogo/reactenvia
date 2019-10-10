@@ -4,6 +4,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import  RegisterModule  from "./pages/registerModule";
+import  TabsSelection  from "./pages/TabsSelection";
+import { Button } from 'react-native-elements';
+import styles from "../assets/css/stylesMain";
+import newStyles from "../assets/css/newStyles.scss";
+
 
 
 
@@ -12,6 +17,7 @@ class mainPage extends Component{
         header:null
     }
     render(){
+		console.log(newStyles)
         return (
         <View style={styles.container}>     
           <LinearGradient colors={['#8D4EA2' ,'#3E9AB8']} start={[0.9,0.1]} end={[0.2,0.8]} style={styles.background}>
@@ -28,14 +34,14 @@ class mainPage extends Component{
               </View>
              <View style={styles.containerButtons}>
                 <TouchableHighlight underlayColor="#ffffff00" style={styles.submitSession} onPress={()=>
-                  this.props.navigation.navigate('Register',{
+                  this.props.navigation.push('Register',{
                     item: "login",
                   })
                 }>
                   <Text style={styles.submitText}> Iniciar Sesión </Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>
-                    this.props.navigation.navigate('Register',{
+                    this.props.navigation.push('Register',{
                       item: "signup",
                     })
                     }>
@@ -50,17 +56,36 @@ class mainPage extends Component{
 
 
 class registerPage extends Component {
-    render() {
+   constructor(props) {
+    super(props);
+  }
+
+  
+  render() {
         return (
-          <RegisterModule />
-      );
+            <View style={styles.containerRegister}>
+              <LinearGradient colors={['#8D4EA2' ,'#3E9AB8']} start={[0.5,0.0]} end={[0.1,0.9]} style={styles.gradiant}>
+                <Text h4 style={{color:"white", }}>BIENVENIDO!</Text>
+                <Text h5 style={{color:"white",  marginTop:10,}}>Inicia Sesion en tu cuenta o registrate con nosotros</Text>
+                <Text h5 style={{color:"white", }}>para empezar a realizar envios facil y rapido</Text>
+              </LinearGradient>
+              	<View style={styles.division}>
+					<TabsSelection 
+						item={`${this.props.navigation.state.params.item}`}
+					/>					
+            	</View>
+              
+            </View>
+    	);
     }
 }
+
+
 
 const rootStack = createStackNavigator(
     {
         Home: mainPage,
-        Register: registerPage,
+        Register: registerPage
     },
     {
         initialRouteName: "Home",
@@ -72,91 +97,12 @@ const rootStack = createStackNavigator(
     },
 );
 
+
 const AppContainer = createAppContainer(rootStack);
 
-export default class MainPage extends Component{
-  render(){
-      return (
-         <AppContainer />
-  )
-}
-}
+export default createAppContainer(AppContainer);
 
-const styles = StyleSheet.create({
-    container: {
-        flex:1,
-    alignItems: "stretch",
-    justifyContent: "center",
-    flexDirection: "column",
-  },
-  background:{
-    flex:1, 
-    alignItems: "stretch",
-    justifyContent: "center"
-  },
-  containerButtons:{
-    flex:2,
-    backgroundColor: "rgba(255,255,255,0.1)",
-    justifyContent: "center",
-    flexDirection: "column",
-    // transform: [
-    //   {skewY: '-5deg'}
-    // ],
-  },
-  textColor:{
-    color:"white",
-    paddingBottom:10,
-    letterSpacing: 2,
-    fontSize:25,
-  },
-  containerImages:{
-    flex:5,
-    justifyContent: "flex-end",
-    alignItems:"center",
-    flexDirection: "column"
-  },
-  containerLogo:{
-    flex:1,
-    justifyContent: "center",
-    alignItems:"center",
-    paddingTop: 35,
-  },
-  logoImage:{
-    width:150,
-    height:150,
-    
-  },
-  submitSession:{
-    marginRight:40,
-    marginLeft:40,
-    marginTop:10,
-    paddingTop:17,
-    paddingBottom:17,
-    backgroundColor:'#02b2bc',
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: '#02b2bc'
-  },
-  submitRegister:{
-    marginRight:40,
-    marginLeft:40,
-    marginTop:10,
-    paddingTop:17,
-    paddingBottom:17,
-    backgroundColor:'transparent',
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: '#fff'
-  },
 
-  submitText:{
-    textAlign:'center',
-    color:'#fff',
-    fontSize: 19,
-    letterSpacing: 1.3,
-  },
-
-});
 // Navigation
 // https://www.youtube.com/watch?v=bUesHGYxSLg
 

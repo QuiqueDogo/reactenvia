@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Animated, Dimensions, TextInput, Platform} from 'react-native';
-import { NavigationEvents} from 'react-navigation';
+import { NavigationEvents,createAppContainer,withNavigation} from 'react-navigation';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Text } from 'react-native-elements';
 import Register from "./Tabs/register";
-import Header from "./Tabs/header";
-import TextPlane from "./Tabs/text";
+
+
 
 const {width} = Dimensions.get("window");
 
@@ -14,7 +14,8 @@ const {width} = Dimensions.get("window");
 export default class RegisterModule extends Component{
   constructor(props){
     super(props);
-
+    
+    
     this.state = {
       item: "Algo decia aquí",
       active: 0,
@@ -25,61 +26,63 @@ export default class RegisterModule extends Component{
       translateXTabTwo:new Animated.Value((props.item == "signup") ? 0 : width),
       isFocused: false,
     }
+    
   }
-
+  
   handleSlide = type =>{
     let {active,xTabOne,xTabTwo,translateX, translateXTabOne ,translateXTabTwo} = this.state; 
-      Animated.spring(translateX,{
-        toValue:type,
-        duration:100
-      }).start()
-      if(active ===0){
-        Animated.parallel([
-          Animated.spring(translateXTabOne,{
-            toValue:0,
-            duration: 100,
-          }).start(),
-          Animated.spring(translateXTabTwo,{
-            toValue:width,
-            duration: 100,
-          }).start(),
-        ])
-      }else{
-        Animated.parallel([
-          Animated.spring(translateXTabOne,{
-            toValue:-width,
-            duration: 100,
-          }).start(),
-          Animated.spring(translateXTabTwo,{
-            toValue:0,
-            duration: 100,
-          }).start(),
-        ])
-      }
+    Animated.spring(translateX,{
+      toValue:type,
+      duration:100
+    }).start()
+    if(active ===0){
+      Animated.parallel([
+        Animated.spring(translateXTabOne,{
+          toValue:0,
+          duration: 60,
+        }).start(),
+        Animated.spring(translateXTabTwo,{
+          toValue:width,
+          duration: 60,
+        }).start(),
+      ])
+    }else{
+      Animated.parallel([
+        Animated.spring(translateXTabOne,{
+          toValue:-width,
+          duration: 60,
+        }).start(),
+        Animated.spring(translateXTabTwo,{
+          toValue:0,
+          duration: 60,
+        }).start(),
+      ])
+    }
   }
-
-
-
-  handleFocus = () => this.setState({ isFocused: true });
-  handleBlur = () => this.setState({ isFocused: false });
-
+  
+  
+  
+  // handleFocus = () => this.setState({ isFocused: true });
+  // handleBlur = () => this.setState({ isFocused: false });
+  
   willFocusAction = (payload) => {
     let params = payload.state.params;
     if (params && params.item) {
       this.setState({
         item: params.item,
       });
-
-      // if(params.item === "signup") this.refs.registerTab.props.onPress();
-      // else if(params.item === "login") this.refs.loginTab.props.onPress();
+      
+      if(params.item === "signup") this.refs.registerTab.props.onPress();
+      else if(params.item === "login") this.refs.loginTab.props.onPress();
     }
   }
-
+  
   render(){
     let {xTabOne,xTabTwo,translateX,active, translateXTabOne ,translateXTabTwo} = this.state 
+    
     // const { isFocused } = this.state;
     // const labelStyle = {
-    //   position: 'absolute',
+      //   position: 'absolute',
     //   left: 30,
     //   top: !isFocused ?  (Platform.OS =="android") ? 20 :  25  : (Platform.OS =="android") ? -3 :5,
     //   fontSize: !isFocused ? 20 : 14,
@@ -120,8 +123,7 @@ export default class RegisterModule extends Component{
                 elevation: 20,
               }}>
                 <View style={stylesRegister.insideSession}>
-                  {/* COMPONENTES */}
-                  {/* <View style={{flexDirection:"row",marginTop:14,marginBottom:20,
+                  <View style={{flexDirection:"row",marginTop:14,marginBottom:20,
                  height:36, position:"relative"}}>
                     <Animated.View className="tabIndicator" style={{position: "absolute",
                       width: "34%",
@@ -148,9 +150,10 @@ export default class RegisterModule extends Component{
                       onPress= {() => this.setState({active:1}, ()=> this.handleSlide(xTabTwo) )}
                       >
                         <Text style={{color:  active === 1 ? "#00B3C1" : "#a3bfcd", marginLeft:30}}>Registrate</Text>
-                        <TextPlane  window={`${active}`} label="Registrate"></TextPlane>
+                        {/* <TextPlane  window={`${active}`} label="Registrate"></TextPlane> */}
                       </TouchableOpacity>
-                  </View> */}
+                  </View>
+                  {/* <TabsSelection /> */}
 
 
 
@@ -195,11 +198,12 @@ export default class RegisterModule extends Component{
                         translateX: translateXTabTwo
                       }]}}>
                         <Register />
-                        <TouchableOpacity style={stylesRegister.buttonsubmit}>
+                        <TouchableOpacity style={stylesRegister.buttonsubmit} >
                                 <Text style={stylesRegister.text}>Continuar</Text>
                                 <Ionicons style={{marginLeft:30}} name="ios-arrow-round-forward" size={40} color="white"></Ionicons>
                         </TouchableOpacity> 
                       </Animated.View>
+
                  
               </View>
           </View>
@@ -211,18 +215,22 @@ export default class RegisterModule extends Component{
 
 
 
+
+
 const stylesRegister = StyleSheet.create({
   containerRegister:{
     flex:1,
     alignItems: "stretch",
     justifyContent: "center",
     flexDirection: "column",
+    
   },
   gradiant:{
     flex:1, 
     alignItems: "flex-start",
     justifyContent: "flex-start",
     padding: 30,
+    paddingTop: 40
   },
   background:{
     flex:5, 

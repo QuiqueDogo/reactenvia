@@ -1,0 +1,14 @@
+$red: green;
+
+.textRed{
+    color: $red;
+    font-weight: bold;
+}
+
+.textColor{
+    @extend .textRed;
+}
+
+.text2{
+    color:yellow;
+}
