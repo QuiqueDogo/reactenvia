@@ -3,6 +3,9 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import mainPage from './app/screens/mainPage';
 import registerPage from './app/screens/registerPage';
+import verifyPage from './app/screens/verifyPage'
+import loginPage from './app/screens/loginPage'
+import homePage from './app/screens/mainPage'
 
 const NavStack = createStackNavigator({
     mainPage: { 
@@ -10,6 +13,15 @@ const NavStack = createStackNavigator({
     },
     registerPage: {
       screen: registerPage
+    },
+    loginPage: {
+      screen: loginPage
+    },
+    verifyPage:{
+      screen: verifyPage
+    },
+    homePage:{
+      screen: homePage
     }
 });
 

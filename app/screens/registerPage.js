@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import  TabsSelection  from "./TabsSelection";
+import  TabsSelection  from "../components/TabsSelection";
 import styles from "../../assets/css/stylesMain";
 
 export default class registerPage extends Component {

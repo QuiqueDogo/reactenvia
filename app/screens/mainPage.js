@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableHighlight} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import  TabsSelection  from "./TabsSelection";
-import { Button, Input } from 'react-native-elements';
 import styles from "../../assets/css/stylesMain";
 
  export default class mainPage extends Component{
@@ -35,7 +33,7 @@ import styles from "../../assets/css/stylesMain";
                   <Text style={styles.submitText}> Iniciar Sesión </Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>
-                    this.props.navigation.push('Register',{
+                    this.props.navigation.push('loginPage',{
                       item: "signup",
                     })
                     }>
@@ -49,34 +47,7 @@ import styles from "../../assets/css/stylesMain";
 }
 
 
-class verifyPage extends Component{
-  constructor(props) {
-    super(props);
-    console.log(this)
-  }
-  render(){
-    return(
-      <View style={styles.container}> 
-          <Text>Hola desde la continuacion de registro</Text>
-          <Button title="Atras" onPress={ ()=> this.props.navigation.goBack()}></Button>
-      </View>
-    )
-  }
-}
 
-class RealHomePage extends Component{
-  constructor(props) {
-    super(props);
-    console.log(this)
-  }
-  render(){
-    return(
-      <View style={styles.container}> 
-          <Text>Hola desde real Home </Text>
-      </View>
-    )
-  }
-}
 
 // export default mainPage;
 
@@ -87,3 +58,20 @@ class RealHomePage extends Component{
 // shadow generator https://ethercreative.github.io/react-native-shadow-generator/
 
 // dev.mcastillo@gmail.com / soytigrecampeon UDEMY 
+
+
+// Navigation 
+// https://www.youtube.com/watch?v=bUesHGYxSLg
+
+//sliding tabbar react native 
+//https://www.youtube.com/watch?v=mRt7XIQoAO0
+
+//for passgin data for components 
+//https://snack.expo.io/@andypandy/catching-values-with-navigation-listeners
+
+//Floating animated
+//https://goshakkk.name/floating-label-input-rn-animated/
+
+//CSS options on react native 
+//https://www.styled-components.com/docs/faqs
+//https://blog.bitsrc.io/styling-in-react-native-c48caddfbe47
