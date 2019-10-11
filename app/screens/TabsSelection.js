@@ -8,7 +8,6 @@ const {width} = Dimensions.get("window");
 export default class TabsSelection extends Component {
   constructor(props){
     super(props);
-    console.log(this.props)
     this.state ={
       active:`${this.props.item}` 
     }
@@ -23,7 +22,7 @@ export default class TabsSelection extends Component {
             height: active === "login" ? "50%" : "90%" ,
             top: "-7%",
             alignItems: "center",
-            justifyContent:"flex-start",
+            flexDirection:"column",
             backgroundColor:"#fff",
             borderRadius:15,
             shadowColor: "#000",
@@ -37,11 +36,12 @@ export default class TabsSelection extends Component {
           }}>
                   <View style={{alignItems:"center" ,flexDirection:"row",marginTop:14,marginBottom:20,
                        height:36, position:"relative"}}>
-                        <View style={stylesRegister.barSelected} />
+                        {/* <View style={stylesRegister.barSelected} /> */}
                         <TouchableOpacity 
-                        style={stylesRegister.touchable1} 
+                        style={stylesRegister.touchable1}
+                        onPress={()=> this.props.navigation.navigate("home")} 
                         >
-                          <Text style={{color: active === "login" ? "#00B3C1" : "#a3bfcd" }}>Inicia Sesión</Text>
+                          <Text style={{color: "#00B3C1" }}>{(active === "login") ? "Inicia Sesion" : "Registrate"}</Text>
                         </TouchableOpacity>
                     
                   </View>

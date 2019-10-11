@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
+import { Text, View, Image, TouchableHighlight} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import  RegisterModule  from "./pages/registerModule";
-import  TabsSelection  from "./pages/TabsSelection";
-import { Button } from 'react-native-elements';
-import styles from "../assets/css/stylesMain";
-import newStyles from "../assets/css/newStyles.scss";
+import  TabsSelection  from "./TabsSelection";
+import { Button, Input } from 'react-native-elements';
+import styles from "../../assets/css/stylesMain";
+import newStyles from "../../assets/css/newStyles.scss";
+import RealHomePagetool from "./Home";
 
 
 
@@ -17,7 +17,6 @@ class mainPage extends Component{
         header:null
     }
     render(){
-		console.log(newStyles)
         return (
         <View style={styles.container}>     
           <LinearGradient colors={['#8D4EA2' ,'#3E9AB8']} start={[0.9,0.1]} end={[0.2,0.8]} style={styles.background}>
@@ -58,11 +57,32 @@ class mainPage extends Component{
 class registerPage extends Component {
    constructor(props) {
     super(props);
+    const data = this.props.navigation.state.params.item
+    if (data ==="login") {
+      this.state ={
+        active:1,
+        non:1, 
+        data1: 0,
+        fresh: 12,
+      }
+    }else{
+      this.state ={
+        active:1,
+        non:1, 
+      }
+    }
+  }
+  
+  ButtonOnClick = fuck =>{
+    console.log(`Lo primero que dire sera: ${fuck}`)
   }
 
+
   
+
   render() {
-        return (
+    const value = this.props.navigation.state.params.item
+    return (
             <View style={styles.containerRegister}>
               <LinearGradient colors={['#8D4EA2' ,'#3E9AB8']} start={[0.5,0.0]} end={[0.1,0.9]} style={styles.gradiant}>
                 <Text h4 style={{color:"white", }}>BIENVENIDO!</Text>
@@ -70,14 +90,45 @@ class registerPage extends Component {
                 <Text h5 style={{color:"white", }}>para empezar a realizar envios facil y rapido</Text>
               </LinearGradient>
               	<View style={styles.division}>
-					<TabsSelection 
-						item={`${this.props.navigation.state.params.item}`}
-					/>					
-            	</View>
-              
+                  <TabsSelection 
+                    item={`${this.props.navigation.state.params.item}`}
+                  />			
+                  <Button title={(value == "login") ? "Inicia Sesion":"Registrate"} onPress={() => this.props.navigation.navigate((value === "login")? "Welcome" :"Verify", this.state )} />      
+            	  </View>
+
             </View>
     	);
     }
+}
+
+class verifyPage extends Component{
+  constructor(props) {
+    super(props);
+    // console.log(this)
+  }
+  render(){
+    return(
+      <View style={styles.container}> 
+          <Text>Hola desde la continuacion de registro</Text>
+          <Button title="Atras" onPress={ ()=> this.props.navigation.goBack()}></Button>
+      </View>
+    )
+  }
+}
+
+class RealHomePage extends Component{
+  constructor(props) {
+    super(props);
+    // console.log(this)
+  }
+  render(){
+    return(
+      // <View style={styles.container}> 
+      //     <Text>Hola desde real Home </Text>
+      // </View>
+      <RealHomePagetool /> 
+    )
+  }
 }
 
 
@@ -85,7 +136,9 @@ class registerPage extends Component {
 const rootStack = createStackNavigator(
     {
         Home: mainPage,
-        Register: registerPage
+        Register: registerPage,
+        Verify: verifyPage,
+        Welcome: RealHomePage,
     },
     {
         initialRouteName: "Home",
@@ -107,3 +160,5 @@ export default createAppContainer(AppContainer);
 // https://www.youtube.com/watch?v=bUesHGYxSLg
 
 // shadow generator https://ethercreative.github.io/react-native-shadow-generator/
+
+// dev.mcastillo@gmail.com / soytigrecampeon UDEMY 

@@ -1,14 +1,12 @@
 import React from 'react';
 import { StyleSheet, View} from 'react-native';
-import MainPage  from "./components/mainPage";
-import AppContainer from './components/AppNavigator';
+import MainPage  from "./app/screens/mainPage";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <MainPage />
     </View>
-    // <AppContainer / >
   );
 }
 
