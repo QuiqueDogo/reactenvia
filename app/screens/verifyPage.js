@@ -11,8 +11,8 @@ export default class verifyPage extends Component{
   render(){
     return(
       <View style={styles.container}> 
-          <Text>Hola desde la continuacion de registro</Text>
-          <Button title="Atras" onPress={ ()=> this.props.navigation.goBack()}></Button>
+          <Text>Hola desde la continuacion de la verificacion del numero</Text>
+          <Button title="vamos a real home" onPress={ ()=> this.props.navigation.navigate("homePage")}></Button>
       </View>
     )
   }

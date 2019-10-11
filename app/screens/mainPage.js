@@ -28,12 +28,12 @@ import styles from "../../assets/css/stylesMain";
               </View>
              <View style={styles.containerButtons}>
                 <TouchableHighlight underlayColor="#ffffff00" style={styles.submitSession} onPress={()=>
-                  this.props.navigation.navigate('registerPage')
+                  this.props.navigation.navigate('loginPage')
                 }>
                   <Text style={styles.submitText}> Iniciar Sesión </Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>
-                    this.props.navigation.push('loginPage',{
+                    this.props.navigation.push('registerPage',{
                       item: "signup",
                     })
                     }>

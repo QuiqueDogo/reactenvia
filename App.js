@@ -5,7 +5,8 @@ import mainPage from './app/screens/mainPage';
 import registerPage from './app/screens/registerPage';
 import verifyPage from './app/screens/verifyPage'
 import loginPage from './app/screens/loginPage'
-import homePage from './app/screens/mainPage'
+import homePage from './app/screens/homePage'
+import contRegisterPage from './app/screens/contRegisterPage'
 
 const NavStack = createStackNavigator({
     mainPage: { 
@@ -13,6 +14,9 @@ const NavStack = createStackNavigator({
     },
     registerPage: {
       screen: registerPage
+    },
+    contRegisterPage:{
+      screen: contRegisterPage
     },
     loginPage: {
       screen: loginPage
