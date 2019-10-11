@@ -6,7 +6,6 @@ import styles from "../../assets/css/stylesMain";
  export default class mainPage extends Component{
     constructor(props) {
       super(props);
-      console.log(this.props);
     }
     static navigationOptions ={
         header:null
@@ -28,13 +27,15 @@ import styles from "../../assets/css/stylesMain";
               </View>
              <View style={styles.containerButtons}>
                 <TouchableHighlight underlayColor="#ffffff00" style={styles.submitSession} onPress={()=>
-                  this.props.navigation.navigate('loginPage')
+                  this.props.navigation.navigate('loginPage',{
+                    item: "login",
+                  })
                 }>
                   <Text style={styles.submitText}> Iniciar Sesión </Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>
                     this.props.navigation.push('registerPage',{
-                      item: "signup",
+                      item: "register",
                     })
                     }>
                   <Text style={styles.submitText}> Registrate</Text>
@@ -57,6 +58,7 @@ import styles from "../../assets/css/stylesMain";
 
 // shadow generator https://ethercreative.github.io/react-native-shadow-generator/
 
+//Cursos  de udemy
 // dev.mcastillo@gmail.com / soytigrecampeon UDEMY 
 
 

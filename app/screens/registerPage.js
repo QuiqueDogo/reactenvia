@@ -16,11 +16,11 @@ export default class registerPage extends Component {
      // const value = this.props.navigation.state.params.item
      return (
              <View style={styles.containerRegister}>
-                 <Header />
+                 <Header title="Bienvenidos!"/>
                    <View style={styles.division}>
-                   <TabsSelection item="register"/>			
-                   <Button  onPress={() => this.props.navigation.navigate('contRegisterPage')} />   
-                   <Button  title="atras" onPress={() => this.props.navigation.goBack()} />      
+                    <TabsSelection item="register"/>			
+                    <Button  onPress={() => this.props.navigation.navigate('contRegisterPage')} />   
+                    <Button  title="atras" onPress={() => this.props.navigation.goBack()} />      
                    </View>
  
              </View>
