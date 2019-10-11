@@ -1,21 +1,18 @@
-import React from 'react';
-import { StyleSheet, View} from 'react-native';
-import MainPage  from "./app/screens/mainPage";
+import React, { Component } from 'react';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import mainPage from './app/screens/mainPage';
+import registerPage from './app/screens/registerPage';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <MainPage />
-    </View>
-  );
-}
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex:1,
-    alignItems: "stretch",
-    justifyContent: "center",
-    flexDirection: "column",
-  },
+const NavStack = createStackNavigator({
+    mainPage: { 
+        screen: mainPage
+    },
+    registerPage: {
+      screen: registerPage
+    }
 });
+
+const App = createAppContainer(NavStack);
+
+export default App;

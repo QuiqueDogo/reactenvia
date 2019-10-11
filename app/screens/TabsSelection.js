@@ -39,7 +39,7 @@ export default class TabsSelection extends Component {
                         {/* <View style={stylesRegister.barSelected} /> */}
                         <TouchableOpacity 
                         style={stylesRegister.touchable1}
-                        onPress={()=> this.props.navigation.navigate("home")} 
+                        onPress={()=> this.props.navigation.navigate("mainPage")} 
                         >
                           <Text style={{color: "#00B3C1" }}>{(active === "login") ? "Inicia Sesion" : "Registrate"}</Text>
                         </TouchableOpacity>
