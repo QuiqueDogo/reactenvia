@@ -1,8 +1,27 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet,Platform } from "react-native";
 
 export default StyleSheet.create({
+  buttonFloating:{
+    width: 250,
+  },
+  viewFloat:{
+    position:"absolute",
+    top: Platform.OS == "android" ? 70 : 10,
+  },
+  buttonStyleRegister:{
+    borderWidth: 1,
+    borderColor: '#02b2bc',
+    borderRadius: 30,
+    backgroundColor:'#02b2bc',
+    height:60,
+  },
+  buttonStylesContainerRegister:{
+    marginVertical: 10,
+    width: 250,
+  },
     formStyles:{
       width:"80%",
+      marginTop:10,
     },
     division:{
       flex:6,
