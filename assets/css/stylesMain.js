@@ -1,9 +1,13 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+    formStyles:{
+      width:"80%",
+    },
     division:{
       flex:6,
       alignItems:"center",
+      marginTop: 15,
     },
     gradiant:{
       flex:1, 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {View, TouchableOpacity, Animated, Text,Dimensions,StyleSheet,Platform, Button} from 'react-native';
-import { NavigationEvents } from 'react-navigation';
+import {View, TouchableOpacity, Text,Dimensions} from 'react-native';
 import stylesRegister from "../../assets/css/stylesTabsSelection";
 
 const {width} = Dimensions.get("window");
@@ -39,7 +38,6 @@ export default class TabsSelection extends Component {
                         {/* <View style={stylesRegister.barSelected} /> */}
                         <TouchableOpacity 
                         style={stylesRegister.touchable1}
-                        onPress={()=> this.props.navigation.navigate("mainPage")} 
                         >
                           <Text style={{color: "#00B3C1" }}>{(active === "login") ? "Inicia Sesion" : "Registrate"}</Text>
                         </TouchableOpacity>

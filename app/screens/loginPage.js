@@ -15,7 +15,7 @@ export default class verifyPage extends Component{
     render(){
       return(
         <View style={styles.containerRegister}>
-          <Header />
+          <Header title="Bienvenidos!" title2="Inicia Sesion en tu cuenta o registrate con nosotros para empezar a realizar envios facil y rapido"/>
             <View style={styles.division}>
             <TabsSelection item="login"/>			
             <Button  title="Siguiente" onPress={() => this.props.navigation.navigate('homePage')} />  
