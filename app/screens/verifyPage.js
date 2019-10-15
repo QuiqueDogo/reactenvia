@@ -44,14 +44,22 @@ export default class verifyPage extends Component{
            <TabsSelection item="login"/>
            <View className="centerCard" style={styles.cardVerify}> 
             <ScrollView style={styles.scrollStyle}>
-            <Form 
-            // onChange={formValue => this.onChangeFormRegister(formValue)}
-              ref="registerForm" type={verifyStruct} options={verifyOptions} value={this.state.formData} 
-            />		
+              <Form 
+              // onChange={formValue => this.onChangeFormRegister(formValue)}
+                ref="registerForm" type={verifyStruct} options={verifyOptions} value={this.state.formData} 
+              />		
             </ScrollView>
+            <Text style={styles.textTerms}>Al continuar aceptas los Terminos y Condiciones</Text>
            </View> 
+           <Button  title="Finalizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} 
+                  containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }}
+                              icon={{
+                                name:"arrow-right",
+                                type:"font-awesome",
+                                size:19,
+                                color:"white",
+                              }} onPress={ ()=> this.props.navigation.navigate("homePage")}></Button> 
         </View>
-           <Button title="vamos a verificar" onPress={ ()=> this.props.navigation.navigate("homePage")}></Button> 
   </View>
     )
   }

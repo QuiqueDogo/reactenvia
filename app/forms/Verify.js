@@ -32,56 +32,56 @@ stylesheet.formGroup.error.flex = 1;
       empresa:{
           template: inputTemplate,
           config:{
-              placerHolder: "Hola"
+              placerHolder: "Empresa"
           }
       },
       calle:{
           template: inputTemplate,
-          label:"Dirrecion",
           config:{
-              placerHolder: "Hola"
+              placerHolder: "Calle",
+              label:"Dirección",
           }
       },
       numero:{
           template: inputTemplate,
           config:{
-              placerHolder: "Hola"
+              placerHolder: "Numero"
           }
       },
       codigoPostal:{
           template: inputTemplate,
           config:{
-              placerHolder: "Hola"
+              placerHolder: "Codigo postal"
           }
       },
       colonia:{
           template: inputTemplate,
           config:{
-              placerHolder: "Hola"
+              placerHolder: "Colonia"
           }
       },
       ciudad:{
           template: inputTemplate,
           config:{
-              placerHolder: "Hola"
+              placerHolder: "Ciudad"
           }
       },
       Estado:{
           template: inputTemplate,
           config:{
-              placerHolder: "Hola"
+              placerHolder: "Estado"
           }
       },
       enviosMes:{
           template: inputTemplate,
           config:{
-              placerHolder: "Hola"
+              placerHolder: "¿Cuantos Envios Realizas al mes?"
           }
       },
       info:{
           template: inputTemplate,
           config:{
-              placerHolder: "Hola"
+              placerHolder: "¿Cómo te enteraste de nosotros?"
           }
       },
   },

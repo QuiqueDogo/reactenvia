@@ -170,12 +170,46 @@ export default StyleSheet.create({
         width: 0,
         height: 8,
       },
-      height: "85%" ,
-  },
-  scrollStyle:{
-    flex:1,
-    width:"100%",
-    borderRadius:15,
-  }
-  
+      height: "90%" ,
+    },
+    scrollStyle:{
+      flexBasis:70,
+      width:"100%",
+      borderRadius:15,
+    },
+    textTerms:{
+      flexBasis:90,
+      textAlign: "center",
+      color: "#969696",
+      fontSize: 13,
+      paddingTop:15
+    },
+    buttonVerify:{
+      width:250,
+      position:"absolute",
+      bottom : 80
+    },
+    division:{
+      flex:9,
+      alignItems:"center",
+      marginTop: 15,
+    },
+    cardHome:{
+      width: "45%",
+      position:"absolute",
+      top:"-8%",
+      alignItems: "center",
+      flexDirection:"column",
+      backgroundColor:"#fff",
+      borderRadius:30,
+      shadowColor: "#000",
+      shadowOpacity: 0.46,
+      shadowRadius: 11.14,
+      elevation: 20,
+      shadowOffset: {
+        width: 0,
+        height: 8,
+      },
+      height: "10%" ,
+    }
   });
