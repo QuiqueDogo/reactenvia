@@ -3,8 +3,12 @@ import { StyleSheet, View, } from 'react-native';
 import {Icon,Input} from "react-native-elements";
 
 export default (inputTemplate = locals =>{
+    // console.log(locals.config)
     return(
-            <Input password={locals.config.password} secureTextEntry={locals.config.secureTextEntry} style={styles.inputOut} inputStyle={styles.inputText} inputContainerStyle={styles.inputStyles} placeholder={locals.config.placeholder} placeholderTextColor="#38b3b9" onChangeText={value => locals.onChange(value)}/>
+        <View>
+            <Input maxLength={1} style={styles.inputOut} inputStyle={styles.inputText} inputContainerStyle={styles.inputStyles} placeholder="·" placeholderTextColor="#38b3b9" />
+        </View>
+
     )
 });
 
@@ -12,14 +16,13 @@ const styles =StyleSheet.create({
     inputStyles:{
         borderWidth:1,
         borderRadius:15,
-        width:"100%",
-        height:50,
-        paddingLeft: 14,
+        width:60,
+        height:70,
+        paddingLeft: 27,
         borderColor:"#dbdbdb",
-        marginTop:18,
     },
     inputText:{
-        fontSize:14,
+        fontSize:20,
         fontWeight:"300",
     },
     inputOut:{

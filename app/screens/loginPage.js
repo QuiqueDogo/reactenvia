@@ -25,11 +25,11 @@ export default class verifyPage extends Component{
     }
 
     onChangeFormRegister = (data) => {
-      console.log("hola")
+      // console.log("hola")
     }
 
     login = () =>{
-      console.log("hola")
+      this.props.navigation.navigate("homePage")
     }
 
     static navigationOptions ={
@@ -44,7 +44,7 @@ export default class verifyPage extends Component{
           <Button  title="atras" onPress={() => this.props.navigation.goBack()} /> 
             <View style={styles.division}>
               <View className="centerCard" style={{flex:1,width: "90%",position:"absolute",top:"-8%",alignItems: "center",flexDirection:"column",backgroundColor:"#fff",borderRadius:15,shadowColor: "#000",shadowOpacity: 0.46,shadowRadius: 11.14, elevation: 20,shadowOffset: {  width: 0,  height: 8,},
-                            height: active == "login" ? (Platform.OS == "android") ? "44%" :"46%"  : "90%" ,
+                            height: active == "login" ? (Platform.OS == "android") ? "55%" :"46%"  : "90%" ,
                           }}>
                 <TabsSelection item="login"/>
                 <View style={styles.formStyles}>
@@ -53,7 +53,7 @@ export default class verifyPage extends Component{
                     />			
                 </View>			
                 <Button
-                    style={styles.buttonFloating} title="Inicia Sesion" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30 }} containerStyle={styles.buttonStylesContainerRegister} iconRight iconContainerStyle={{ marginLeft: 0 }}
+                    style={styles.buttonLoginFloating} title="Inicia Sesion" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30 }} containerStyle={styles.buttonStylesContainerLogin} iconRight iconContainerStyle={{ marginLeft: 0 }}
                     icon={{
                       name:"arrow-right",
                       type:"font-awesome",

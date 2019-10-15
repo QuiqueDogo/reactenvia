@@ -32,24 +32,27 @@ export default class registerPage extends Component {
    }
 
    register = () => {
-     console.log(this.state.formData)
-     const  {name,email,pais,telefono, password} = this.state.formData
+    //  console.log(this.state.formData)
+    //  const  {name,email,pais,telefono, password} = this.state.formData
      
-     if(name !="" && email!="" && pais!="" && telefono !="" && password !=""){
-       const validate = this.refs.registerForm.getValue();
+    //  if(name !="" && email!="" && pais!="" && telefono !="" && password !=""){
+    //    const validate = this.refs.registerForm.getValue();
        
-       if(validate){
-        console.log("todo bien en el registro")
-        this.setState({
-          formErrorMessage: ""
+    //    if(validate){
+    //     console.log("todo bien en el registro")
+        this.props.navigation.navigate("contRegisterPage",{
+          info: this.state.formData
         })
-       }else{
-         console.log("todo mal en el registro")
-         this.setState({ formErrorMessage: "Error en el correo electronico" })
-        }
-     }else{
-      this.setState({ formErrorMessage: "LLene los campos..." })
-     }
+    //     this.setState({
+    //       formErrorMessage: ""
+    //     })
+    //    }else{
+    //      console.log("todo mal en el registro")
+    //      this.setState({ formErrorMessage: "Error en el correo electronico" })
+    //     }
+    //  }else{
+    //   this.setState({ formErrorMessage: "LLene los campos..." })
+    //  }
 
 
     

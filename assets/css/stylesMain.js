@@ -4,6 +4,9 @@ export default StyleSheet.create({
   buttonFloating:{
     width: 250,
   },
+  buttonLoginFloating:{
+    width:250,
+  },
   viewFloat:{
     position:"absolute",
     top: Platform.OS == "android" ? 70 : 10,
@@ -18,6 +21,14 @@ export default StyleSheet.create({
   buttonStylesContainerRegister:{
     marginVertical: 10,
     width: 250,
+    position:"absolute",
+    bottom : Platform.OS == "android" ? -25 : -40
+  },
+  buttonStylesContainerLogin:{
+    marginVertical: 10,
+    width: 250,
+    position:"absolute",
+    bottom : Platform.OS == "android" ? -25 : -40
   },
     formStyles:{
       width:"80%",
@@ -113,5 +124,58 @@ export default StyleSheet.create({
       fontSize: 19,
       letterSpacing: 1.3,
     },
+    cardStyle:{
+      flex:1,
+      width: "90%",
+      position:"absolute",
+      top:"-8%",
+      alignItems: "center",
+      flexDirection:"column",
+      backgroundColor:"#fff",
+      borderRadius:15,
+      shadowColor: "#000",
+      shadowOpacity: 0.46,
+      shadowRadius: 11.14,
+      elevation: 20,
+      shadowOffset: {
+        width: 0,
+        height: 8,
+      },
+      height: (Platform.OS=="android") ? "50%" :"40%" ,
+    },
+    buttoncontRegister2:{
+      borderWidth: 1, 
+      borderColor: '#02b2bc', 
+      borderRadius: 30, 
+      backgroundColor:'#02b2bc', 
+      height:60, 
+      position:"absolute", 
+      top: Platform.OS ==="android" ? 220 :195, 
+      width:250 
+    },
+    cardVerify: {
+      flex:1,
+      width: "90%",
+      position:"absolute",
+      top:"-8%",
+      alignItems: "center",
+      flexDirection:"column",
+      backgroundColor:"#fff",
+      borderRadius:15,
+      shadowColor: "#000",
+      shadowOpacity: 0.46,
+      shadowRadius: 11.14,
+      elevation: 20,
+      shadowOffset: {
+        width: 0,
+        height: 8,
+      },
+      height: "85%" ,
+  },
+  scrollStyle:{
+    flex:1,
+    width:"100%",
+    borderRadius:15,
+  }
   
   });

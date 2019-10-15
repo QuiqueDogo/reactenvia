@@ -8,21 +8,29 @@ export default class TabsSelection extends Component {
   constructor(props){
     super(props);
     this.state ={
-      active:`${this.props.item}` 
+      active:`${this.props.item}`,
+      telefono:`${this.props.telefono}`
     }
+    console.log(this.state)
   }  
     render(){
-      let {active} = this.state
+      let {active,telefono } = this.state
+      
         return(
                   <View style={{alignItems:"center" ,flexDirection:"row",marginTop:14,
                        height:36, position:"relative"}}>
                         {/* <View style={stylesRegister.barSelected} /> */}
-                        <TouchableOpacity 
-                        style={stylesRegister.touchable1}
-                        >
-                          <Text style={{color: "#00B3C1" }}>{(active === "login") ? "Inicia Sesion" : "Registrate"}</Text>
-                        </TouchableOpacity>
-                    
+                        {telefono === "undefined" && 
+                          <Text style={{ color: "#00B3C1" }}>
+                             {(active === "login") ? "Inicia Sesion" : "Registrate" } 
+                          </Text>          
+                        }
+                        {telefono !="undefined" && 
+                          <Text style={{ color: "#969696" }}>
+                            Codigo Enviado a
+                          </Text>     
+                        }
+
                   </View>
         )
     }

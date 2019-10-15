@@ -7,7 +7,7 @@ export const RegisterStruct = t.struct({
     name: t.String,
     email: formValidation.email,
     pais: t.String,
-    telefono:t.String,
+    telefono:t.Number,
     password: formValidation.password,
   });
   

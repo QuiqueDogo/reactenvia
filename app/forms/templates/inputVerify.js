@@ -2,24 +2,29 @@ import React from 'react'
 import { StyleSheet, View, } from 'react-native';
 import {Icon,Input} from "react-native-elements";
 
+
 export default (inputTemplate = locals =>{
     return(
-            <Input password={locals.config.password} secureTextEntry={locals.config.secureTextEntry} style={styles.inputOut} inputStyle={styles.inputText} inputContainerStyle={styles.inputStyles} placeholder={locals.config.placeholder} placeholderTextColor="#38b3b9" onChangeText={value => locals.onChange(value)}/>
+        <View style={styles.box}>
+            <Input style={styles.inputOut} inputStyle={styles.inputText} inputContainerStyle={styles.inputStyles} placeholder="Hola" placeholderTextColor="#38b3b9" />
+        </View>
     )
 });
 
 const styles =StyleSheet.create({
+    box:{
+        marginTop: 13,
+    },
     inputStyles:{
         borderWidth:1,
         borderRadius:15,
-        width:"100%",
+        width:"85%",
         height:50,
-        paddingLeft: 14,
+        paddingLeft: 17,
         borderColor:"#dbdbdb",
-        marginTop:18,
     },
     inputText:{
-        fontSize:14,
+        fontSize:20,
         fontWeight:"300",
     },
     inputOut:{

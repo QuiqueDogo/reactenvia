@@ -77,3 +77,6 @@ import styles from "../../assets/css/stylesMain";
 //CSS options on react native 
 //https://www.styled-components.com/docs/faqs
 //https://blog.bitsrc.io/styling-in-react-native-c48caddfbe47
+
+//picker para se
+//https://www.youtube.com/watch?v=UiWgN39R9GA
