@@ -30,7 +30,7 @@ export default class homePage extends Component{
                   </ScrollView>
                 </View>
                 <View style={styles.menu}>
-
+                    
                 </View>
               </View>
         </View>
