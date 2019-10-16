@@ -36,10 +36,8 @@ export default class registerPage extends Component {
      return (
              <View style={styles.containerRegister}>
                  <Header title="Verifica tu Teléfono" title2="Ingresa tu código de verificación"/>
-                      <Button title="Atras" onPress={ ()=> this.props.navigation.goBack()}></Button>   
                    <View style={styles.division}>
                       <View className="centerCard" style={styles.cardStyle}> 
-
                       <TabsSelection telefono={telefono}/>
                       <Text style={{color:"#02b2bc", letterSpacing: 1.6, fontSize:23, marginBottom:12}}>
                         {telefono}

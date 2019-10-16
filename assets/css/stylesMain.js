@@ -35,12 +35,24 @@ export default StyleSheet.create({
     marginTop:10,
   },
   division:{
-    flex:6,
+    flex:1,
     alignItems:"center",
     marginTop: 15,
   },
-  gradiant:{
+  divisionHome:{
+    flex:7,
+    alignItems:"center",
+    marginTop: 15  
+  },
+  gradiantHome:{
     flex:1, 
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    padding: 30,
+    paddingTop: 40
+  },
+  gradiant:{
+    flex:2, 
     alignItems: "flex-start",
     justifyContent: "flex-start",
     padding: 30,
@@ -213,7 +225,7 @@ export default StyleSheet.create({
     },
     height: "8%" ,
   },
-
+  
   boxMiddle:{
     flex:2,
     marginTop: 20,
@@ -237,10 +249,11 @@ export default StyleSheet.create({
   },
   scrollHome:{
     flex:2,
-    width: "100%",
+    width:"100%",
+  },
+  scrollContainer:{
     marginTop: 20,
     marginBottom: 20,
-    flexBasis:70
   },
   menu:{
     flex:1,
@@ -255,6 +268,44 @@ export default StyleSheet.create({
   },
   buttonHome:{
     position:"relative",
-    bottom:50
+    bottom: -45,
+    left: 20,
+    width:250,
+  },
+  containerBoxInformative: {
+    backgroundColor: '#2c3e50',
+    marginTop:"auto",
+    marginBottom:"auto",
+    marginLeft: 15, 
+    marginRight: 35,    
+    width: 220,
+    alignItems: "stretch",
+    flexDirection:"column",
+    backgroundColor:"#fff",
+    borderRadius:10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.43,
+    shadowRadius: 9.51,
+    elevation: 10,
+    height: "55%" ,
+  },
+  imageStyle:{
+    width:"100%",
+    height:"100%",
+  },
+  textOneBox:{
+    paddingLeft:20,
+    paddingRight:20,
+    paddingTop:20,
+    color:"#7e7e7e"
+  },
+  textTwoBox:{
+    fontSize:40,
+    paddingLeft:20,
+    color:"#01b0bb"
   }
 });

@@ -39,7 +39,6 @@ export default class verifyPage extends Component{
     return(
       <View style={styles.containerRegister}>
       <Header title="Continuemos" title2="Completa la siguiente informacion para crear tu cuenta"/>
-           <Button title="Atras" onPress={ ()=> this.props.navigation.goBack()}></Button>   
         <View style={styles.division}>
            <TabsSelection item="login"/>
            <View className="centerCard" style={styles.cardVerify}> 

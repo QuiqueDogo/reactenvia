@@ -18,17 +18,17 @@ export default class homePage extends Component{
       return(
         <View style={styles.containerRegister}>
             <Header title="Bienvenido de nuevo" title2="Usuario generico" page="Home" />
-              <View style={styles.division}>
+              <View style={styles.divisionHome}>
                 <BoxMoney balance="3,000 MXN"/>
                 <BoxMiddle />
-                  <Button style={styles.buttonFloating} title="Validar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonHome} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"share-alt", type:"font-awesome", size:26, color:"white",}} 
-                  // onPress={() => this.props.navigation.navigate('verifyPage')}/>
-                  onPress={() => console.log("hola")}/>
-                <ScrollView horizontal style={styles.scrollHome}>
-                  <BoxInformative />
-                  <BoxInformative />
-                  <BoxInformative />
-                </ScrollView>
+                <View style={styles.scrollHome}>
+                  <ScrollView  horizontal >
+                    <BoxInformative price={`1000`} infoTitle={`Total de Envios`}/>
+                    <BoxInformative price={`$2000`} infoTitle={`Total de Paquetes`}/>
+                    <BoxInformative price={`3000`} infoTitle={`Total de Videojuegos`}/>
+                    <BoxInformative price={`4000`} infoTitle={`Total de Mercancia`}/>        
+                  </ScrollView>
+                </View>
                 <View style={styles.menu}>
 
                 </View>

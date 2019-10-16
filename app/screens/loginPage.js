@@ -40,8 +40,6 @@ export default class verifyPage extends Component{
       return(
         <View style={styles.containerRegister}>
           <Header title="Bienvenidos!" title2="Inicia Sesion en tu cuenta o registrate con nosotros para empezar a realizar envios facil y rapido"/>
-          {/* quitar despues */}
-          <Button  title="atras" onPress={() => this.props.navigation.goBack()} /> 
             <View style={styles.division}>
               <View className="centerCard" style={{flex:1,width: "90%",position:"absolute",top:"-8%",alignItems: "center",flexDirection:"column",backgroundColor:"#fff",borderRadius:15,shadowColor: "#000",shadowOpacity: 0.46,shadowRadius: 11.14, elevation: 20,shadowOffset: {  width: 0,  height: 8,},
                             height: active == "login" ? (Platform.OS == "android") ? "55%" :"46%"  : "90%" ,
