@@ -26,8 +26,12 @@ const NavStack = createStackNavigator({
     },
     homePage:{
       screen: homePage
-    }
-});
+    },
+    },
+   {
+    initialRouteName: 'homePage',
+   } 
+);
 
 const App = createAppContainer(NavStack);
 

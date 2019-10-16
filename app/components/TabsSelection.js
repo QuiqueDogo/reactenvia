@@ -11,7 +11,6 @@ export default class TabsSelection extends Component {
       active:`${this.props.item}`,
       telefono:`${this.props.telefono}`
     }
-    console.log(this.state)
   }  
     render(){
       let {active,telefono } = this.state
