@@ -13,13 +13,14 @@ export const LoginStruct = t.struct({
       email:{
         template: inputTemplate,
         config:{
+          text:"Email",
           placeholder:"Correo Electronico",
         },
       },
       password:{
         template:inputTemplate,
-        config:{
-          placeholder:"Contraseña",
+        config:{ 
+          text:"Contraseña",
           password: true,
           secureTextEntry: true
         },

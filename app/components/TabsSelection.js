@@ -16,7 +16,7 @@ export default class TabsSelection extends Component {
       let {active,telefono } = this.state
       
         return(
-                  <View style={{alignItems:"center" ,flexDirection:"row",marginTop:14,
+                  <View style={{alignItems:"center" ,flexDirection:"row",marginTop:11,
                        height:36, position:"relative"}}>
                         {/* <View style={stylesRegister.barSelected} /> */}
                         {telefono === "undefined" && 

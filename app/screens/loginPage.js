@@ -10,6 +10,7 @@ import formValidation from "../utils/Validation"
 const Form =t.form.Form;
 import {LoginStruct,LoginOptions} from "../forms/Login"
 
+
 export default class verifyPage extends Component{
     constructor(props) {
       super(props);
@@ -25,11 +26,14 @@ export default class verifyPage extends Component{
     }
 
     onChangeFormRegister = (data) => {
-      // console.log("hola")
+      this.setState({
+        formData: data
+      })
     }
 
     login = () =>{
-      this.props.navigation.navigate("homePage")
+      // this.props.navigation.navigate("homePage")
+      console.log(this.state.formData)
     }
 
     static navigationOptions ={

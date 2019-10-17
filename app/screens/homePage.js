@@ -7,6 +7,7 @@ import BoxMiddle from "../components/boxMiddle"
 import BoxMoney from '../components/boxMoney';
 import BoxInformative from '../components/boxInformative';
 
+
 export default class homePage extends Component{
     constructor(props) {
       super(props);
@@ -30,7 +31,7 @@ export default class homePage extends Component{
                   </ScrollView>
                 </View>
                 <View style={styles.menu}>
-                    
+                    <Button title="A drawer" onPress={() => this.props.navigation.navigate("Drawer")} />
                 </View>
               </View>
         </View>

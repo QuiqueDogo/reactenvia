@@ -16,20 +16,20 @@ export const RegisterStruct = t.struct({
       name:{
         template: inputTemplate,
         config:{
-            placeholder:"Nombre Completo"
+            text:"Nombre Completo"
         }
       },
       email:{
         template: inputTemplate,
         config:{
-            placeholder:"Correo Electronico",
+            text:"Correo Electronico",
         },
         error: "Correo Electronico Invalido"
       },
       password:{
         template: inputTemplate,
         config:{
-            placeholder:"Contraseña",
+            text:"Contraseña",
             password: true,
             secureTextEntry: true
         },
@@ -37,13 +37,13 @@ export const RegisterStruct = t.struct({
       telefono:{
         template: inputTemplate,
         config:{
-            placeholder:"Numero Telefono"
+            text:"Numero Telefono"
         },
       },
       pais:{
         template: inputTemplate,
         config:{
-            placeholder:"Pais"
+            text:"Pais"
         },
       }
     }
