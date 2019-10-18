@@ -7,7 +7,6 @@ export default (inputTemplate = locals =>{
     return(
         <View style={styles.containerino}>
             <FloatingLabel styles={styles.container}  inputStyle={styles.inputStyles} labelStyle={styles.inputOut} password={locals.config.password} secureTextEntry={locals.config.secureTextEntry} onChangeText={value => locals.onChange(value)}>{locals.config.text}</FloatingLabel>
-            {/* <Input password={locals.config.password} secureTextEntry={locals.config.secureTextEntry} style={styles.inputOut} inputStyle={styles.inputText} inputContainerStyle={styles.inputStyles} placeholder={locals.config.placeholder} placeholderTextColor="#38b3b9" onChangeText={value => locals.onChange(value)} /> */}
         </View>
     )
 });
@@ -25,12 +24,13 @@ const styles =StyleSheet.create({
         fontWeight:"200",
     },
     containerino:{
-        paddingTop:10,
+        paddingTop:3,
     },
     inputOut: {
         color:"#38b3b9",
         backgroundColor:"white",
         width:250,
-        fontSize: 15
+        fontSize: 15,
+        fontWeight:"200",
     },
 });

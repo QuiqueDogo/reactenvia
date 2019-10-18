@@ -6,9 +6,6 @@ import inputTemplate from "./templates/Input";
 export const RegisterStruct = t.struct({
     name: t.String,
     email: formValidation.email,
-    pais: t.String,
-    telefono:t.Number,
-    password: formValidation.password,
   });
   
  export const RegisterOptions = {
@@ -26,26 +23,6 @@ export const RegisterStruct = t.struct({
         },
         error: "Correo Electronico Invalido"
       },
-      password:{
-        template: inputTemplate,
-        config:{
-            text:"Contraseña",
-            password: true,
-            secureTextEntry: true
-        },
-      },
-      telefono:{
-        template: inputTemplate,
-        config:{
-            text:"Numero Telefono"
-        },
-      },
-      pais:{
-        template: inputTemplate,
-        config:{
-            text:"Pais"
-        },
-      }
     }
   };
   
