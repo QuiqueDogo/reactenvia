@@ -1,31 +1,50 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,Animated } from 'react-native';
 import { Input } from 'react-native-elements';
 
 export default class InputForm extends Component {
     constructor(props) {
       super(props)
       this.state = {
-         isFocused: false,
-         label: `${this.props.label}`
+         isFocused: false
       };
     };
+    componentWillMount() {
+        this._animatedIsFocused = new Animated.Value(this.props.value === '' ? 0 : 1);
+      }
+
     handleFocus = () => this.setState({ isFocused: true });
     handleBlur = () => this.setState({ isFocused: false });
     
+    componentDidUpdate() {
+        Animated.timing(this._animatedIsFocused, {
+          toValue: (this.state.isFocused || this.props.value !== '') ? 1 : 0,
+          duration: 200,
+        }).start();
+      };
+
     render() {
-        const {isFocused,label} = this.state
+        const { label, ...props } = this.props;
+        const {isFocused} = this.state
         const labelStyle = {
+            width:80,
+            backgroundColor:"#fff",
             position: 'absolute',
-            left: 13,
-            top: !isFocused ? 12 : -6,
+            left:!isFocused ? 13 : 10,
+            // top: !isFocused ? 12 : -6,
+            top :this._animatedIsFocused.interpolate({
+                inputRange:[0,1],
+                outputRange:[12,-6],
+            }),
             fontSize: !isFocused ? 15 : 12,
-            color: !isFocused ? '#aaa' : '#000',
+            color: '#38b3b9',
+            textAlign:"center",
+            fontWeight:"200",
           };
         return (
             <View style={styles.container}>
-                <Text style={labelStyle}>{label}</Text>
-                <Input inputContainerStyle={styles.input} secureTextEntry={true} onFocus={this.handleFocus} onBlur={this.handleBlur} />
+                <Animated.Text style={labelStyle}>{this.props.label}</Animated.Text>
+                <Input {...props} inputContainerStyle={styles.input} secureTextEntry={true} onFocus={this.handleFocus} onBlur={this.handleBlur} blurOnSubmit/>
             </View>
         );
     }
@@ -41,6 +60,7 @@ const styles = StyleSheet.create({
         paddingLeft: 2,
         paddingTop: 2,
         marginTop:18,
+        
     },
     input:{
         borderBottomWidth:0

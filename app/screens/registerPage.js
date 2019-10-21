@@ -42,7 +42,7 @@ export default class registerPage extends Component {
         longitude:""
       }
     },
-    listCountry: customData,
+    // listCountry: customData,
   }
 }
 
@@ -95,7 +95,7 @@ _getLocation = async () =>{
 
 
 register = () => {
-  console.log(this.state.number)
+  console.log(this.state)
   //  const  {name,email,pais,telefono, password} = this.state.formData
   
   //  if(name !="" && email!="" && pais!="" && telefono !="" && password !=""){
@@ -121,6 +121,13 @@ register = () => {
   
   //  console.log(this.state.formData)
 }
+
+handleText = (newText, info) =>{
+  this.setState({
+    [info]:newText
+  })
+  // console.log(newText)
+} 
 
 
 onChangeFormRegister = formValue =>{
@@ -174,7 +181,7 @@ render() {
                             </View>
                             <Input maxLength={10} inputContainerStyle={{width:"60%", borderBottomWidth:0}} inputStyle={{color:"#38b3b9",fontSize:15, fontWeight:"200"}} onChangeText={value => this.OnChangeNumber(value,callingCode)} />
                           </View>
-                            <InputForm label="Contraseña" />
+                            <InputForm label="Contraseña" onChangeText={text => this.handleText(text,"pass")} />
                         </View>
 
                             <Modal
