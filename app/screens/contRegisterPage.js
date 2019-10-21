@@ -14,9 +14,8 @@ import {RegisterStruct,RegisterOptions} from "../forms/ContRegister"
 export default class registerPage extends Component {
     constructor(props) {
      super(props);
-      
      this.state =  {
-       telefono :`${this.props.navigation.state.params.info.telefono}`,
+       telefono :`${this.props.navigation.state.params.number}`,
        registerStruct: RegisterStruct,
        registerOptions: RegisterOptions,
        formData:{
