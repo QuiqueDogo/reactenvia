@@ -32,8 +32,8 @@ export default class verifyPage extends Component{
     }
 
     login = () =>{
-      // this.props.navigation.navigate("homePage")
-      console.log(this.state.formData)
+      this.props.navigation.navigate("homePage")
+      // console.log(this.state.formData)
     }
 
     static navigationOptions ={

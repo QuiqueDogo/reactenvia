@@ -1,95 +1,31 @@
 import React, { Component } from 'react';
-import {View, Platform,Modal,TouchableOpacity} from 'react-native';
+import {View, Platform,Modal,TouchableOpacity,KeyboardAvoidingView, ScrollView} from 'react-native';
 import { Button, Icon, Text,Image, Input} from 'react-native-elements';
 import  TabsSelection  from "../components/TabsSelection";
-import styles from "../../assets/css/stylesMain";
+import styles from "../../assets/css/stylesRegister";
 import Header from "../components/Header";
-import t from "tcomb-form-native";
-//FormSettings
-const Form =t.form.Form;
-import {RegisterStruct,RegisterOptions} from "../forms/Register"
 import { CountrySelection } from 'react-native-country-list';
-import * as Location from "expo-location";
-import * as Permissions  from "expo-permissions"; 
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import InputForm from "../components/inputForm";
-const customData = require("../utils/country.json");
+
 
 export default class registerPage extends Component {
   constructor(props) {
   super(props);
+  const country = this.props.navigation.state.params
   this.state = {
     modalVisible: false,
     selected:{
-      name:"Selecciona Pais",
-      callingCode:"",
-      flag:"Aqui va la bandera",
-      code:""
-    },
-    registerStruct: RegisterStruct,
-    registerOptions: RegisterOptions,
-    active: `${this.props.item}`,
-    formData:{
-      name:"",
-      email:"",
+      name:(!country.name) ? "Selecciona Pais" :country.name ,
+      callingCode:(!country.callingCode) ? "" :country.callingCode ,
+      flag:(!country.flag) ? "no" :country.flag ,
+      code: (!country.code) ? "" : country.code 
     },
     number:"",
     formErrorMessage:"",
     errormessage:"",
-    location:{
-      coords:{
-        latitude:"",
-        longitude:""
-      }
-    },
-    // listCountry: customData,
-  }
-}
-
-componentDidMount(){
-  this._getLocation();
-}
-
-_getLocation = async () =>{
-  const {status} = await Permissions.askAsync(Permissions.LOCATION);
-
-  if(status !== "granted"){
-    console.log('PERMISION NOT GRANTED');
-
-    this.setState({ errormessage: "PERMISOS NO OTORGADOS"})
-  }else{
-
-
-
-  const location = await Location.getCurrentPositionAsync()
-
-  this.setState({location})
-
-  const latitude = this.state.location.coords.latitude
-  const longitude = this.state.location.coords.longitude
-
-  return fetch("https://nominatim.openstreetmap.org/reverse?lat="+latitude+"&lon="+longitude+"&format=json")
-          .then((response) => response.json())
-          .then((responseJson) => {
-              const countryCode  = responseJson.address.country_code
-              const listCountry = this.state.listCountry
-            
-               listCountry.forEach(element => {
-                 if (element.code === countryCode.toUpperCase() ){
-                    // console.log(element.name)
-                    this.setState({ selected:{
-                      name:element.name,
-                      callingCode:element.callingCode,
-                      flag:element.flag,
-                      code:element.code
-                    }})
-                 }
-               });
-
-          })
-          .catch((error) =>{
-            console.error(error)});
- 
+    name:"",
+    email:"",
+    password:""
   }
 }
 
@@ -117,33 +53,33 @@ register = () => {
   //   this.setState({ formErrorMessage: "LLene los campos..." })
   //  }
 
-
-  
   //  console.log(this.state.formData)
 }
 
-handleText = (newText, info) =>{
+handleText = (newText, state) =>{
   this.setState({
-    [info]:newText
+    [state] :newText
   })
-  // console.log(newText)
 } 
 
 
 onChangeFormRegister = formValue =>{
   this.setState({
     formData:formValue
-  })
+  });
 }
 
 
 onCountrySelection = (country) => {
   this.setState({selected: country});
+  this.setState({modalVisible: false});
+
 }
 
 setModalVisible(visible) {
   this.setState({modalVisible: visible});
 }
+
 
 static navigationOptions ={
   header:null
@@ -153,65 +89,49 @@ OnChangeNumber(value,code){
   this.setState({number: "+"+ code  + value})
 }
 
-
-
 render() {
-  const {registerStruct, registerOptions,formErrorMessage,selected,country_code} = this.state
-  const {name,callingCode,flag} = this.state.selected
+  const {formErrorMessage,selected,country_code} = this.state;
+  const {name,callingCode,flag} = this.state.selected;
+
   return (
-    
-         <View style={styles.containerRegister}> 
-              <Header title="Bienvenidos!" title2="Inicia Sesion en tu cuenta o registrate con nosotros para empezar a realizar envios facil y rapido"/>
-                <View style={styles.division}>
-                    <View className="centerCard" style={{flex:1,width: "90%",position:"absolute",top:"-8%",alignItems: "center",flexDirection:"column",backgroundColor:"#fff",borderRadius:15,shadowColor: "#000",shadowOpacity: 0.46,shadowRadius: 11.14,elevation: 20,shadowOffset: {width: 0,height: 8,},height: (Platform.OS=="android") ? "95%" :"90%" 
-                      }}>
-                        <TabsSelection item="register" />
-                        <View style={styles.formStyles}>
-                          <Form 
-                          onChange={formValue => this.onChangeFormRegister(formValue)} ref="registerForm" type={registerStruct} options={registerOptions} value={this.state.formData} 
-                          />
+    <KeyboardAvoidingView style={{flex:1,}} behavior="padding">
+ 
+        <View style={{flex:1, borderWidth:3,borderColor:"yellow"}}>
+            <View style={{flex:1, borderWidth:3,borderColor:"black"}}>
+
+            <Header title="Bienvenidos!" title2="Inicia Sesion en tu cuenta o registrate con nosotros para empezar a realizar envios facil y rapido"/> 
+              <View style={{flex:9, alignItems:"center", borderWidth:3,borderColor:"red"}}>
+                <View style={styles.cardStyle}>
+                  <ScrollView style={{width:"100%",marginBottom:40,}}>
+
+                          <InputForm  label="Nombre" value={this.state.name} onChangeText={text =>this.handleText(text,"name")} />
+                          <InputForm label="Email" value={this.state.email} onChangeText={text =>this.handleText(text,"email")} />
                           <TouchableOpacity style={styles.inputStyles} onPress={() => {this.setModalVisible(true);}}>
-                            <Text style={{color:"#38b3b9",fontSize:15, fontWeight:"200"}}>{name}</Text>
+                            <Text style={styles.textCountry}>{name}</Text>
                           </TouchableOpacity>
 
                           <View style={styles.phoneInput}>
                             <View style={styles.codePhone}>
-                              <Image style={{width:35, height:25, marginRight:10}} source={{uri:flag}} />
-                              <Text style={{color:"#38b3b9",fontSize:15, fontWeight:"200"}}>+{callingCode}</Text>
+                              <Image style={styles.flagStyle} source={{uri:flag}} />
+                              <Text style={styles.codeStyle}>+{callingCode}</Text>
                             </View>
-                            <Input maxLength={10} inputContainerStyle={{width:"60%", borderBottomWidth:0}} inputStyle={{color:"#38b3b9",fontSize:15, fontWeight:"200"}} onChangeText={value => this.OnChangeNumber(value,callingCode)} />
+                            <Input type="number" maxLength={10} inputContainerStyle={{width:"60%", borderBottomWidth:0}} inputStyle={{color:"black",fontSize:15, fontWeight:"200"}} onChangeText={value => this.OnChangeNumber(value,callingCode)} />
                           </View>
-                            <InputForm label="Contraseña" onChangeText={text => this.handleText(text,"pass")} />
-                        </View>
+                          <InputForm label="Contraseña" text="true"value={this.state.password} onChangeText={text =>this.handleText(text,"password")} />
+                  </ScrollView>
 
-                            <Modal
-                            animationType="slide"
-                            transparent={false}
-                            visible={this.state.modalVisible}
-                            >
-                              <View style={{height:"100%",paddingTop:"7%",}}>
-                                <CountrySelection action={(item) => this.onCountrySelection(item)} selected={selected}/>
-                              <TouchableOpacity style={styles.buttonCloseModal} onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
-                                <Text style={{color:"#fff",fontSize:23, fontWeight:"300", letterSpacing:1.3}}>Listo</Text>
-                              </TouchableOpacity> 
-                              </View>
-                            </Modal>    
-                           
-                          <Text style={{color:"red", marginTop:5}}>{formErrorMessage}</Text>
-                            <Button
-                            style={styles.buttonFloating} title="Registrarse" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30 }} containerStyle={styles.buttonStylesContainerRegister} iconRight iconContainerStyle={{ marginLeft: 0 }}
-                            icon={{
-                              name:"arrow-right",
-                              type:"font-awesome",
-                              size:19,
-                              color:"white",
-                            }}
-                            onPress={()=>this.register()} 
-                            />   
-                    </View>
+                    <Button containerStyle={styles.buttonFloating} title="Registrarse" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30 }}  iconRight iconContainerStyle={{ marginLeft: 0 }} icon={{name:"arrow-right", type:"font-awesome", size:19, color:"white",}} onPress={()=>this.register()} />   
                 </View>
-          </View> 
- 
+
+                    <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => {this.setModalVisible(false);}}>
+                        <View style={{height:"100%",paddingTop:"7%",}}>
+                          <CountrySelection action={(item) => this.onCountrySelection(item)} selected={selected} />
+                        </View>
+                    </Modal>    
+              </View>
+            </View>
+        </View>
+</KeyboardAvoidingView>
       );
   }
 }

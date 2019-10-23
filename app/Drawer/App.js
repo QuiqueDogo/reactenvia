@@ -4,7 +4,7 @@ import { createAppContainer } from 'react-navigation';
 import Dashboard from "./Screen/Dashboard"
 
 const AppDrawerNavigator = createDrawerNavigator({
-  Dashboard :{
+  Home :{
     screen: Dashboard
   }
 })
