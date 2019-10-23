@@ -7,6 +7,7 @@ export default StyleSheet.create({
     },
     section2:{
         flex:9,
+        alignItems:"center",
     },
     phoneInput:{
         flexDirection:"row",
@@ -79,7 +80,7 @@ export default StyleSheet.create({
             width: 0,
             height: 8,
         },
-        height: (Platform.OS=="android") ? "90%" :"76%",
+        height: (Platform.OS=="android") ? "95%" :"84%",
         padding:20,
     },
     buttonStyleRegister:{
@@ -94,5 +95,38 @@ export default StyleSheet.create({
         position:"absolute",
         right:"12%",
         bottom:"-5%"
+    },
+    textTerms:{
+        width:"100%",
+        textAlign:"center",
+        fontSize:13,
+        marginTop:18
+    },
+    styleNumber:{
+        marginBottom:"auto",
+        marginTop:"auto",
+        paddingLeft:17,
+        color:"black",
+        fontSize:15, 
+        fontWeight:"200",
+    },
+    cardStyleCont:{
+        flex:1,
+        width: "90%",
+        position:"absolute",
+        top:"-8%",
+        alignItems: "center",
+        flexDirection:"column",
+        backgroundColor:"#fff",
+        borderRadius:15,
+        shadowColor: "#000",
+        shadowOpacity: 0.46,
+        shadowRadius: 11.14,
+        elevation: 20,
+        shadowOffset: {
+        width: 0,
+        height: 8,
+        },
+        height: (Platform.OS=="android") ? "50%" :"40%"
     }
 })

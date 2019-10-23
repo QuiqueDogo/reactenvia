@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Platform,Modal,TouchableOpacity,KeyboardAvoidingView, ScrollView} from 'react-native';
+import {View, Platform,Modal,TouchableOpacity,KeyboardAvoidingView, ScrollView, TextInput} from 'react-native';
 import { Button, Icon, Text,Image, Input} from 'react-native-elements';
 import  TabsSelection  from "../components/TabsSelection";
 import styles from "../../assets/css/stylesRegister";
@@ -11,7 +11,7 @@ import InputForm from "../components/inputForm";
 export default class registerPage extends Component {
   constructor(props) {
   super(props);
-  const country = this.props.navigation.state.params
+  const country = this.props.navigation.state.params;
   this.state = {
     modalVisible: false,
     selected:{
@@ -22,44 +22,40 @@ export default class registerPage extends Component {
     },
     number:"",
     formErrorMessage:"",
-    errormessage:"",
     name:"",
     email:"",
     password:""
   }
-}
+};
 
 
 register = () => {
-  console.log(this.state)
-  //  const  {name,email,pais,telefono, password} = this.state.formData
+   const  {number,name,email,password,} = this.state;
+   const  {nameCountry} = this.state.selected;
   
-  //  if(name !="" && email!="" && pais!="" && telefono !="" && password !=""){
-  //    const validate = this.refs.registerForm.getValue();
-    
-  //    if(validate){
-  //     console.log("todo bien en el registro")
-      // this.props.navigation.navigate("contRegisterPage",{
-      //   info: this.state.formData, number: this.state.number
-      // })
-  //     this.setState({
-  //       formErrorMessage: ""
-  //     })
-  //    }else{
-  //      console.log("todo mal en el registro")
-  //      this.setState({ formErrorMessage: "Error en el correo electronico" })
-  //     }
-  //  }else{
-  //   this.setState({ formErrorMessage: "LLene los campos..." })
-  //  }
-
-  //  console.log(this.state.formData)
+   if(name !="" && email!="" && nameCountry!="Selecciona Pais" && number !="" && password !=""){
+        if (email.includes("@")) {
+          this.setState({ formErrorMessage: "" });
+          this.props.navigation.navigate("contRegisterPage",{
+            info:{
+              number,
+              name,
+              email,
+              password,
+            }, 
+          });
+        }else{
+          this.setState({ formErrorMessage: "Correo invalido" });
+        }
+  }else{
+     this.setState({ formErrorMessage: "Falta rellenar Campos" });
+   }
 }
 
 handleText = (newText, state) =>{
   this.setState({
     [state] :newText
-  })
+  });
 } 
 
 
@@ -86,7 +82,7 @@ static navigationOptions ={
 }
 
 OnChangeNumber(value,code){
-  this.setState({number: "+"+ code  + value})
+  this.setState({number: "+"+ code  + value});
 }
 
 render() {
@@ -94,16 +90,17 @@ render() {
   const {name,callingCode,flag} = this.state.selected;
 
   return (
-    <KeyboardAvoidingView style={{flex:1,}} behavior="padding">
+    <KeyboardAvoidingView style={styles.containerRegister} behavior="padding">
  
-        <View style={{flex:1, borderWidth:3,borderColor:"yellow"}}>
-            <View style={{flex:1, borderWidth:3,borderColor:"black"}}>
+        <View style={styles.containerRegister}>
+            <View style={styles.containerRegister}>
 
             <Header title="Bienvenidos!" title2="Inicia Sesion en tu cuenta o registrate con nosotros para empezar a realizar envios facil y rapido"/> 
-              <View style={{flex:9, alignItems:"center", borderWidth:3,borderColor:"red"}}>
+              <View style={styles.section2}>
                 <View style={styles.cardStyle}>
-                  <ScrollView style={{width:"100%",marginBottom:40,}}>
-
+                  <TabsSelection item="register"/>
+                  <Text style={{color:"red",fontWeight:"200", fontSize:13}}>{formErrorMessage}</Text>
+                  <ScrollView style={{width:"100%",marginBottom:40}}>
                           <InputForm  label="Nombre" value={this.state.name} onChangeText={text =>this.handleText(text,"name")} />
                           <InputForm label="Email" value={this.state.email} onChangeText={text =>this.handleText(text,"email")} />
                           <TouchableOpacity style={styles.inputStyles} onPress={() => {this.setModalVisible(true);}}>
@@ -115,11 +112,12 @@ render() {
                               <Image style={styles.flagStyle} source={{uri:flag}} />
                               <Text style={styles.codeStyle}>+{callingCode}</Text>
                             </View>
-                            <Input type="number" maxLength={10} inputContainerStyle={{width:"60%", borderBottomWidth:0}} inputStyle={{color:"black",fontSize:15, fontWeight:"200"}} onChangeText={value => this.OnChangeNumber(value,callingCode)} />
+                            <TextInput placeholder="Telefono" placeholderTextColor="#38b3b9" returnKeyType="next" keyboardType={'numeric'} maxLength={10} inputContainerStyle={{width:"60%", borderBottomWidth:0}} style={styles.styleNumber} onChangeText={value => this.OnChangeNumber(value,callingCode)} />
                           </View>
+                          
                           <InputForm label="Contraseña" text="true"value={this.state.password} onChangeText={text =>this.handleText(text,"password")} />
+                          <Text style={styles.textTerms}>Al Continuar aceptas los Terminos y Condiciones </Text>
                   </ScrollView>
-
                     <Button containerStyle={styles.buttonFloating} title="Registrarse" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30 }}  iconRight iconContainerStyle={{ marginLeft: 0 }} icon={{name:"arrow-right", type:"font-awesome", size:19, color:"white",}} onPress={()=>this.register()} />   
                 </View>
 
@@ -127,7 +125,8 @@ render() {
                         <View style={{height:"100%",paddingTop:"7%",}}>
                           <CountrySelection action={(item) => this.onCountrySelection(item)} selected={selected} />
                         </View>
-                    </Modal>    
+                    </Modal>  
+
               </View>
             </View>
         </View>

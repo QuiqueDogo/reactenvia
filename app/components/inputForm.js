@@ -54,7 +54,7 @@ export default class InputForm extends Component {
           
             <View style={styles.container}>
                 <Animated.Text style={labelStyle}>{label}</Animated.Text>
-                <Input {...props} returnKeyType="next" inputStyle={{color:"black",fontSize:15, fontWeight:"200"}} inputContainerStyle={styles.input} secureTextEntry={text} onFocus={this.handleFocus} onBlur={this.handleBlur} blurOnSubmit/>
+                <TextInput {...props}  style={styles.input} secureTextEntry={text} onFocus={this.handleFocus} onBlur={this.handleBlur} blurOnSubmit/>
             </View>
         );
     }
@@ -73,7 +73,14 @@ const styles = StyleSheet.create({
         
     },
     input:{
-        borderBottomWidth:0
+        borderBottomWidth:0,
+        color:"black",
+        fontSize:15, 
+        fontWeight:"200",
+        marginBottom:"auto",
+        marginTop:"auto",
+        paddingLeft:17,
+        height:"100%"
     }
 });
 

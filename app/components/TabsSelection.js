@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {View, TouchableOpacity, Text,Dimensions} from 'react-native';
-import stylesRegister from "../../assets/css/stylesTabsSelection";
-
-const {width} = Dimensions.get("window");
+import {View,Text} from 'react-native';
 
 export default class TabsSelection extends Component {
   constructor(props){
@@ -13,12 +10,12 @@ export default class TabsSelection extends Component {
     }
   }  
     render(){
-      let {active,telefono } = this.state
+      let {active,telefono } = this.state;
       
         return(
-                  <View style={{alignItems:"center" ,flexDirection:"row",marginTop:11,
-                       height:36, position:"relative"}}>
-                        {/* <View style={stylesRegister.barSelected} /> */}
+                  <View style={{alignItems:"center" ,flexDirection:"row",
+                       height:36,}}>
+
                         {telefono === "undefined" && 
                           <Text style={{ color: "#00B3C1" }}>
                              {(active === "login") ? "Inicia Sesion" : "Registrate" } 
