@@ -128,5 +128,22 @@ export default StyleSheet.create({
         height: 8,
         },
         height: (Platform.OS=="android") ? "50%" :"40%"
+    },
+    timer:{
+        color:"#02b2bc",
+        fontSize:14,
+        marginBottom:12,
+        textAlign:"right",
+        marginRight:15
+    },
+    numberFormat:{
+        color:"#02b2bc",
+        letterSpacing: 1.2,
+        fontSize:23,
+        marginBottom:12
+    },
+    touchableCode:{
+        marginLeft:"auto",
+        marginRight:15
     }
 })

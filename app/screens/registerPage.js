@@ -114,7 +114,7 @@ render() {
                             </View>
                             <TextInput placeholder="Telefono" placeholderTextColor="#38b3b9" returnKeyType="next" keyboardType={'numeric'} maxLength={10} inputContainerStyle={{width:"60%", borderBottomWidth:0}} style={styles.styleNumber} onChangeText={value => this.OnChangeNumber(value,callingCode)} />
                           </View>
-                          
+
                           <InputForm label="Contraseña" text="true"value={this.state.password} onChangeText={text =>this.handleText(text,"password")} />
                           <Text style={styles.textTerms}>Al Continuar aceptas los Terminos y Condiciones </Text>
                   </ScrollView>
