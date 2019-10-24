@@ -104,9 +104,6 @@ render() {
                   <ScrollView style={{width:"100%",marginBottom:40}}>
                           <InputForm  label="Nombre" value={this.state.name} onChangeText={text =>this.handleText(text,"name")} />
                           <InputForm label="Email" value={this.state.email} onChangeText={text =>this.handleText(text,"email")} />
-                          {/* <TouchableOpacity style={styles.inputStyles} onPress={() => {this.setModalVisible(true);}}>
-                            <Text style={styles.textCountry}>{name}</Text>
-                          </TouchableOpacity> */}
                           <ButtonModal title={name} onPress={() => {this.setModalVisible(true);}} />
 
                           <View style={styles.phoneInput}>

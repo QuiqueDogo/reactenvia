@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, KeyboardAvoidingView} from 'react-native';
-import { Button } from 'react-native-elements';
+import { Text, View, ScrollView, KeyboardAvoidingView, Platform,Modal} from 'react-native';
+
 import InputForm from "../components/inputForm";
 import styles from "../../assets/css/stylesVerify";
 import Header from "../components/Header";
 import ButtonModal from "../components/buttonModal"
+import ModalCountry from "../components/ModalCountry";
 
 export default class verifyPage extends Component{
   constructor(props) {
@@ -20,6 +21,7 @@ export default class verifyPage extends Component{
         Estado: "",
         enviosMes: "",
         info: "",
+        modalVisible:false,
     }
   }
   static navigationOptions ={
@@ -33,13 +35,19 @@ export default class verifyPage extends Component{
   }
 
   onViewModal = () => {
-    console.log("hola")
+    this.setState({modalVisible:true})
+  }
+
+  closeModal = (value) => {
+    this.setState({modalVisible:false})
+    console.log(value)
   }
 
   render(){
     // const { countryName } =this.
+    const verticalNumber = (Platform.OS == "android") ? 0 : -250;
     return(
-    <KeyboardAvoidingView style={styles.containerRegister} behavior="height">  
+    <KeyboardAvoidingView style={styles.containerRegister} behavior="padding"  contentContainerStyle={styles.containerRegister} >  
       <View style={styles.containerRegister}>
        <Header title="Continuemos" title2="Completa la siguiente informacion para crear tu cuenta"/>
         <View style={styles.section2}>
@@ -55,6 +63,9 @@ export default class verifyPage extends Component{
            		<InputForm label="Colonia" value={this.state.colonia} onChangeText={text => this.onChangeVerify(text,"colonia")}/>
            		<InputForm label="Ciudad" value={this.state.ciudad} onChangeText={text => this.onChangeVerify(text,"ciudad")}/>
            	  <ButtonModal title="Estado" onPress={()=> this.onViewModal()}/>
+              <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => {this.setModalVisible(false);}}>
+                <ModalCountry onPress={(value) => this.closeModal(value)} />
+              </Modal>
             </ScrollView>
             <Text style={styles.textTerms}>Al continuar aceptas los Terminos y Condiciones</Text>
            </View> 

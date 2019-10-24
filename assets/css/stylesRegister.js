@@ -112,7 +112,7 @@ export default StyleSheet.create({
     },
     cardStyleCont:{
         flex:1,
-        width: "90%",
+        width: "97%",
         position:"absolute",
         top:"-8%",
         alignItems: "center",
@@ -145,5 +145,24 @@ export default StyleSheet.create({
     touchableCode:{
         marginLeft:"auto",
         marginRight:15
+    },
+    inputText:{
+        flex:1,
+        borderWidth:1,
+        borderRadius:8,
+        borderColor:"#d7d7d7",
+        height:60,
+        marginBottom:"auto",
+        marginTop:"auto",
+        marginLeft:5,
+        marginRight:5,
+        fontSize:20,
+        paddingLeft:17,
+        color:"#02b2bc"
+    },
+    buttoncontRegister2:{
+        position:"absolute",
+        right:(Platform.OS=="android")? "14%" :"19%",
+        bottom:"-9%"
     }
 })
