@@ -32,9 +32,9 @@ const NavStack = createStackNavigator({
       screen: Drawer
     },
     },
-    {
-      initialRouteName:"contRegisterPage"
-    }
+    // {
+    //   initialRouteName:"registerPage"
+    // }
    
 );
 

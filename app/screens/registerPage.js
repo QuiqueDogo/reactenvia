@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {View, Platform,Modal,TouchableOpacity,KeyboardAvoidingView, ScrollView, TextInput} from 'react-native';
-import { Button, Icon, Text,Image, Input} from 'react-native-elements';
+import {View,Modal,TouchableOpacity,KeyboardAvoidingView, ScrollView, TextInput} from 'react-native';
+import { Button, Text,Image} from 'react-native-elements';
 import  TabsSelection  from "../components/TabsSelection";
 import styles from "../../assets/css/stylesRegister";
 import Header from "../components/Header";
 import { CountrySelection } from 'react-native-country-list';
 import InputForm from "../components/inputForm";
+import ButtonModal from "../components/buttonModal"
 
 
 export default class registerPage extends Component {
@@ -33,9 +34,9 @@ register = () => {
    const  {number,name,email,password,} = this.state;
    const  {nameCountry} = this.state.selected;
   
-   if(name !="" && email!="" && nameCountry!="Selecciona Pais" && number !="" && password !=""){
-        if (email.includes("@")) {
-          this.setState({ formErrorMessage: "" });
+  //  if(name !="" && email!="" && nameCountry!="Selecciona Pais" && number !="" && password !=""){
+  //       if (email.includes("@")) {
+  //         this.setState({ formErrorMessage: "" });
           this.props.navigation.navigate("contRegisterPage",{
             info:{
               number,
@@ -44,12 +45,12 @@ register = () => {
               password,
             }, 
           });
-        }else{
-          this.setState({ formErrorMessage: "Correo invalido" });
-        }
-  }else{
-     this.setState({ formErrorMessage: "Falta rellenar Campos" });
-   }
+  //       }else{
+  //         this.setState({ formErrorMessage: "Correo invalido" });
+  //       }
+  // }else{
+  //    this.setState({ formErrorMessage: "Falta rellenar Campos" });
+  //  }
 }
 
 handleText = (newText, state) =>{
@@ -103,9 +104,10 @@ render() {
                   <ScrollView style={{width:"100%",marginBottom:40}}>
                           <InputForm  label="Nombre" value={this.state.name} onChangeText={text =>this.handleText(text,"name")} />
                           <InputForm label="Email" value={this.state.email} onChangeText={text =>this.handleText(text,"email")} />
-                          <TouchableOpacity style={styles.inputStyles} onPress={() => {this.setModalVisible(true);}}>
+                          {/* <TouchableOpacity style={styles.inputStyles} onPress={() => {this.setModalVisible(true);}}>
                             <Text style={styles.textCountry}>{name}</Text>
-                          </TouchableOpacity>
+                          </TouchableOpacity> */}
+                          <ButtonModal title={name} onPress={() => {this.setModalVisible(true);}} />
 
                           <View style={styles.phoneInput}>
                             <View style={styles.codePhone}>

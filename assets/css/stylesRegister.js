@@ -93,7 +93,7 @@ export default StyleSheet.create({
       },
     buttonFloating:{
         position:"absolute",
-        right:"12%",
+        right:"16%",
         bottom:"-5%"
     },
     textTerms:{

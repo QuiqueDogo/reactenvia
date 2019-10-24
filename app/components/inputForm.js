@@ -8,7 +8,8 @@ export default class InputForm extends Component {
       super(props)
       this.state = {
          isFocused: false,
-         text: this.props.text === "true" ?  true :false
+         text: this.props.text === "true" ?  true :false,
+         size: this.props.size
       };
     };
     componentWillMount() {
@@ -28,10 +29,30 @@ export default class InputForm extends Component {
       };
 
     render() {
-        const { label, ...props } = this.props;
+        const { label,size, ...props } = this.props;
         const {isFocused,text} = this.state
         const labelStyle = {
-            width: (label.length <= 6) ? 60:80,
+            width: (label.length <= 7) ? 60: 80,
+            backgroundColor:"#fff",
+            position: 'absolute',
+            left:this._animatedIsFocused.interpolate({
+                inputRange:[0,1],
+                outputRange:[13,10]
+            }),
+            top :this._animatedIsFocused.interpolate({
+                inputRange:[0,1],
+                outputRange:[12,-6],
+            }),
+            fontSize: this._animatedIsFocused.interpolate({
+                inputRange:[0,1],
+                outputRange:[15,12]
+            }),
+            color: '#38b3b9',
+            textAlign: "center",
+            fontWeight:"200",
+          };
+          const labelStyleCP = {
+            width: (label.length <= 7) ? 60: 100,
             backgroundColor:"#fff",
             position: 'absolute',
             left:this._animatedIsFocused.interpolate({
@@ -52,8 +73,8 @@ export default class InputForm extends Component {
           };
         return (
           
-            <View style={styles.container}>
-                <Animated.Text style={labelStyle}>{label}</Animated.Text>
+            <View style={(!size) ? styles.container : styles.containerMiddle}>
+                <Animated.Text style={(!size) ? labelStyle : labelStyleCP}>{label}</Animated.Text>
                 <TextInput {...props}  style={styles.input} secureTextEntry={text} onFocus={this.handleFocus} onBlur={this.handleBlur} blurOnSubmit/>
             </View>
         );
@@ -63,7 +84,17 @@ export default class InputForm extends Component {
 const styles = StyleSheet.create({
     container: {
         height:48,
-        width:"100%",
+        width: "100%",
+        borderWidth:1,
+        borderRadius:15,
+        borderColor:"#dbdbdb",
+        paddingLeft: 2,
+        paddingTop: 2,
+        marginTop:18,   
+    },
+    containerMiddle: {
+        height:48,
+        width: "48%",
         borderWidth:1,
         borderRadius:15,
         borderColor:"#dbdbdb",
@@ -81,6 +112,7 @@ const styles = StyleSheet.create({
         marginTop:"auto",
         paddingLeft:17,
         height:"100%"
-    }
+    },
+    
 });
 

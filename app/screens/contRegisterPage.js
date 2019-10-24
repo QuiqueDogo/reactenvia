@@ -18,7 +18,7 @@ export default class registerPage extends Component {
         // number :`${data.number}`,
         number :"+514431305931",
         // password :`${data.password}`,
-        timer: 30,
+        timer: 5,
         time:"seg",
         visibleModal:false
       };
