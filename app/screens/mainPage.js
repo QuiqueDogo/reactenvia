@@ -129,3 +129,6 @@ const customData = require("../utils/country.json");
 
 //picker para se
 //https://www.youtube.com/watch?v=UiWgN39R9GA
+
+//animations cacas 
+//https://github.com/oblador/react-native-animatable

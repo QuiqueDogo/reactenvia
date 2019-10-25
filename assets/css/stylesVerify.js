@@ -39,5 +39,21 @@ export default StyleSheet.create({
     CPandNumber:{
         flexDirection:"row",
         justifyContent: 'space-between',
+    },
+    textTerms:{
+        marginTop:13,
+        marginBottom:30
+    },
+    buttonStyleRegister:{
+        borderWidth: 1,
+        borderColor: '#02b2bc',
+        borderRadius: 30,
+        backgroundColor:'#02b2bc',
+        height:60,
+        width:250,
+    },
+    buttonVerify:{
+        position:"absolute",
+        bottom:"-4%"
     }
 })

@@ -257,6 +257,9 @@ export default StyleSheet.create({
   },
   menu:{
     flex:1,
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"space-around",
     width: "95%",
     marginTop: 20,
     backgroundColor:"#fff",
@@ -279,7 +282,7 @@ export default StyleSheet.create({
   buttonHome:{
     position:"relative",
     bottom: -45,
-    left: 20,
+    left: (Platform.OS == "android") ? "5%" : "12%",
     width:250,
   },
   containerBoxInformative: {

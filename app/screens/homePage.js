@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import styles from "../../assets/css/stylesMain";
-import Header from "../components/Header";
+import HeaderHome from "../components/HeaderHome";
 import BoxMiddle from "../components/boxMiddle"
 import BoxMoney from '../components/boxMoney';
 import BoxInformative from '../components/boxInformative';
@@ -18,10 +18,10 @@ export default class homePage extends Component{
     render(){
       return(
         <View style={styles.containerRegister}>
-            <Header title="Bienvenido de nuevo" title2="Usuario generico" page="Home" />
+            <HeaderHome title="Bienvenido de nuevo" user="Usuario generico" page="Home" />
               <View style={styles.divisionHome}>
                 <BoxMoney balance="3,000 MXN"/>
-                <BoxMiddle />
+                <BoxMiddle percentage={1}/>
                 <View style={styles.scrollHome}>
                   <ScrollView  horizontal >
                     <BoxInformative price={`1000`} infoTitle={`Total de Envios`}/>
@@ -31,7 +31,11 @@ export default class homePage extends Component{
                   </ScrollView>
                 </View>
                 <View style={styles.menu}>
-                    <Button title="A drawer" onPress={() => this.props.navigation.navigate("Drawer")} />
+                    <Icon name="bars" type="font-awesome" size={34} onPress={() => this.props.navigation.navigate("Drawer")}/>
+                    <Icon name="inbox" type="font-awesome" size={34}/>
+                    <Icon name="inbox" type="font-awesome" size={34}/>
+                    <Icon name="map-marker" type="font-awesome" size={34}/>
+                    <Icon name="cog" type="font-awesome" size={34}/>
                 </View>
               </View>
         </View>
