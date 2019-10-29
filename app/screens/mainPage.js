@@ -66,7 +66,7 @@ const customData = require("../utils/country.json");
     render(){
       const {name,callingCode,flag,code}=this.state
         return (
-        <View style={styles.container}>     
+        <View style={styles.containerMain}>     
           <LinearGradient colors={['#8D4EA2' ,'#3E9AB8']} start={[0.9,0.1]} end={[0.2,0.8]} style={styles.background}>
               <View style={styles.containerLogo}>
                 <Image style={styles.logoImage} source={{uri: "https://www.envia.com/images/envia/logo_enviapaqueteria_home.png"}} />

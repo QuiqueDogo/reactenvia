@@ -1,5 +1,4 @@
 import { StyleSheet,Platform } from "react-native";
-const DRAWER_WIDTH = 300;
 export default StyleSheet.create({
   buttonFloating:{
     width: 250,
@@ -40,7 +39,7 @@ export default StyleSheet.create({
     marginTop: 15,
   },
   divisionHome:{
-    flex:7,
+    flex:9,
     alignItems:"center",
     marginTop: 15  
   },
@@ -64,7 +63,7 @@ export default StyleSheet.create({
     flexDirection: "column",
     
   },
-  container: {
+  containerMain: {
     flex:1,
     alignItems: "stretch",
     justifyContent: "center",
@@ -390,8 +389,8 @@ headerText: {
 drawer: {
   position: 'absolute',
   left:10.4,
-  bottom: Platform.OS === "android" ?  "-210%": "-163%",
-  width: Platform.OS === "ios" ? "95%":"94.5%",
+  bottom: Platform.OS === "android" ?  "-260%": "-200%",
+  width: Platform.OS === "ios" ? "95%":"94%",
   flexDirection: 'row',
   zIndex:15,
   elevation: 202
@@ -409,14 +408,13 @@ menuLayout: {
   paddingBottom:10,
 },
 overlay: {
-  flex: 1,
   position: 'absolute',
   left: 0,
   top: 0,
   backgroundColor: 'rgba(0,0,0,0.3)',
   width: "100%",
   height:"100%",
-  zIndex:10,
+  zIndex:0,
   elevation:150
 },
 menu:{

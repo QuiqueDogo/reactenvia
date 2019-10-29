@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         justifyContent: 'space-between',
         color:"white",
-        paddingTop: 5,
     },
     colorText:{
         color:"white",
@@ -58,6 +57,6 @@ const styles = StyleSheet.create({
         color:"white"
     },
     userCont:{
-        flex:4
+        flex:3
     }
 })

@@ -39,7 +39,7 @@ export default class BoxMiddle extends Component {
 
 const styles = StyleSheet.create({
     boxMiddle:{
-        flex:2,
+        flex:Platform.OS == "android" ? 1.4 : 1.8,
         marginTop: 20,
         marginBottom: 20,
         padding: 25,     
