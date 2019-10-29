@@ -1,5 +1,5 @@
 import { StyleSheet,Platform } from "react-native";
-
+const DRAWER_WIDTH = 300;
 export default StyleSheet.create({
   buttonFloating:{
     width: 250,
@@ -255,27 +255,6 @@ export default StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
   },
-  menu:{
-    flex:1,
-    flexDirection:"row",
-    alignItems:"center",
-    justifyContent:"space-around",
-    width: "95%",
-    marginTop: 20,
-    backgroundColor:"#fff",
-    borderBottomStartRadius:0,
-    borderTopLeftRadius:30,
-    borderTopRightRadius:30,
-    borderBottomEndRadius:0,
-    shadowColor: "#000",
-    shadowOpacity: 0.46,
-    shadowRadius: 11.14,
-    elevation: 20,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-  },
   textMoney:{
     fontSize: 18,
   },
@@ -394,6 +373,86 @@ codePhone:{
   borderTopLeftRadius:15,
   borderTopRightRadius:0,
   borderBottomEndRadius:0,
+},
+container: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+
+},
+headerText: {
+  fontSize: 25,
+  textAlign: "center",
+  margin: 10,
+  color: 'black',
+  fontWeight: "bold"
+},
+drawer: {
+  position: 'absolute',
+  left:10.4,
+  bottom: Platform.OS === "android" ?  "-210%": "-163%",
+  width: Platform.OS === "ios" ? "95%":"94.5%",
+  flexDirection: 'row',
+  zIndex:15,
+  elevation: 202
+},
+drawerContainer: {
+  flex: 1,
+  backgroundColor: 'white',
+},
+menuLayout: {
+  marginBottom: 1,
+  borderBottomWidth:1,
+  backgroundColor: 'white',
+  width: '100%',
+  paddingTop:10,
+  paddingBottom:10,
+},
+overlay: {
+  flex: 1,
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  backgroundColor: 'rgba(0,0,0,0.3)',
+  width: "100%",
+  height:"100%",
+  zIndex:10,
+  elevation:150
+},
+menu:{
+  flex:1,
+  flexDirection:"row",
+  alignItems:"center",
+  justifyContent:"space-around",
+  width: "95%",
+  borderWidth: Platform.OS === "android" ? 1:0,
+  borderColor:"#000",
+  marginTop: 20,
+  marginLeft:"auto",
+  marginRight:"auto",
+  backgroundColor:"#fff",
+  borderBottomStartRadius:0,
+  borderTopLeftRadius:30,
+  borderTopRightRadius:30,
+  borderBottomEndRadius:0,
+  shadowColor: "#000",
+  shadowOpacity: 0.46,
+  shadowRadius: 11.14,
+  elevation: 200,
+  shadowOffset: {
+    width: 0,
+    height: 8,
+  },
+  zIndex:13,
+},
+buttonSub:{
+  backgroundColor:"white",
+  width:"100%"
+},
+titleButton:{
+  marginRight:"auto", 
+  color:"black", 
+  marginLeft:16
 }
 
 });

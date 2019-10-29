@@ -30,10 +30,7 @@ export default class verifyPage extends Component{
     }
     this.closeModal= this.closeModal.bind(this)
   }
-  static navigationOptions ={
-    header:null
-  }
-
+  
   onChangeVerify = (newText, state) => {
     this.setState({
       [state]: newText

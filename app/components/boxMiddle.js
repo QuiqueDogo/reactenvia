@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
           width: 0,
           height: 8,
         },
+        zIndex: -1,
     },
     viewCenter:{
         flex:1,
@@ -67,16 +68,16 @@ const styles = StyleSheet.create({
     },
     iconNum1:{
         position:"absolute",
-        top: (Platform.OS == "android") ? "30%" : "40%"
+        top: (Platform.OS == "android") ? "35%" : "40%"
     },
     iconNum2:{
         position:"absolute",
-        top: (Platform.OS == "android") ? "30%" : "40%",
+        top: (Platform.OS == "android") ? "35%" : "40%",
         left:"48%"
     },
     iconNum3:{
         position:"absolute",
-        top: (Platform.OS == "android") ? "30%" : "40%",
+        top: (Platform.OS == "android") ? "35%" : "40%",
         right:"-2%"
     },
     buttonHome:{

@@ -14,7 +14,7 @@ export default class HeaderHome extends Component {
     componentDidMount(){
         var day = new Date().getDate();
         var monthNumber = new Date().getMonth();
-        var months = ["Ene","Feb","Mar","Abr","May","Jul","Jun","Ago","Sep","Oct","Nov","Dic"];
+        var months = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
         var year = new Date().getFullYear();
         this.setState({
           date: day+" "+months[monthNumber]+","+year
