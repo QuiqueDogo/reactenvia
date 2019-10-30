@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOpacity: 0.46,
         shadowRadius: 11.14,
-        elevation: 20,
+        elevation: 9,
         shadowOffset: {
           width: 0,
           height: 8,
         },
-        zIndex: -1,
+        zIndex: 0,
     },
     viewCenter:{
         flex:1,

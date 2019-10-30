@@ -7,7 +7,7 @@ import verifyPage from './app/screens/verifyPage';
 import loginPage from './app/screens/loginPage';
 import homePage from './app/screens/homePage';
 import contRegisterPage from './app/screens/contRegisterPage';
-import Drawer from "./app/screens/Drawer/App";
+import Generate from "./app/screens/Generate";
 
 const NavStack = createStackNavigator({
     mainPage: { 
@@ -28,12 +28,12 @@ const NavStack = createStackNavigator({
     homePage:{
       screen: homePage
     },
-    Drawer:{
-      screen: Drawer
+    Generate:{
+      screen: Generate
     },
     },
     {
-      initialRouteName:"homePage"
+      initialRouteName:"Generate"
     }
    
 );

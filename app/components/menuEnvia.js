@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View,Animated, BackHandler} from 'react-native';
+import { Text, View,Animated, BackHandler, Platform} from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import styles from "../../assets/css/stylesMain";
 
@@ -38,13 +38,11 @@ export default class MenuEnvia extends Component {
           toValue: value,
           duration: 300
         }).start();
-
       };
     
       toggleDrawer = () => {
         if (this.toggleFlag == 0) {
           this._start(0);
-          this.props.overlay(1);
           this.setState({ disabled: true }, () => {
             Animated.timing(
               this.animatedValue,
@@ -60,7 +58,6 @@ export default class MenuEnvia extends Component {
           });
         }
         else {
-          this._start(1);
           this.props.overlay(0);
           this.setState({ disabled: true }, () => {
             Animated.timing(
@@ -78,7 +75,7 @@ export default class MenuEnvia extends Component {
       }
     
     test = () => {
-      console.log("hola")
+   
     }
   
     render() {
@@ -88,34 +85,32 @@ export default class MenuEnvia extends Component {
               outputRange: [0, -300]
             });
     
-            const { MyfFinalMessage,...props} = this.props
+        const { MyfFinalMessage} = this.props
+        const stylesMenu = ( Platform.OS =="ios") ?styles.menu : styles.menuAndroid ;
         return (
-            <View style={{flex:2}}>
-
-                <Animated.View style={[styles.menu,{transform:[{translateY: animatedValue}]}]}>
-                    <Icon name="bars" type="font-awesome" size={34} onPress={this.toggleDrawer}/>
-                    <Animated.View style={{opacity: this.state.fade}}>
-                      <Icon name="dropbox" type="font-awesome" size={34} onPress={() => {MyfFinalMessage("Drawer"); this.test()}}/>
-                    </Animated.View>
-                    <Animated.View style={{opacity: this.state.fade}}>
-                      <Icon name="inbox" type="font-awesome" size={34}/>
-                    </Animated.View>
-                    <Animated.View style={{opacity: this.state.fade}}>
-                      <Icon name="map-marker" type="font-awesome" size={34}/>
-                    </Animated.View>
-                    <Animated.View style={{opacity: this.state.fade}}>
-                      <Icon name="cog" type="font-awesome" size={34}/>
-                    </Animated.View>
-                </Animated.View>
-              <Animated.View style={[styles.drawer, { transform: [{ translateY: animatedValue }] }]}>
-                <View style={styles.drawerContainer}>
-                  <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="Generar Guias" icon={{name:"dropbox",type:"font-awesome", size:34}} onPress={() => MyfFinalMessage("Drawer")} />
-                  <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="Generar Guias 2" icon={{name:"inbox",type:"font-awesome", size:34}} />
-                  <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12, marginRight:14}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="Vamonos" icon={{name:"map-marker",type:"font-awesome", size:34}} />
-                  <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="wtf" icon={{name:"cog",type:"font-awesome", size:34}} />
-                </View>
-              </Animated.View>
-            </View>
+                <View style={stylesMenu}>
+                  <View style={{flex: 1,width:"100%", flexDirection:"row",alignItems:"center",justifyContent:"space-evenly"}}>
+                      <Icon name="bars" type="font-awesome" size={34}/>
+                      <Animated.View style={{opacity: this.state.fade}}>
+                        <Icon name="dropbox" type="font-awesome" size={34} onPress={() => {MyfFinalMessage("Generate"); this.test()}}/>
+                      </Animated.View>
+                      <Animated.View style={{opacity: this.state.fade}}>
+                        <Icon name="inbox" type="font-awesome" size={34}/>
+                      </Animated.View>
+                      <Animated.View style={{opacity: this.state.fade}}>
+                        <Icon name="map-marker" type="font-awesome" size={34}/>
+                      </Animated.View>
+                      <Animated.View style={{opacity: this.state.fade}}>
+                        <Icon name="cog" type="font-awesome" size={34}/>
+                      </Animated.View>
+                  </View>
+                  <View style={styles.drawer}>
+                          <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="Generar Guias" icon={{name:"dropbox",type:"font-awesome", size:34}} onPress={() => MyfFinalMessage("Generate")} />
+                          <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="Generar Guias 2" icon={{name:"inbox",type:"font-awesome", size:34}} />
+                          <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12, marginRight:14}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="Vamonos" icon={{name:"map-marker",type:"font-awesome", size:34}} />
+                          <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="wtf" icon={{name:"cog",type:"font-awesome", size:34}} />
+                  </View>
+              </View>
         )
     }
 }

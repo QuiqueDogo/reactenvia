@@ -61,6 +61,7 @@ export default StyleSheet.create({
     flex:1,
     alignItems: "stretch",
     flexDirection: "column",
+    backgroundColor:"#f3f4f7"
     
   },
   containerMain: {
@@ -215,13 +216,13 @@ export default StyleSheet.create({
     backgroundColor:"#fff",
     borderRadius:30,
     shadowColor: "#000",
-    shadowOpacity: 0.46,
-    shadowRadius: 11.14,
-    elevation: 20,
     shadowOffset: {
       width: 0,
-      height: 8,
+      height: 4,
     },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+    elevation: 17,
     height: "8%" ,
   },
   
@@ -387,25 +388,20 @@ headerText: {
   fontWeight: "bold"
 },
 drawer: {
-  position: 'absolute',
-  left:10.4,
-  bottom: Platform.OS === "android" ?  "-260%": "-200%",
-  width: Platform.OS === "ios" ? "95%":"94%",
-  flexDirection: 'row',
-  zIndex:15,
-  elevation: 202
+  flex:3,
+  flexDirection: 'column',
+  marginLeft:"auto",
+  marginRight:"auto",
+  width:"90%"
 },
 drawerContainer: {
   flex: 1,
   backgroundColor: 'white',
 },
 menuLayout: {
-  marginBottom: 1,
   borderBottomWidth:1,
   backgroundColor: 'white',
-  width: '100%',
-  paddingTop:10,
-  paddingBottom:10,
+  width: '100%'
 },
 overlay: {
   position: 'absolute',
@@ -415,33 +411,15 @@ overlay: {
   width: "100%",
   height:"100%",
   zIndex:0,
-  elevation:150
+  elevation:5
 },
 menu:{
-  flex:1,
-  flexDirection:"row",
-  alignItems:"center",
-  justifyContent:"space-around",
+  
+  flexDirection:"column",
   width: "95%",
-  borderWidth: Platform.OS === "android" ? 1:0,
-  borderColor:"#000",
-  marginTop: 20,
   marginLeft:"auto",
   marginRight:"auto",
-  backgroundColor:"#fff",
-  borderBottomStartRadius:0,
-  borderTopLeftRadius:30,
-  borderTopRightRadius:30,
-  borderBottomEndRadius:0,
-  shadowColor: "#000",
-  shadowOpacity: 0.46,
-  shadowRadius: 11.14,
-  elevation: 200,
-  shadowOffset: {
-    width: 0,
-    height: 8,
-  },
-  zIndex:13,
+  height:300
 },
 buttonSub:{
   backgroundColor:"white",
@@ -451,6 +429,12 @@ titleButton:{
   marginRight:"auto", 
   color:"black", 
   marginLeft:16
+},
+menuAndroid:{
+  flexDirection:"column",
+  width: "95%",
+  height:300,
+  elevation: 5,
 }
 
 });
