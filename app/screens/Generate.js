@@ -1,17 +1,32 @@
 import React, { Component } from 'react';
-import { Text, View,StyleSheet } from 'react-native';
+import { Text, View,TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { Icon } from 'react-native-elements';
 import MenuEnvia from "../components/menuEnvia";
 import HeaderHome from "../components/HeaderHome";
 import BoxMoney from '../components/boxMoney';
 import styles from "../../assets/css/stylesGenerate";
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
-import CardView from 'react-native-cardview'
+import { GoogleAutoComplete } from 'react-native-google-autocomplete';
+import LocationItem from "../components/LocationItem";
+
+
+const data = [
+  "Apples",
+  "Broccoli",
+  "Chicken",
+  "Duck",
+  "Eggs",
+  "Fish",
+  "Granola",
+  "Hash Browns",
+];
 
 export default class Generate extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
+          DataState: data 
         }
       };
   
@@ -48,11 +63,57 @@ export default class Generate extends Component {
                     <HeaderHome title="Generar Guias" user="" pag="Generate" />
                         <View style={styles.divisionHome}>
                         <BoxMoney balance="3,000 MXN"/>
-                            <CardView style={{flex:0.80,width:"90%",backgroundColor:"white"}} cardElevation={2} cardMaxElevation={2} cornerRadius={5}>
-                                <View style={{flex:1,}}></View>
-                                <View style={{flex:1,borderWidth:1}}></View>
-                                <View style={{flex:1.6,borderWidth:1}}></View>
-                            </CardView>
+                            <View style={styles.infoGenerate} >
+                                <View style={styles.boxes}>
+                                  <View style={styles.boxsubTitle}>
+                                    <Text style={styles.subTitle}>Origen</Text>
+                                  </View>
+                                  <View style={{flex:2,flexDirection:"row",justifyContent: 'center',padding:15}}>
+                                      <View style={{flex:1}}>
+                                        <GoogleAutoComplete apiKey={"AIzaSyB7_xULf3RHZ_nDT3Ho28_1Nof6IYbW8OQ"} debounce={500} minLength={3}>
+                                          {({handleTextChange,locationResults}) => (
+                                            <React.Fragment>
+                                              {console.log('locationResults',locationResults)}
+                                            <View>
+                                              <TextInput 
+                                                style={{borderWidth:1,borderRadius:15,height:40,width:"95%",paddingHorizontal:13}} 
+                                                onChangeText={handleTextChange}
+                                                placeholder="busca un lugar" 
+                                              />
+                                            </View>
+                                            <ScrollView contentContainerStyle={{zIndex:2,height:200}}>
+                                              {locationResults.map(elemt => (
+                                                <LocationItem
+                                                  {...elemt}
+                                                  key={elemt.id}
+                                                />
+                                              ))}
+                                            </ScrollView>
+                                          </React.Fragment> 
+                                          )}
+
+                                        </GoogleAutoComplete>
+                                      </View>
+                                    <Icon containerStyle={{flex:0.3}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4"/>
+                                  </View>
+                                </View>
+                                <View style={styles.boxes}>
+                                    <View style={styles.boxsubTitle}>
+                                      <Text style={styles.subTitle}>Destino</Text>
+                                    </View>
+                                    <View style={{flex:2,}}>
+
+                                    </View>
+                                </View>
+                                <View style={{flex:1.6,}}>
+                                <View style={styles.boxsubTitle}>
+                                      <Text style={styles.subTitleInfo}>Informacion del Paquete</Text>
+                                    </View>
+                                    <View style={{flex:4,}}>
+
+                                    </View>
+                                </View>
+                            </View>
                         </View>
                         
                 </Animated.View>

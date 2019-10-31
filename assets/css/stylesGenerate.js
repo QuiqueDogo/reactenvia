@@ -44,5 +44,34 @@ export default StyleSheet.create({
         elevation: 24,
         width:"90%",
         backgroundColor:"white"
+      },
+      subTitle:{
+        fontSize:22,
+        letterSpacing:1.1,
+        textTransform:"uppercase",
+        color:"#004b74",
+      },
+      boxsubTitle:{
+        flex:1,
+        justifyContent:"flex-end",
+        paddingLeft:20
+      },
+      boxes:{
+        flex:1,
+        borderBottomWidth:1,
+        borderColor:"#e4e4e4"
+      },
+      subTitleInfo:{
+        fontSize:19,
+        letterSpacing:1,
+        textTransform:"uppercase",
+        color:"#004b74",
+      },
+      autoContainer:{
+        flex:2,
+      },
+      autoinputContainer:{
+        borderRadius:20,
+        width:"98%",
       }
 })
