@@ -8,6 +8,8 @@ import loginPage from './app/screens/loginPage';
 import homePage from './app/screens/homePage';
 import contRegisterPage from './app/screens/contRegisterPage';
 import Generate from "./app/screens/Generate";
+import Destination from "./app/screens/Destination";
+import InfoPackage from "./app/screens/InfoPackage"
 
 const NavStack = createStackNavigator({
     mainPage: { 
@@ -31,9 +33,15 @@ const NavStack = createStackNavigator({
     Generate:{
       screen: Generate
     },
+    Destination:{
+      screen: Destination
+    },
+    InfoPackage:{
+      screen: InfoPackage
+    },
     },
     {
-      initialRouteName:"Generate"
+      initialRouteName:"InfoPackage"
     }
    
 );

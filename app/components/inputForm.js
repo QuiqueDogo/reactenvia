@@ -9,7 +9,8 @@ export default class InputForm extends Component {
       this.state = {
          isFocused: false,
          text: this.props.text === "true" ?  true :false,
-         size: this.props.size
+         size: this.props.size,
+         bigger: !this.props.bigger ? 90 : 110
       };
     };
     componentWillMount() {
@@ -30,9 +31,9 @@ export default class InputForm extends Component {
 
     render() {
         const { label,size, ...props } = this.props;
-        const {isFocused,text} = this.state
+        const {isFocused,text,bigger} = this.state
         const labelStyle = {
-            width: (label.length <= 7) ? 60: 80,
+            width: (label.length <= 7) ? 60: bigger,
             backgroundColor:"#fff",
             position: 'absolute',
             left:this._animatedIsFocused.interpolate({

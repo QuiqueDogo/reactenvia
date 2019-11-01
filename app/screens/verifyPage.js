@@ -74,8 +74,6 @@ export default class verifyPage extends Component{
               <Modal animationType="fade" transparent={true} visible={this.state.modalVisible} onRequestClose={() => {this.setModalVisible(false);}}>
                 <ModalCountry modal={modal} countryName={countryName} closeModal={this.closeModal}/>
               </Modal>
-           	  <ButtonModal title={sends} onPress={()=> this.onViewModal("sends")}/>
-           	  <ButtonModal title={howto} onPress={()=> this.onViewModal("howto")}/>
             </ScrollView>
             <Text style={styles.textTerms}>Al continuar aceptas los Terminos y Condiciones</Text>
            <Button  title="Finalizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"arrow-right", type:"font-awesome", size:19, color:"white",}} 

@@ -73,5 +73,25 @@ export default StyleSheet.create({
       autoinputContainer:{
         borderRadius:20,
         width:"98%",
-      }
+      },
+      overlay:{
+        position:"absolute",
+        width:"100%",
+        height:"100%",
+        backgroundColor:"rgba(0,0,0,0.2)",
+        zIndex:-10,
+      },
+      buttonStyleRegister:{
+        borderWidth: 1,
+        borderColor: '#02b2bc',
+        borderRadius: 30,
+        backgroundColor:'#02b2bc',
+        height:60,
+        width:250,
+    },
+    buttonVerify:{
+      position:"absolute",
+      bottom:"-4%",
+      left: Platform.OS==="ios" ? "15%": "13%"
+  }
 })
