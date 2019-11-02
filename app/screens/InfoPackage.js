@@ -43,7 +43,7 @@ export default class InfoPackage extends Component {
                      <Button  containerStyle={{flex:1, paddingTop:18}} icon={{ name:"plus", type:"font-awesome", size:19, color:"white",}} buttonStyle={{height:48,width:55, borderRadius:10,backgroundColor:"#00b3bc"}}/>
                  </View>
                  <ScrollView style={styles.scrollStyle}>
-                     <InputForm label="Contenido" value={this.state.content} onChangeText={text => this.onChangeVerify(text,"content")}/>
+                     <InputForm label="Contenido Envio" bigger={true} value={this.state.content} onChangeText={text => this.onChangeVerify(text,"content")}/>
                      <InputForm label="Seguro" value={this.state.sure} onChangeText={text => this.onChangeVerify(text,"sure")}/>
                      <ButtonModal title={TypeSend} onPress={() => {this.modalVisibleCountry(true);}} /> 
                  <View style={styles.CPandNumber}>
@@ -61,8 +61,6 @@ export default class InfoPackage extends Component {
                  />   
              </View> 
          </View>
-
-         {/* Modals */}
    </View>
     );
   }
