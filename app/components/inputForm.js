@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet,Animated, TextInput } from 'react-native';
-import { Input } from 'react-native-elements';
+import { View, StyleSheet,Animated, TextInput } from 'react-native';
 
 
 export default class InputForm extends Component {
@@ -15,12 +14,11 @@ export default class InputForm extends Component {
     };
     componentWillMount() {
         this._animatedIsFocused = new Animated.Value(this.props.value === "" ? 0 :1);
+        this.animatedValue = new Animated.Value(0);
       }
 
-    handleFocus = () => { this.setState({ isFocused: true });}
-    handleBlur = () => this.setState({ isFocused: false });
-
-    chequeo = () => console.log(this)
+    handleFocus = () => { this.props.ChangeKeyBoard() ,this.setState({ isFocused: true });}
+    handleBlur = () => {this.setState({ isFocused: false }), this.AnimatedEmpty()};
     
     componentDidUpdate() {
         Animated.timing(this._animatedIsFocused, {
@@ -29,9 +27,47 @@ export default class InputForm extends Component {
         }).start();
       };
 
+    AnimatedEmpty(){
+        if(this.props.value.length === 0){
+            Animated.timing(this.animatedValue, {
+                toValue: 1,
+                duration: 650,
+            }).start();
+        }else if(this.props.value.length !== 0){
+            Animated.timing(this.animatedValue, {
+                toValue: 0,
+                duration: 650,
+            }).start();
+        }
+    }
+
     render() {
+        const interpolateColor = this.animatedValue.interpolate({
+            inputRange:[0,1],
+            outputRange:["rgba(219,219,219,1.0)","rgba(216,89,89,0.5)"]
+        });
         const { label,size, ...props } = this.props;
-        const {isFocused,text,bigger} = this.state
+        const {text,bigger} = this.state;
+        const container = {
+            height:48,
+            width: "100%",
+            borderWidth:1,
+            borderRadius:15,
+            borderColor:interpolateColor,
+            paddingLeft: 2,
+            paddingTop: 2,
+            marginTop:18,   
+        };
+        const containerMiddle = {
+            height:48,
+            width: "48%",
+            borderWidth:1,
+            borderRadius:15,
+            borderColor:interpolateColor,
+            paddingLeft: 2,
+            paddingTop: 2,
+            marginTop:18,   
+        };
         const labelStyle = {
             width: (label.length <= 7) ? 60: bigger,
             backgroundColor:"#fff",
@@ -74,10 +110,10 @@ export default class InputForm extends Component {
           };
         return (
           
-            <View style={(!size) ? styles.container : styles.containerMiddle}>
+            <Animated.View style={(!size) ? container : containerMiddle}>
                 <Animated.Text style={(!size) ? labelStyle : labelStyleCP}>{label}</Animated.Text>
                 <TextInput {...props}  style={styles.input} secureTextEntry={text} onFocus={this.handleFocus} onBlur={this.handleBlur} blurOnSubmit/>
-            </View>
+            </Animated.View>
         );
     }
 }

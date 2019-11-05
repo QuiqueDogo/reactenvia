@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,ScrollView,Modal } from 'react-native';
+import { View, Text,ScrollView,Modal, KeyboardAvoidingView } from 'react-native';
 import styles from "../../assets/css/StylesDestination";
 import { LinearGradient } from 'expo-linear-gradient';
 import InputForm from "../components/inputForm";
@@ -24,19 +24,13 @@ export default class Destination extends Component {
         phone:"",
         email:"",
         reference:"",
+        Pais:"Mexico",
         modalVisible:false,
         modalVisibleCountry:false,
         stateCountry:"Estado",
         countryName:"Mexico",
-        sends:"¿Cuantos Envios realiza por mes?",
-        howto:"¿Como te enteraste de nosotros?",
-        select:"Selecciona",
         modal:"",
-        selected:{
-            name:"Mexico" ,
-            callingCode:52,
-            code: "MX" 
-          },
+        valueKeyborad:0
     };
     this.closeModal= this.closeModal.bind(this);
   }
@@ -71,11 +65,16 @@ export default class Destination extends Component {
   
   }
 
+  ChangeKeyBoard(value ){
+    this.setState({valueKeyborad:value})
+  }
+  
+
 
   render() {
-    const { stateCountry,countryName,modal,selected,select } =this.state
-    const {name,callingCode,flag} = this.state.selected;
+    const { stateCountry,countryName,modal,selected,select,valueKeyborad } =this.state
     return (
+    <KeyboardAvoidingView style={styles.containerRegister} behavior="position" enabled contentContainerStyle={styles.containerRegister} keyboardVerticalOffset={valueKeyborad}>
       <View style={styles.containerRegister}>
            <LinearGradient colors={["#015279","#039aab"]} start={[0.9,0.6]} end={[0.0,0.2]} style={styles.gradiantHome}>
                 <View style={styles.textHome}>
@@ -87,24 +86,24 @@ export default class Destination extends Component {
                 <View style={styles.cardVerify}>
                     <View style={styles.boxSelect}>
                         <View style={{flex:5,paddingRight:20}}>
-                            <ButtonModal title={select} onPress={() => {this.modalVisibleCountry(true);}} /> 
+                            <ButtonModal title={select} /> 
                         </View>
                         <Button  containerStyle={{flex:1, paddingTop:18}} icon={{ name:"plus", type:"font-awesome", size:19, color:"white",}} buttonStyle={{height:48,width:55, borderRadius:10,backgroundColor:"#00b3bc"}}/>
                     </View>
-                    <ScrollView style={styles.scrollStyle}>
-                        <InputForm label="Empresa" value={this.state.empresa} onChangeText={text => this.onChangeVerify(text,"empresa")}/>
-                        <InputForm label="Telefono" value={this.state.phone} onChangeText={text => this.onChangeVerify(text,"phone")}/>
-                        <InputForm label="Correo" value={this.state.email} onChangeText={text => this.onChangeVerify(text,"email")}/>
-                        <ButtonModal title={name} onPress={() => {this.modalVisibleCountry(true);}} />
-                        <InputForm label="Calle" value={this.state.calle} onChangeText={text => this.onChangeVerify(text,"calle")}/>
+                    <ScrollView style={styles.scrollStyle} >
+                        <InputForm label="Empresa" value={this.state.empresa} onChangeText={text => this.onChangeVerify(text,"empresa")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
+                        <InputForm label="Telefono" value={this.state.phone} onChangeText={text => this.onChangeVerify(text,"phone")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
+                        <InputForm label="Correo" value={this.state.email} onChangeText={text => this.onChangeVerify(text,"email")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
+                        <InputForm label="Pais" value={this.state.Pais} onChangeText={text => this.onChangeVerify(text,"Pais")} ChangeKeyBoard={value => this.ChangeKeyBoard(-170)}/>
+                        <InputForm label="Calle" value={this.state.calle} onChangeText={text => this.onChangeVerify(text,"calle")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                     <View style={styles.CPandNumber}>
-                        <InputForm label="Numero" size="middle" value={this.state.numero} onChangeText={text => this.onChangeVerify(text,"numero")}/>
-                        <InputForm label="Codigo Postal" size="middle" value={this.state.codigoPostal} onChangeText={text => this.onChangeVerify(text,"codigoPostal")}/>
+                        <InputForm label="Numero" size="middle" value={this.state.numero} onChangeText={text => this.onChangeVerify(text,"numero")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
+                        <InputForm label="Codigo Postal" size="middle" value={this.state.codigoPostal} onChangeText={text => this.onChangeVerify(text,"codigoPostal")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                     </View>
-                        <InputForm label="Colonia" value={this.state.colonia} onChangeText={text => this.onChangeVerify(text,"colonia")}/>
-                        <InputForm label="Ciudad" value={this.state.ciudad} onChangeText={text => this.onChangeVerify(text,"ciudad")}/>
+                        <InputForm label="Colonia" value={this.state.colonia} onChangeText={text => this.onChangeVerify(text,"colonia")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
+                        <InputForm label="Ciudad" value={this.state.ciudad} onChangeText={text => this.onChangeVerify(text,"ciudad")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
                         <ButtonModal title={stateCountry} onPress={()=> this.onViewModal("state")}/>
-                        <InputForm label="Referencia" value={this.state.reference} onChangeText={text => this.onChangeVerify(text,"reference")}/>
+                        <InputForm label="Referencia" value={this.state.reference} onChangeText={text => this.onChangeVerify(text,"reference")} ChangeKeyBoard={value => this.ChangeKeyBoard(-80)}/>
                     </ScrollView>
                     <View style={{height:80}}></View>
                     <Button  title="Guardar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, textAlign:"center"}} containerStyle={styles.buttonVerify}  onPress={ ()=> console.log(this.state)} 
@@ -122,6 +121,7 @@ export default class Destination extends Component {
                         </View>
                     </Modal>  
       </View>
+    </KeyboardAvoidingView>
     );
   }
 }

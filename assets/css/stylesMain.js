@@ -103,8 +103,8 @@ export default StyleSheet.create({
     paddingTop: 35,
   },
   logoImage:{
-    width:150,
-    height:150,
+    width:80,
+    height:80,
     
   },
   submitSession:{

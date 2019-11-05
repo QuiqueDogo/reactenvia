@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View,TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { Text, View,TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Icon,CheckBox,Button } from 'react-native-elements';
 import MenuEnvia from "../components/menuEnvia";
 import HeaderHome from "../components/HeaderHome";
@@ -53,6 +53,8 @@ export default class Generate extends Component {
 
     render() {
         return (
+          <KeyboardAvoidingView contentContainerStyle={styles.containerRegister} style={styles.containerRegister} behavior="position" keyboardVerticalOffset={-100} >
+          
             <View style={styles.containerRegister}>
                 <BottomSheet 
                     snapPoints = {[300, 100]}
@@ -98,7 +100,7 @@ export default class Generate extends Component {
 
                                         </GoogleAutoComplete>
                                       </View>
-                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destiny")}/>
+                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
                                   </View>
                                 </View>
 
@@ -140,6 +142,7 @@ export default class Generate extends Component {
                         
                 </Animated.View>
             </View>
+          </KeyboardAvoidingView>
         )
     }
 }

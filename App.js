@@ -49,7 +49,7 @@ const NavStack = createStackNavigator({
     },
     },
     {
-      initialRouteName:"GenerateGuides"
+      initialRouteName:"Generate"
     }
    
 );

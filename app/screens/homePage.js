@@ -65,7 +65,7 @@ export default class homePage extends Component{
                   <BoxMoney balance="3,000 MXN"/>
                   <BoxMiddle percentage={0.3}/>
                   <View style={styles.scrollHome}>
-                    <ScrollView  horizontal >
+                    <ScrollView showsHorizontalScrollIndicator={false} horizontal >
                       <BoxInformative price={`1000`} infoTitle={`Total de Envios`}/>
                       <BoxInformative price={`$2000`} infoTitle={`Total de Paquetes`}/>
                       <BoxInformative price={`3000`} infoTitle={`Total de Videojuegos`}/>

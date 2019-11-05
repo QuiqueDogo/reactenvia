@@ -6,7 +6,7 @@ export default StyleSheet.create({
         flex:1,
     },
     section2:{
-        flex:9,
+        flex:12,
         alignItems:"center",
     },
     phoneInput:{
@@ -127,7 +127,7 @@ export default StyleSheet.create({
         width: 0,
         height: 8,
         },
-        height: (Platform.OS=="android") ? "50%" :"40%"
+        height: (Platform.OS=="android") ? "58%" :"49%"
     },
     timer:{
         color:"#02b2bc",
@@ -143,8 +143,9 @@ export default StyleSheet.create({
         marginBottom:12
     },
     touchableCode:{
-        marginLeft:"auto",
-        marginRight:15
+        marginTop:30, 
+        marginRight:20, 
+        marginLeft:"auto"
     },
     inputText:{
         flex:1,
@@ -157,12 +158,32 @@ export default StyleSheet.create({
         marginLeft:5,
         marginRight:5,
         fontSize:20,
-        paddingLeft:17,
+        paddingLeft:25,
         color:"#02b2bc"
     },
     buttoncontRegister2:{
         position:"absolute",
         right:(Platform.OS=="android")? "14%" :"19%",
         bottom:"-9%"
-    }
+    },
+    cardStyleGood:{
+        flex:1,
+        width: "90%",
+        position:"absolute",
+        top:"-8%",
+        alignItems: "center",
+        flexDirection:"column",
+        backgroundColor:"#fff",
+        borderRadius:15,
+        shadowColor: "#000",
+        shadowOpacity: 0.46,
+        shadowRadius: 11.14,
+        elevation: 20,
+        shadowOffset: {
+            width: 0,
+            height: 8,
+        },
+        height: (Platform.OS=="android") ? "95%" :"70%",
+        padding:20,
+    },
 })

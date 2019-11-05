@@ -24,10 +24,15 @@ export default class verifyPage extends Component{
     }
 
     login = () =>{
-      this.props.navigation.navigate("homePage")
-      // console.log(this.state.formData)
+      this.props.navigation.navigate("HomePage");
+      console.log("que pedo loco")
     }
 
+    ChangeKeyBoard(value ){
+      this.setState({valueKeyborad:value})
+    }
+    
+    
     static navigationOptions ={
       header:null
   }
@@ -40,8 +45,8 @@ export default class verifyPage extends Component{
               <View className="centerCard" style={styles.cardLogin}>
                 <TabsSelection item="login"/>
                 <View style={styles.formStyles}>
-                  	<InputFrom label="Usuario" value={this.state.user} onChangeText={text => this.onChangeLogin(text,"user")}/>
-                  	<InputFrom label="Contraseña" text="true" value={this.state.password} onChangeText={text => this.onChangeLogin(text,"password")}/>
+                  	<InputFrom label="Usuario" value={this.state.user} onChangeText={text => this.onChangeLogin(text,"user")} ChangeKeyBoard={value => this.ChangeKeyBoard(0)}/>
+                  	<InputFrom label="Contraseña" text="true" value={this.state.password} onChangeText={text => this.onChangeLogin(text,"password")} ChangeKeyBoard={value => this.ChangeKeyBoard(0)}/>
                 </View>			
                 <Button title="Inicia Sesion" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30 }} containerStyle={styles.buttonStylesContainerLogin}   iconRight iconContainerStyle={{ marginLeft: 0 }} icon={{ name:"arrow-right", type:"font-awesome", size:19, color:"white",}} onPress={() => this.login()} 
                     // onPress={() => this.props.navigation.navigate('contRegisterPage')}
