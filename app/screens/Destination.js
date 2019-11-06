@@ -80,7 +80,7 @@ export default class Destination extends Component {
                 <View style={styles.textHome}>
                     <Text style={styles.textHome}>Destino</Text>
                 </View>
-                <Button containerStyle={{position:"absolute",left:15,top:40}} raised icon={{ name:"chevron-left", type:"font-awesome", size:19, color:"#cccccc",}}  buttonStyle={{height:45,width:45, borderRadius:30,backgroundColor:"#fff"}}/>
+                <Button containerStyle={{position:"absolute",left:15,top:40}} raised icon={{ name:"chevron-left", type:"font-awesome", size:19, color:"#cccccc",}}  buttonStyle={{height:45,width:45, borderRadius:30,backgroundColor:"#fff"}} onPress={() => this.props.navigation.goBack()}/>
             </LinearGradient>
             <View style={styles.Division}>
                 <View style={styles.cardVerify}>
