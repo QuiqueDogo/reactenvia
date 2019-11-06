@@ -14,7 +14,7 @@ import algoliasearch from 'algoliasearch/reactnative';
 import LocationItem from "../components/LocationItem";
 import SizeBox from "../components/SizeBox";
 
-var places = algoliasearch.initPlaces("plQRVP38C91U","53115f43b9e5ffcf7dc922326ada7910")
+var places = algoliasearch.initPlaces("plQRVP38C91U","")
 
 export default class Generate extends Component {
     constructor(props) {
@@ -24,10 +24,7 @@ export default class Generate extends Component {
           checkedSobre:false,
           search:"",
           data:null,
-          prueba:{
-            data1:1,
-            data2:2
-          }
+          selected:null,
         }
       };
   
@@ -54,20 +51,23 @@ export default class Generate extends Component {
         this.setState({checkedSobre:!this.state.checkedSobre, checkedPackage:false})
       }
     }
-    componentDidUpdate(){
-      if(this.state.data){
-        console.log("hola")
-        console.log(this.state.data)
-      }else{
-        console.log(this.state.data)
-      }
-    }
+    // componentDidUpdate(){
+    //   if(this.state.data){
+    //     var info = this.state.data.hits
+    //     console.log("hola")
+    //     setTimeout(() => {
+    //       // console.log(this.state.data)   
+    //       info.forEach(element => {
+    //         console.log(element.postcode)
+    //         console.log(element._highlightResult.administrative[0].value)
+    //       });
+    //     }, 1000);
+    //   }
+    // }
+    
     searchOptions(text){
-      var AllData = {};
+      var AllData = {hitsPerPage:5,};
 
-      if (this.props.options) {
-        AllData = this.props.options;
-      }
       AllData.query = text
 
       places
@@ -83,13 +83,6 @@ export default class Generate extends Component {
 
     fall =new Animated.Value(1);  
     render() {
-      if(this.state.data){
-         lapsList  = this.state.prueba.map((data, index) =>{
-          <View key={index + "search"}>
-            <Text>H</Text>
-          </View>
-        })
-      }
         return (
           <KeyboardAvoidingView contentContainerStyle={styles.containerRegister} style={styles.containerRegister} behavior="position" keyboardVerticalOffset={-200} >
           
@@ -108,12 +101,32 @@ export default class Generate extends Component {
                         <BoxMoney balance="3,000 MXN"/>
                             <View style={styles.infoGenerate} >
                               <TextInput value={this.state.search} onChangeText={value => this.setState({search: value})}/>
-                              <Button onPress={()=> this.searchOptions(this.state.search)} />
-                              <ScrollView style={{width:"100%"}}>
-                                <Text>holi</Text>
-                                 {lapsList} 
-                              </ScrollView>
-                                {/* <View style={styles.boxes}>
+                              {/* <Button onPress={()=> this.searchOptions(this.state.search)} />
+                                {this.state.data &&
+                                this.state.data.hits.map((val, i)=>                                  
+                                  <TouchableOpacity key={i+"search"} 
+                                  onPress={()=>{console.log("city: ",(val.city)? val.city.default[0] +"," :""), 
+                                                this.setState({
+                                                  selected:{
+                                                    name: val.locale_names.default[0],
+                                                    postcode: val.postcode[0],
+                                                    country_code: val.country_code,
+                                                    country: val.
+                                                  }
+                                                }) }}
+                                  >
+                                    <View style={{flexDirection:"row"}}>
+                                      <Text>{(val.locale_names)? val.locale_names.default[0] :""}</Text>
+                                      <Text style={{fontSize:10}}>{
+                                      ((val.city)? val.city.default[0] +"," :"") +
+                                      ((val.administrative[0] == val.locale_names.default[0] )? "" :val.administrative[0]+",") +
+                                      (val.country.default)
+                                      }</Text>
+                                    </View>
+                                  </TouchableOpacity>
+                                ) 
+                                } */}
+                                <View style={styles.boxes}>
                                   <View style={styles.boxsubTitle}>
                                     <Text style={styles.subTitle}>Origen</Text>
                                   </View>
@@ -156,8 +169,8 @@ export default class Generate extends Component {
                                     </View>
                                 </View>
                                <Button  title="Cotizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"dollar", type:"font-awesome", size:19, color:"white",}} 
-                                       onPress={ ()=>{ console.log(this.state), this.props.navigation.navigate("GenerateGuides")}} 
-                                  /> */}
+                                       onPress={ ()=>{ console.log(this.state)}} 
+                                  />
                             </View>
                         </View>
                         

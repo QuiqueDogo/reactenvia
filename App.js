@@ -57,8 +57,3 @@ const NavStack = createStackNavigator({
 const App = createAppContainer(NavStack);
 
 export default App;
-//https://medium.com/faun/building-an-international-react-native-phone-input-with-expo-and-native-base-9040d935e206
-
-//https://codeburst.io/reusing-code-between-react-js-and-react-native-effectively-12bb4fbf7a70
-
-//https://svg2jsx.herokuapp.com/
