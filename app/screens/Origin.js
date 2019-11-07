@@ -43,6 +43,8 @@ export default class Destination extends Component {
     })
   }
 
+  
+
   onViewModal = (modal) => {
     this.setState({modal:modal})
     this.setState({modalVisible:true})
@@ -78,7 +80,7 @@ export default class Destination extends Component {
       <View style={styles.containerRegister}>
            <LinearGradient colors={["#015279","#039aab"]} start={[0.9,0.6]} end={[0.0,0.2]} style={styles.gradiantHome}>
                 <View style={styles.textHome}>
-                    <Text style={styles.textHome}>Destino</Text>
+                    <Text style={styles.textHome}>Origen</Text>
                 </View>
                 <Button containerStyle={{position:"absolute",left:15,top:40}} raised icon={{ name:"chevron-left", type:"font-awesome", size:19, color:"#cccccc",}}  buttonStyle={{height:45,width:45, borderRadius:30,backgroundColor:"#fff"}} onPress={() => this.props.navigation.goBack()}/>
             </LinearGradient>
@@ -109,7 +111,7 @@ export default class Destination extends Component {
                     <Button  title="Guardar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, textAlign:"center"}} containerStyle={styles.buttonVerify}  
                     onPress={ ()=> {
                       this.props.navigation.navigate("Generate",{
-                        infoDestination:{empresa, calle, numero, codigoPostal, colonia, ciudad,stateCountry, phone,email,reference, Pais}
+                        infoOrigin:{empresa, calle, numero, codigoPostal, colonia, ciudad,stateCountry, phone,email,reference, Pais}
                     })}} 
                     />   
                 </View> 

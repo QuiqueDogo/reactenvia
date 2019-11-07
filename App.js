@@ -9,6 +9,7 @@ import HomePage from './app/screens/HomePage';
 import contRegisterPage from './app/screens/contRegisterPage';
 import Generate from "./app/screens/Generate";
 import Destination from "./app/screens/Destination";
+import Origin from "./app/screens/Origin";
 import InfoPackage from "./app/screens/InfoPackage"
 import GenerateGuides from "./app/screens/GenerateGuide";
 import DetailInfo from "./app/screens/DetailInfo"
@@ -37,7 +38,10 @@ const NavStack = createStackNavigator({
     },
     Destination:{
       screen: Destination
-    },
+    },    
+    Origin:{
+      screen: Origin
+    },    
     InfoPackage:{
       screen: InfoPackage
     },

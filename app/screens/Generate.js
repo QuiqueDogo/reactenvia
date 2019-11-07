@@ -14,20 +14,22 @@ import algoliasearch from 'algoliasearch/reactnative';
 import LocationItem from "../components/LocationItem";
 import SizeBox from "../components/SizeBox";
 
-var places = algoliasearch.initPlaces("plQRVP38C91U","")
+// var places = algoliasearch.initPlaces("plQRVP38C91U","")
 
 export default class Generate extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props.navigation.state.params)
         this.state = {
           checkedPackage:false,
           checkedSobre:false,
-          search:"",
+          search:"holi",
           data:null,
           selected:null,
+          change:0
         }
       };
-  
+
       static navigationOptions ={
         header:null
       };
@@ -51,19 +53,15 @@ export default class Generate extends Component {
         this.setState({checkedSobre:!this.state.checkedSobre, checkedPackage:false})
       }
     }
-    // componentDidUpdate(){
-    //   if(this.state.data){
-    //     var info = this.state.data.hits
-    //     console.log("hola")
-    //     setTimeout(() => {
-    //       // console.log(this.state.data)   
-    //       info.forEach(element => {
-    //         console.log(element.postcode)
-    //         console.log(element._highlightResult.administrative[0].value)
-    //       });
-    //     }, 1000);
-    //   }
-    // }
+
+    componentDidUpdate(){
+      
+        if(this.props.navigation.state.params.infoDestination){
+          this.setState({change:1})
+        }else{
+          console.log("que esta pasando")
+        }
+    }
     
     searchOptions(text){
       var AllData = {hitsPerPage:5,};
@@ -83,6 +81,8 @@ export default class Generate extends Component {
 
     fall =new Animated.Value(1);  
     render() {
+      const {change} = this.state;
+      const ValidateOrigin = this.props.navigation.state.params;
         return (
           <KeyboardAvoidingView contentContainerStyle={styles.containerRegister} style={styles.containerRegister} behavior="position" keyboardVerticalOffset={-200} >
           
@@ -100,7 +100,32 @@ export default class Generate extends Component {
                         <View style={styles.divisionHome}>
                         <BoxMoney balance="3,000 MXN"/>
                             <View style={styles.infoGenerate} >
-                              <TextInput value={this.state.search} onChangeText={value => this.setState({search: value})}/>
+                            {/* <GoogleAutoComplete apiKey={"AIzaSyB7_xULf3RHZ_nDT3Ho28_1Nof6IYbW8OQ"} debounce={500} minLength={3}>
+                                          {({handleTextChange,locationResults}) => (
+                                            <React.Fragment>
+                                              {console.log('locationResults',locationResults)}
+                                            <View>
+                                              <TextInput 
+                                                style={{borderWidth:1,borderRadius:15,height:40,width:"95%",paddingHorizontal:13}} 
+                                                onChangeText={handleTextChange}
+                                                placeholder="busca un lugar" 
+                                              />
+                                            </View>
+                                            <ScrollView contentContainerStyle={{zIndex:2,height:200}}>
+                                              {locationResults.map(elemt => (
+                                                <LocationItem
+                                                  {...elemt}
+                                                  key={elemt.id}
+                                                />
+                                              ))}
+                                            </ScrollView>
+                                          </React.Fragment> 
+                                          )}
+
+                                        </GoogleAutoComplete> */}
+                            {/* <TextInput value={this.state.search} onChangeText={value => this.setState({search: value})} /> */}
+                              
+                             
                               {/* <Button onPress={()=> this.searchOptions(this.state.search)} />
                                 {this.state.data &&
                                 this.state.data.hits.map((val, i)=>                                  
@@ -132,9 +157,19 @@ export default class Generate extends Component {
                                   </View>
                                   <View style={{flex:2,flexDirection:"row",justifyContent: 'center',padding:15}}>
                                       <View style={{flex:1}}>
-                                        <TextInput style={{width:"100%",borderWidth:1,borderRadius:15, height:45,paddingLeft:10, borderColor:"#d4d4d4"}} />
+                                      {(typeof ValidateOrigin == "undefined") && 
+                                        
+                                        <TextInput style={{width:"100%",borderWidth:1,borderRadius:15, height:45,paddingLeft:10, borderColor:"#d4d4d4"}} onPress={() => this.props.navigation.navigate("Origin")}/>
+                                      }
+                                      {(typeof ValidateOrigin != "undefined") &&
+                                        <View>
+                                          <Text>{(ValidateOrigin.infoOrigin.calle + " "+ ValidateOrigin.infoOrigin.numero +", ")+("Col. "+ValidateOrigin.infoOrigin.colonia+".")}</Text>
+                                          <Text>{(ValidateOrigin.infoOrigin.ciudad + ", ")+("CP." + ValidateOrigin.infoOrigin.codigoPostal)}</Text>
+                                          <Text>{(ValidateOrigin.infoOrigin.stateCountry + ", ") + (ValidateOrigin.infoOrigin.Pais)}</Text>
+                                        </View>
+                                      }
                                       </View>
-                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
+                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin")}/>
                                   </View>
                                 </View>
 
@@ -144,9 +179,14 @@ export default class Generate extends Component {
                                     </View>
                                     <View style={{flex:2,flexDirection:"row",justifyContent: 'center',padding:15}}>
                                       <View style={{flex:1}}>
+                                      {(typeof ValidateOrigin == "undefined" || change == 0) && 
                                         <TextInput style={{width:"100%",borderWidth:1,borderRadius:15, height:45,paddingLeft:10, borderColor:"#d4d4d4"}} />
+                                      }
+                                      {(typeof ValidateOrigin !== "undefined" && change == 1) && 
+                                        <Text>Holi</Text>
+                                      }
                                       </View> 
-                                      <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4"/>
+                                      <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
                                     </View>
                                 </View>
 
