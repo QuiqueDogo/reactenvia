@@ -12,11 +12,12 @@ export default class SizeBox extends Component {
     }
     
     render() {
-        const {holder,type} = this.props 
+        const {holder,type, dimensions} = this.props 
+        const ChangeText = this.props.ChangeText
         return (
             <View style={{flex:0.18,}}>
                 <Text style={styles.textStyle}>{type}</Text>
-                <TextInput placeholder={holder} placeholderTextColor="#39c4cb" style={styles.input} maxLength={3}/>
+                <TextInput placeholder={holder} placeholderTextColor="#39c4cb" style={styles.input} onChangeText={text => ChangeText(dimensions, text)} maxLength={3}/>
             </View>
         )
     }

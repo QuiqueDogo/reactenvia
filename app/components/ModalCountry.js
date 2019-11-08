@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
 import { Text, View, Modal, ScrollView, Platform } from 'react-native';
-import DataState from "../utils/data.json";
 import { Button } from 'react-native-elements';
 
 export default class ModalCountry extends Component {
     constructor(props) {
       super(props)
       this.state = {
+            StatebyCountry : this.props.StatebyCountry,
             modal:`${this.props.modal}`,
-            DataState: DataState, 
             heigthModalSends:(Platform.OS == "ios") ? "20%" :"24%",
-            heigthModalother:(Platform.OS == "ios") ? "33%" :"35%"
+            heigthModalother:(Platform.OS == "ios") ? "33%" :"35%",
+            AllStates: null
         };
     };
     
+
     render() {
         const {modal, heigthModalSends,heigthModalother} =this.state
         const { ...props} = this.props;
         var closeModal = this.props.closeModal;
-        var countryNameFather = this.props.countryName;
+        var StatebyCountry = this.state.StatebyCountry.data;
         let rows = [];
         let SendRows = ["Menos de 25","De 26 a 100","De 101 a 300","Mas de 300"];
         let HowTo = [
@@ -37,13 +38,11 @@ export default class ModalCountry extends Component {
         };
         
         if (modal == "state") {
-            this.state.DataState.forEach((item)=> {
-                if (item.countryName == countryNameFather){
-                    for (let i = 0; i < item.regions.length; i++) {
-                        rows.push(<Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={`${item.regions[i].name}`} title={`${item.regions[i].name}`}  onPress={() => closeModal(`${item.regions[i].name}`, "stateCountry")} />)
-                    }
-                }
+           
+            StatebyCountry.forEach((element,i) => {
+                rows.push(<Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={`${element.name}`} title={`${element.name}`}  onPress={() => closeModal(`${element.name}`, "stateCountry",`${element.code_2_digits}`)} />)
             });
+
         } else if(modal == "sends"){
 
             SendRows.forEach(element => {

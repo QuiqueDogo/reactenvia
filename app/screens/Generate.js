@@ -14,21 +14,47 @@ import algoliasearch from 'algoliasearch/reactnative';
 import LocationItem from "../components/LocationItem";
 import SizeBox from "../components/SizeBox";
 
-// var places = algoliasearch.initPlaces("plQRVP38C91U","")
-
 export default class Generate extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.navigation.state.params)
         this.state = {
+          country_code:"mx",
           checkedPackage:false,
           checkedSobre:false,
           search:"holi",
           data:null,
           selected:null,
-          change:0
+          change:0,
+          type:"",
+          height:"",
+          width:"",
+          length:"",
+          weight:"",
         }
+        this.ChangeText = this.ChangeText.bind(this)
       };
+      componentWillMount(){
+        this.getAllData();
+      }
+
+      getAllData = async() => {
+        let country_code = this.state.country_code
+        let rutacountry_code = "https://queries.envia.com/available-carrier/"+country_code.toUpperCase()+"/0";
+        let rutaAllstates = "https://queries.envia.com/state?country_code="+country_code.toUpperCase();
+        let params = {
+          method: "GET",
+          headers : {
+            'Authorization': "Bearer cb422161bbcba1887477d5376101c27b6899982c7531a1b28fbce75f13d1ebd3",
+            'Content-Type': 'application/json'
+          },
+          mode: 'cors'
+        }
+        fetch(rutacountry_code, params).then(response => response.json().then(data => this.setState({CarriersAvailable:data})).catch(error => console.log(error))).catch(error => console.log(error))
+        
+        fetch(rutaAllstates, params).then(response => response.json().then(data => this.setState({AllStates:data})).catch(error => console.log(error))).catch(error => console.log(error))
+
+      } 
+
 
       static navigationOptions ={
         header:null
@@ -46,43 +72,26 @@ export default class Generate extends Component {
         </View>
       )
 
+    ChangeText(state, text){
+      this.setState({
+        [state]: text
+      });
+    }
+
     CheckBoxes = (info) => {
       if(info== "package"){
-        this.setState({checkedPackage:!this.state.checkedPackage, checkedSobre:false})
+        this.setState({checkedPackage:!this.state.checkedPackage, checkedSobre:false, type:"box"})
       }else if(info== "sobre"){
-        this.setState({checkedSobre:!this.state.checkedSobre, checkedPackage:false})
+        this.setState({checkedSobre:!this.state.checkedSobre, checkedPackage:false, type:"pallet"})
       }
     }
-
-    componentDidUpdate(){
-      
-        if(this.props.navigation.state.params.infoDestination){
-          this.setState({change:1})
-        }else{
-          console.log("que esta pasando")
-        }
-    }
-    
-    searchOptions(text){
-      var AllData = {hitsPerPage:5,};
-
-      AllData.query = text
-
-      places
-          .search(AllData)
-          .then(res => {
-            this.setState({data: res})
-          })
-          .catch(err => {
-          this.onSearchError(err);
-        });
-
-    }
-
+  
     fall =new Animated.Value(1);  
     render() {
-      const {change} = this.state;
+      const {type, height, width, length, weight,country_code,AllStates} = this.state;
+      const Origin = this.props.navigation.getParam("origin");
       const ValidateOrigin = this.props.navigation.state.params;
+      const Destination = this.props.navigation.getParam("destination");
         return (
           <KeyboardAvoidingView contentContainerStyle={styles.containerRegister} style={styles.containerRegister} behavior="position" keyboardVerticalOffset={-200} >
           
@@ -123,53 +132,25 @@ export default class Generate extends Component {
                                           )}
 
                                         </GoogleAutoComplete> */}
-                            {/* <TextInput value={this.state.search} onChangeText={value => this.setState({search: value})} /> */}
-                              
-                             
-                              {/* <Button onPress={()=> this.searchOptions(this.state.search)} />
-                                {this.state.data &&
-                                this.state.data.hits.map((val, i)=>                                  
-                                  <TouchableOpacity key={i+"search"} 
-                                  onPress={()=>{console.log("city: ",(val.city)? val.city.default[0] +"," :""), 
-                                                this.setState({
-                                                  selected:{
-                                                    name: val.locale_names.default[0],
-                                                    postcode: val.postcode[0],
-                                                    country_code: val.country_code,
-                                                    country: val.
-                                                  }
-                                                }) }}
-                                  >
-                                    <View style={{flexDirection:"row"}}>
-                                      <Text>{(val.locale_names)? val.locale_names.default[0] :""}</Text>
-                                      <Text style={{fontSize:10}}>{
-                                      ((val.city)? val.city.default[0] +"," :"") +
-                                      ((val.administrative[0] == val.locale_names.default[0] )? "" :val.administrative[0]+",") +
-                                      (val.country.default)
-                                      }</Text>
-                                    </View>
-                                  </TouchableOpacity>
-                                ) 
-                                } */}
                                 <View style={styles.boxes}>
                                   <View style={styles.boxsubTitle}>
                                     <Text style={styles.subTitle}>Origen</Text>
                                   </View>
                                   <View style={{flex:2,flexDirection:"row",justifyContent: 'center',padding:15}}>
                                       <View style={{flex:1}}>
-                                      {(typeof ValidateOrigin == "undefined") && 
+                                      {(typeof Origin == "undefined") && 
                                         
                                         <TextInput style={{width:"100%",borderWidth:1,borderRadius:15, height:45,paddingLeft:10, borderColor:"#d4d4d4"}} onPress={() => this.props.navigation.navigate("Origin")}/>
                                       }
-                                      {(typeof ValidateOrigin != "undefined") &&
+                                      {(typeof Origin != "undefined") &&
                                         <View>
-                                          <Text>{(ValidateOrigin.infoOrigin.calle + " "+ ValidateOrigin.infoOrigin.numero +", ")+("Col. "+ValidateOrigin.infoOrigin.colonia+".")}</Text>
-                                          <Text>{(ValidateOrigin.infoOrigin.ciudad + ", ")+("CP." + ValidateOrigin.infoOrigin.codigoPostal)}</Text>
-                                          <Text>{(ValidateOrigin.infoOrigin.stateCountry + ", ") + (ValidateOrigin.infoOrigin.Pais)}</Text>
+                                          <Text>{(ValidateOrigin.origin.street + " "+ ValidateOrigin.origin.number +", ")+("Col. "+ValidateOrigin.origin.district+".")}</Text>
+                                          <Text>{(ValidateOrigin.origin.city + ", ")+("CP." + ValidateOrigin.origin.postalCode)}</Text>
+                                          <Text>{(ValidateOrigin.stateCountry + ", ") + (country_code.toUpperCase())}</Text>
                                         </View>
                                       }
                                       </View>
-                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin")}/>
+                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin",{AllStates})}/>
                                   </View>
                                 </View>
 
@@ -179,14 +160,18 @@ export default class Generate extends Component {
                                     </View>
                                     <View style={{flex:2,flexDirection:"row",justifyContent: 'center',padding:15}}>
                                       <View style={{flex:1}}>
-                                      {(typeof ValidateOrigin == "undefined" || change == 0) && 
+                                      {(typeof Destination == "undefined") && 
                                         <TextInput style={{width:"100%",borderWidth:1,borderRadius:15, height:45,paddingLeft:10, borderColor:"#d4d4d4"}} />
                                       }
-                                      {(typeof ValidateOrigin !== "undefined" && change == 1) && 
-                                        <Text>Holi</Text>
+                                      {(typeof Destination != "undefined") && 
+                                         <View>
+                                         <Text>{(ValidateOrigin.destination.street + " "+ ValidateOrigin.destination.number +", ")+("Col. "+ValidateOrigin.destination.district+".")}</Text>
+                                         <Text>{(ValidateOrigin.destination.city + ", ")+("CP." + ValidateOrigin.destination.postalCode)}</Text>
+                                         <Text>{(ValidateOrigin.stateCountry + ", ") + (country_code.toUpperCase())}</Text>
+                                       </View>
                                       }
                                       </View> 
-                                      <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
+                                      <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination",{AllStates})}/>
                                     </View>
                                 </View>
 
@@ -198,18 +183,19 @@ export default class Generate extends Component {
                                       <View style={{flex:1, flexDirection:"row", justifyContent:"flex-start"}} >
                                         <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0,}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Paquete" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedPackage} onPress={() => this.CheckBoxes("package")}/>
                                         <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Sobre" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedSobre} onPress={() => this.CheckBoxes("sobre")}/>
+                                        <Icon containerStyle={{flex:0.3,marginTop:"3%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
                                       </View>
                                       <View style={{flex:2.5, flexDirection:"row",justifyContent:"space-around"}} >
-                                        <SizeBox type="cm" holder="Alto"/>
-                                        <SizeBox type="cm" holder="Ancho"/>
-                                        <SizeBox type="cm" holder="Largo"/>
-                                        <SizeBox type="kg" holder="Peso"/>
+                                        <SizeBox type="cm" holder="Alto"  dimensions="height" ChangeText={this.ChangeText}/>
+                                        <SizeBox type="cm" holder="Ancho" dimensions="width" ChangeText={this.ChangeText}/>
+                                        <SizeBox type="cm" holder="Largo" dimensions="length" ChangeText={this.ChangeText}/>
+                                        <SizeBox type="kg" holder="Peso"  dimensions="weight" ChangeText={this.ChangeText} />
                                       </View>
 
                                     </View>
                                 </View>
                                <Button  title="Cotizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"dollar", type:"font-awesome", size:19, color:"white",}} 
-                                       onPress={ ()=>{ console.log(this.state)}} 
+                                       onPress={ ()=>{ console.log(this.props.navigation)}} 
                                   />
                             </View>
                         </View>

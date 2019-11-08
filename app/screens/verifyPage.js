@@ -23,11 +23,14 @@ export default class verifyPage extends Component{
         info: "",
         modalVisible:false,
         stateCountry:"Estado",
+        state_2_digits:"",
         countryName:"Mexico",
         sends:"¿Cuantos Envios realiza por mes?",
         howto:"¿Como te enteraste de nosotros?",
         modal:"",
-        valueKeyborad: -170
+        StatebyCountry:"mx", // este debe sacarse de la primera pagina
+        valueKeyborad: -170,
+        AllStates:null
     }
     this.closeModal= this.closeModal.bind(this)
     this.ChangeKeyBoard = this.ChangeKeyBoard.bind(this)
@@ -35,6 +38,19 @@ export default class verifyPage extends Component{
   static navigationOptions ={
     header:null,
   }
+  componentWillMount(){
+    let country_code = this.state.StatebyCountry
+    let ruta = "https://queries.envia.com/state?country_code="+country_code.toUpperCase();
+    let params = {
+      method: "GET",
+      headers : {
+        'Authorization': "Bearer cb422161bbcba1887477d5376101c27b6899982c7531a1b28fbce75f13d1ebd3",
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors'
+    }
+    fetch(ruta, params).then(response => response.json().then(data => this.setState({AllStates:data})).catch(error => console.log(error))).catch(error => console.log(error))
+}
   onChangeVerify = (newText, state) => {
     this.setState({
       [state]: newText
@@ -46,7 +62,10 @@ export default class verifyPage extends Component{
     this.setState({modalVisible:true})
   }
 
-  closeModal(value,state) {
+  closeModal(value,state,value2digits) {
+    if(value2digits){
+     this.setState({state_2_digits:value2digits})
+    }
     this.setState({[state]:value})
     this.setState({modalVisible:false})
   }
@@ -61,7 +80,7 @@ export default class verifyPage extends Component{
   
 
   render(){
-    const { stateCountry,countryName,modal,sends,howto, valueKeyborad} =this.state
+    const { stateCountry,countryName,modal,sends,howto, valueKeyborad,AllStates} =this.state
     const verticalNumber = (Platform.OS == "android") ? 0 : -250;
     return(
     <KeyboardAvoidingView style={styles.containerRegister} behavior="position" contentContainerStyle={styles.containerRegister} keyboardVerticalOffset={valueKeyborad} >  
@@ -81,7 +100,7 @@ export default class verifyPage extends Component{
            		<InputForm label="Ciudad" value={this.state.ciudad} onChangeText={text => this.onChangeVerify(text,"ciudad")} ChangeKeyBoard={() => this.ChangeKeyBoard(-250)}/>
            	  <ButtonModal title={stateCountry} onPress={()=> this.onViewModal("state")}/>
               <Modal animationType="fade" transparent={true} visible={this.state.modalVisible} onRequestClose={() => {this.setModalVisible(false);}}>
-                <ModalCountry modal={modal} countryName={countryName} closeModal={this.closeModal}/>
+                <ModalCountry StatebyCountry={AllStates} modal={modal} countryName={countryName} closeModal={this.closeModal}/>
               </Modal>
               <ButtonModal title={sends} onPress={()=> this.onViewModal("sends")} onRequestClose={() => {this.setModalVisible(false);}}/>
               <ButtonModal title={howto} onPress={()=> this.onViewModal("howto")} onRequestClose={() => {this.setModalVisible(false);}}/>
