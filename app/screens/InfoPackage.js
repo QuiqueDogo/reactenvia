@@ -69,7 +69,21 @@ export default class InfoPackage extends Component {
                  </ScrollView>
                  <View style={{height:80}}></View>
                  <Button  title="Guardar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, textAlign:"center"}} containerStyle={styles.buttonVerify}  onPress={ ()=> this.props.navigation.navigate("Generate",{
-                    packages :[{type,content ,insurance ,type ,weight,dimensions:{width ,length ,height} ,amount,"lengthUnit": "CM","weightUnit": "KG","declaredValue": 0}]
+                    packages :[{ 
+                      type,
+                      content,
+                      insurance:parseInt(insurance),
+                      weight:parseInt(weight),
+                      dimensions:{
+                        width:parseInt(width),
+                        length:parseInt(length),
+                        height:parseInt(height)
+                      },
+                      amount:parseInt(amount),
+                      "lengthUnit": "CM"
+                      ,"weightUnit": "KG"
+                      ,"declaredValue": 0
+                    }]
                  })} 
                  />   
              </View> 

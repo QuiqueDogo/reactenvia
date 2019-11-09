@@ -22,7 +22,7 @@ export default class Destination extends Component {
         phone:"",
         email:"",
         reference:"",
-        country:"Mexico",
+        country:"MX",
         modalVisible:false,
         modalVisibleCountry:false,
         stateCountry:"Estado",
@@ -112,7 +112,20 @@ export default class Destination extends Component {
                     <Button  title="Guardar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, textAlign:"center"}} containerStyle={styles.buttonVerify}  
                     onPress={ ()=> {
                       this.props.navigation.navigate("Generate",{
-                        destination:{name,company, street, number, postalCode, district, city, phone,email,reference, country, state:state_2_digits},
+                        destination:{
+                          name,
+                          company,
+                          street,
+                          number,
+                          postalCode,
+                          district,
+                          city,
+                          phone,
+                          email,
+                          reference,
+                          country,
+                          state:state_2_digits
+                        },
                         stateCountry
                     })}} 
                     />   

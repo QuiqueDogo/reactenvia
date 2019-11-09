@@ -23,7 +23,7 @@ export default class Destination extends Component {
         phone:"",
         email:"",
         reference:"",
-        country:"Mexico",
+        country:"MX",
         modalVisible:false,
         modalVisibleCountry:false,
         stateCountry:"Estado",
@@ -98,25 +98,38 @@ export default class Destination extends Component {
                         <Button  containerStyle={{flex:1, paddingTop:18}} icon={{ name:"plus", type:"font-awesome", size:19, color:"white",}} buttonStyle={{height:48,width:55, borderRadius:10,backgroundColor:"#00b3bc"}}/>
                     </View>
                     <ScrollView style={styles.scrollStyle} >
-                        <InputForm label="Empresa" value={this.state.company} onChangeText={text => this.onChangeVerify(text,"company")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
-                        <InputForm label="Telefono" value={this.state.phone} onChangeText={text => this.onChangeVerify(text,"phone")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
-                        <InputForm label="Correo" value={this.state.email} onChangeText={text => this.onChangeVerify(text,"email")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
-                        <InputForm label="Pais" value={this.state.country} onChangeText={text => this.onChangeVerify(text,"country")} ChangeKeyBoard={value => this.ChangeKeyBoard(-170)}/>
-                        <InputForm label="Calle" value={this.state.street} onChangeText={text => this.onChangeVerify(text,"street")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
+                        <InputForm label="Empresa" value={company} onChangeText={text => this.onChangeVerify(text,"company")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
+                        <InputForm label="Telefono" value={phone} onChangeText={text => this.onChangeVerify(text,"phone")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
+                        <InputForm label="Correo" value={email} onChangeText={text => this.onChangeVerify(text,"email")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
+                        <InputForm label="Pais" value={country} onChangeText={text => this.onChangeVerify(text,"country")} ChangeKeyBoard={value => this.ChangeKeyBoard(-170)}/>
+                        <InputForm label="Calle" value={street} onChangeText={text => this.onChangeVerify(text,"street")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                     <View style={styles.CPandNumber}>
-                        <InputForm label="Numero" size="middle" value={this.state.number} onChangeText={text => this.onChangeVerify(text,"number")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
-                        <InputForm label="Codigo Postal" size="middle" value={this.state.postalCode} onChangeText={text => this.onChangeVerify(text,"postalCode")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
+                        <InputForm label="Numero" size="middle" value={number} onChangeText={text => this.onChangeVerify(text,"number")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
+                        <InputForm label="Codigo Postal" size="middle" value={postalCode} onChangeText={text => this.onChangeVerify(text,"postalCode")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                     </View>
-                        <InputForm label="Colonia" value={this.state.district} onChangeText={text => this.onChangeVerify(text,"district")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
-                        <InputForm label="Ciudad" value={this.state.city} onChangeText={text => this.onChangeVerify(text,"city")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
+                        <InputForm label="Colonia" value={district} onChangeText={text => this.onChangeVerify(text,"district")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
+                        <InputForm label="Ciudad" value={city} onChangeText={text => this.onChangeVerify(text,"city")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
                         <ButtonModal title={stateCountry} onPress={()=> this.onViewModal("state")}/>
-                        <InputForm label="Referencia" value={this.state.reference} onChangeText={text => this.onChangeVerify(text,"reference")} ChangeKeyBoard={value => this.ChangeKeyBoard(-80)}/>
+                        <InputForm label="Referencia" value={reference} onChangeText={text => this.onChangeVerify(text,"reference")} ChangeKeyBoard={value => this.ChangeKeyBoard(-80)}/>
                     </ScrollView>
                     <View style={{height:80}}></View>
                     <Button  title="Guardar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, textAlign:"center"}} containerStyle={styles.buttonVerify}  
                     onPress={ ()=> { 
                       this.props.navigation.navigate("Generate",{
-                        origin:{name,company, street, number, postalCode, district, city, phone,email,reference, country, state:state_2_digits},
+                        origin:{
+                          name,
+                          company, 
+                          street, 
+                          number, 
+                          postalCode, 
+                          district, 
+                          city, 
+                          phone,
+                          email,
+                          reference, 
+                          country, 
+                          state:state_2_digits
+                        },
                         stateCountry
                     })}} 
                     />   

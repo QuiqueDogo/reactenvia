@@ -11,7 +11,7 @@ import Generate from "./app/screens/Generate";
 import Destination from "./app/screens/Destination";
 import Origin from "./app/screens/Origin";
 import InfoPackage from "./app/screens/InfoPackage"
-import GenerateGuides from "./app/screens/GenerateGuide";
+import GenerateGuide from "./app/screens/GenerateGuide";
 import DetailInfo from "./app/screens/DetailInfo"
 
 const NavStack = createStackNavigator({
@@ -45,8 +45,8 @@ const NavStack = createStackNavigator({
     InfoPackage:{
       screen: InfoPackage
     },
-    GenerateGuides:{
-      screen: GenerateGuides
+    GenerateGuide:{
+      screen: GenerateGuide
     },
     DetailInfo:{
       screen: DetailInfo

@@ -21,7 +21,6 @@ export default class Generate extends Component {
           country_code:"mx",
           checkedPackage:false,
           checkedSobre:false,
-          search:"holi",
           data:null,
           selected:null,
           change:0,
@@ -39,7 +38,7 @@ export default class Generate extends Component {
 
       getAllData = async() => {
         let country_code = this.state.country_code
-        let rutacountry_code = "https://queries.envia.com/available-carrier/"+country_code.toUpperCase()+"/0";
+        let rutaAvailableCarriers = "https://queries.envia.com/available-carrier/"+country_code.toUpperCase()+"/0";
         let rutaAllstates = "https://queries.envia.com/state?country_code="+country_code.toUpperCase();
         let params = {
           method: "GET",
@@ -49,7 +48,7 @@ export default class Generate extends Component {
           },
           mode: 'cors'
         }
-        fetch(rutacountry_code, params).then(response => response.json().then(data => this.setState({CarriersAvailable:data})).catch(error => console.log(error))).catch(error => console.log(error))
+        fetch(rutaAvailableCarriers, params).then(response => response.json().then(data => this.setState({CarriersAvailable:data})).catch(error => console.log(error))).catch(error => console.log(error))
         
         fetch(rutaAllstates, params).then(response => response.json().then(data => this.setState({AllStates:data})).catch(error => console.log(error))).catch(error => console.log(error))
 
@@ -83,6 +82,8 @@ export default class Generate extends Component {
         this.setState({checkedPackage:!this.state.checkedPackage, checkedSobre:false, type:"box"})
       }else if(info== "sobre"){
         this.setState({checkedSobre:!this.state.checkedSobre, checkedPackage:false, type:"pallet"})
+      }else if(this.state.checkedPackage == false && this.state.checkedSobre == false ){
+        this.setState({type:""})
       }
     }
   
@@ -92,6 +93,7 @@ export default class Generate extends Component {
       const Origin = this.props.navigation.getParam("origin");
       const ValidateOrigin = this.props.navigation.state.params;
       const Destination = this.props.navigation.getParam("destination");
+      const Packages = this.props.navigation.getParam("packages");
         return (
           <KeyboardAvoidingView contentContainerStyle={styles.containerRegister} style={styles.containerRegister} behavior="position" keyboardVerticalOffset={-200} >
           
@@ -195,7 +197,55 @@ export default class Generate extends Component {
                                     </View>
                                 </View>
                                <Button  title="Cotizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"dollar", type:"font-awesome", size:19, color:"white",}} 
-                                       onPress={ ()=>{ console.log(this.props.navigation)}} 
+                                       onPress={ () => { this.props.navigation.navigate("GenerateGuide",{
+                                        // origin:Origin,
+                                        // destination:Destination,
+                                        // packages:Packages,
+                                        origin:{
+                                          "city": "Morelia",
+                                          "company": "1212",
+                                          "country": "MX",
+                                          "district": "Issac Arriaga",
+                                          "email": "lol@lol.com",
+                                          "name": "Luis Enrique",
+                                          "number": "21",
+                                          "phone": "12",
+                                          "postalCode": "58210",
+                                          "reference": "12212",
+                                          "state": "MI",
+                                          "street": "2121"
+                                        },
+                                        destination:{
+                                          "city": "Monterrey",
+                                          "company": "Weqwe",
+                                          "country": "MX",
+                                          "district": "Chepevera",
+                                          "email": "Qweqwe@lel.com",
+                                          "name": "Luis Enrique",
+                                          "number": "We",
+                                          "phone": "Qwe",
+                                          "postalCode": "64030",
+                                          "reference": "Qwe",
+                                          "state": "NL",
+                                          "street": "We"
+                                        },
+                                        packages:[{
+                                          "amount": 1,
+                                          "content": "Qweqw",
+                                          "declaredValue": 0,
+                                          "dimensions":  {
+                                            "height": 10,
+                                            "length": 10,
+                                            "width": 10
+                                          },
+                                          "insurance": 10,
+                                          "lengthUnit": "CM",
+                                          "type": "box",
+                                          "weight": 10,
+                                          "weightUnit": "KG"
+                                        }],
+                                        carriers:this.state.CarriersAvailable
+                                       })}} 
                                   />
                             </View>
                         </View>
