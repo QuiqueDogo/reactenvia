@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Alert } from 'react-native';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
 import styles from '../../assets/css/StylesGenerateGuide';
 import HeaderHome from "../components/HeaderHome";
 import Guides from "../components/Guides";
-import { Button } from 'react-native-elements';
-import { ActivityIndicator, Colors } from 'react-native-paper';
 
 
 export default class GenerateGuide extends Component {
@@ -15,6 +13,7 @@ export default class GenerateGuide extends Component {
       change: false,
     };
     this.sendData = this.sendData.bind(this)
+    this.GoBack = this.GoBack.bind(this)
   }
   static navigationOptions ={
     header:null
@@ -30,7 +29,7 @@ export default class GenerateGuide extends Component {
     let destination = rute.destination;
     let packages = rute.packages;
     let carriers = rute.carriers.data;
-    carriers.forEach((element,index) => {
+    carriers.forEach((element) => {
       let shipment = {"carrier": element.name,"type": 1};
       let params = {
         method: "POST",
@@ -53,15 +52,19 @@ export default class GenerateGuide extends Component {
 
    setTimeout(() => {
      this.setState({change:true})
-   }, 2000);
+   }, 2500);
 
   }
 
-  infoRate = (data,carrier) => {
+  infoRate = (data) => {
     var inf = this.state.info
     if(data.meta == "rate"){
       this.setState({info: inf.concat(data)})
     }
+  }
+
+  GoBack = () => {
+    this.props.navigation.goBack()
   }
 
  sendData = (price,time,company,currency) => {
@@ -79,12 +82,12 @@ export default class GenerateGuide extends Component {
         <HeaderHome title="Generar Guias" user="" pag="Generate" />
         <View style={styles.Division}>
             <View style={styles.cardGenerate}>
-                <ScrollView style={{width:"100%"}} showsVerticalScrollIndicator={false}>
+                <ScrollView style={{width:"100%", flex:1,}} showsVerticalScrollIndicator={false}>
                     {change == false &&
-                      <ActivityIndicator style={{position:"absolute", left:"40%"}} animating={true} size="large" color={Colors.lightGreen400} />
+                      <ActivityIndicator animating={true} size="large" color="#039aab" />
                     }
                     {change == true &&
-                      <Guides data={info} sendData={this.sendData}/>
+                      <Guides data={info} sendData={this.sendData} GoBack={this.GoBack}/>
                     }
                 </ScrollView>
             </View>

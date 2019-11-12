@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native';
-import { Button } from 'react-native-elements';
+import { View, Text, StyleSheet, Image,TouchableOpacity, Alert } from 'react-native';
+import { Button,Icon } from 'react-native-elements';
 
 export default class Guides extends Component {
   constructor(props) {
     super(props);
     console.log(this.props.data.length)
+    if(this.props.data.length == 0){
+        Alert.alert(
+            'Error de informacion',
+            'Hubo un error con los datos. Revise nuevamente',
+            [
+                { text: 'Regresar', onPress: () => this.props.GoBack(), style: 'cancel',}
+            ],
+            { cancelable: false }
+        )
+    }
     this.state = {
         info: this.props.data
     };
 }
  
   render() {
-    //   const price = parseFloat(this.props.price).toFixed(2);
       const {time,currency,company} = this.props
       const {info} = this.state
       const sendData = this.props.sendData
@@ -124,10 +133,7 @@ export default class Guides extends Component {
                             <Text style={styles.TimeText}>{company+ " " + time}</Text>
                         </View>
                         <View style={{flex:1}}>
-                            <Button icon={{name:"chevron-right", type:"font-awesome", size:18,color:"#d0d0d0"}} buttonStyle={{backgroundColor:"transparent"}} 
-                            // onPress={() => console.log(this.state.info)}
-                            // onPress={() => sendData(price, time, company, currency)}/> 
-                            />
+                            <Icon name="chevron-right" type="font-awesome" size={18} color="#d0d0d0"  />
                         </View> 
                         </View>
                     </TouchableOpacity>

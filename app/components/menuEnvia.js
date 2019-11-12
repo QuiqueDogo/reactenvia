@@ -106,7 +106,7 @@ export default class MenuEnvia extends Component {
                   </View>
                   <View style={styles.drawer}>
                           <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="Generar Guias" icon={{name:"dropbox",type:"font-awesome", size:34}} onPress={() => MyfFinalMessage("Generate")} />
-                          <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="Generar Guias 2" icon={{name:"inbox",type:"font-awesome", size:34}} />
+                          <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="Rastreo" icon={{name:"inbox",type:"font-awesome", size:34}} onPress={() => MyfFinalMessage("Shipment")}/>
                           <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12, marginRight:14}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="Vamonos" icon={{name:"map-marker",type:"font-awesome", size:34}} />
                           <Button titleStyle={styles.titleButton} iconContainerStyle={{ marginLeft:12}} buttonStyle={styles.buttonSub} containerStyle={styles.menuLayout} title="wtf" icon={{name:"cog",type:"font-awesome", size:34}} />
                   </View>

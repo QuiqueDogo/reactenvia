@@ -67,5 +67,17 @@ export default  StyleSheet.create({
     containerPriceMoney:{
         flex:2,
         alignItems:"flex-end",
-    }
+    },
+    buttonVerify:{
+        position:"absolute",
+        bottom:-20
+    },
+    buttonStyleRegister:{
+        borderWidth: 1,
+        borderColor: '#02b2bc',
+        borderRadius: 30,
+        backgroundColor:'#02b2bc',
+        height:60,
+        width:250,
+    },
 })

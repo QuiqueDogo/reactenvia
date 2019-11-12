@@ -9,8 +9,6 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 // import { GoogleAutoComplete } from 'react-native-google-autocomplete';
 // import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-// import ReactNativeAlgoliaPlaces from 'react-native-algolia-places'
-import algoliasearch from 'algoliasearch/reactnative';
 import LocationItem from "../components/LocationItem";
 import SizeBox from "../components/SizeBox";
 
@@ -82,8 +80,6 @@ export default class Generate extends Component {
         this.setState({checkedPackage:!this.state.checkedPackage, checkedSobre:false, type:"box"})
       }else if(info== "sobre"){
         this.setState({checkedSobre:!this.state.checkedSobre, checkedPackage:false, type:"pallet"})
-      }else if(this.state.checkedPackage == false && this.state.checkedSobre == false ){
-        this.setState({type:""})
       }
     }
   
@@ -96,8 +92,6 @@ export default class Generate extends Component {
       const Packages = this.props.navigation.getParam("packages");
         return (
           <KeyboardAvoidingView contentContainerStyle={styles.containerRegister} style={styles.containerRegister} behavior="position" keyboardVerticalOffset={-200} >
-          
-            <View style={styles.containerRegister}>
                 <BottomSheet 
                     snapPoints = {[300, 100]}
                     renderHeader={this.renderHeader}
@@ -106,7 +100,9 @@ export default class Generate extends Component {
                     enabledInnerScrolling={false}
                     onOpenStart={()=>console.log("hola")}
                     />
-                <Animated.View style={[styles.containerRegister,{opacity: Animated.add(0.1, Animated.multiply(this.fall))}]} >
+
+            <View style={styles.containerRegister}>
+                <Animated.View style={[styles.containerRegister,{opacity: Animated.add(0.1, Animated.multiply(this.fall,0.9))}]} >
                     <HeaderHome title="Generar Guias" user="" pag="Generate" />
                         <View style={styles.divisionHome}>
                         <BoxMoney balance="3,000 MXN"/>
@@ -167,10 +163,10 @@ export default class Generate extends Component {
                                       }
                                       {(typeof Destination != "undefined") && 
                                          <View>
-                                         <Text>{(ValidateOrigin.destination.street + " "+ ValidateOrigin.destination.number +", ")+("Col. "+ValidateOrigin.destination.district+".")}</Text>
-                                         <Text>{(ValidateOrigin.destination.city + ", ")+("CP." + ValidateOrigin.destination.postalCode)}</Text>
-                                         <Text>{(ValidateOrigin.stateCountry + ", ") + (country_code.toUpperCase())}</Text>
-                                       </View>
+                                          <Text>{(ValidateOrigin.destination.street + " "+ ValidateOrigin.destination.number +", ")+("Col. "+ValidateOrigin.destination.district+".")}</Text>
+                                          <Text>{(ValidateOrigin.destination.city + ", ")+("CP." + ValidateOrigin.destination.postalCode)}</Text>
+                                          <Text>{(ValidateOrigin.stateCountry + ", ") + (country_code.toUpperCase())}</Text>
+                                        </View>
                                       }
                                       </View> 
                                       <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination",{AllStates})}/>
@@ -178,16 +174,16 @@ export default class Generate extends Component {
                                 </View>
 
                                 <View style={{flex:2,}}>
-                                <View style={styles.boxsubTitle}>
-                                      <Text style={styles.subTitleInfo}>Informacion del Paquete</Text>
+                                    <View style={[styles.boxsubTitle,{marginTop:0}]}>
+                                          <Text style={styles.subTitleInfo}>Informacion del Paquete</Text>
                                     </View>
                                     <View style={{flex:4,}}>
                                       <View style={{flex:1, flexDirection:"row", justifyContent:"flex-start"}} >
                                         <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0,}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Paquete" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedPackage} onPress={() => this.CheckBoxes("package")}/>
                                         <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Sobre" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedSobre} onPress={() => this.CheckBoxes("sobre")}/>
-                                        <Icon containerStyle={{flex:0.3,marginTop:"3%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
+                                        <Icon containerStyle={{marginTop:"5%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
                                       </View>
-                                      <View style={{flex:2.5, flexDirection:"row",justifyContent:"space-around"}} >
+                                      <View style={{flex:2.5, flexDirection:"row",justifyContent:"space-around", padding:10}} >
                                         <SizeBox type="cm" holder="Alto"  dimensions="height" ChangeText={this.ChangeText}/>
                                         <SizeBox type="cm" holder="Ancho" dimensions="width" ChangeText={this.ChangeText}/>
                                         <SizeBox type="cm" holder="Largo" dimensions="length" ChangeText={this.ChangeText}/>
@@ -248,6 +244,9 @@ export default class Generate extends Component {
                                        })}} 
                                   />
                             </View>
+                        <View style={{position:"absolute", bottom:0 }}>
+                          <Text>hola</Text>
+                        </View>
                         </View>
                         
                 </Animated.View>

@@ -5,8 +5,7 @@ export default StyleSheet.create({
         flex:1,
         alignItems: "stretch",
         flexDirection: "column",
-        backgroundColor:"#f3f4f7"
-        
+        backgroundColor:"#f3f4f7",
       },
       header: {
         backgroundColor: '#fff',
@@ -31,7 +30,7 @@ export default StyleSheet.create({
         marginTop: 15  
       },
       infoGenerate:{
-        flex:0.80,
+        flex:0.75,
         marginTop:30,
         borderRadius:20,
         shadowColor: "#000",
@@ -54,7 +53,8 @@ export default StyleSheet.create({
       boxsubTitle:{
         flex:1,
         justifyContent:"flex-end",
-        paddingLeft:20
+        paddingLeft:20,
+        marginTop:14
       },
       boxes:{
         flex:1,

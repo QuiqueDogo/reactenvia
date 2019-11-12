@@ -81,14 +81,14 @@ const customData = require("../utils/country.json");
               </View>
              <View style={styles.containerButtons}>
                 <TouchableHighlight underlayColor="#ffffff00" style={styles.submitSession} onPress={()=>
-                  this.props.navigation.navigate('loginPage',{
+                  this.props.navigation.navigate('LoginPage',{
                     item: "login",
                   })
                 }>
                   <Text style={styles.submitText}> Iniciar Sesión </Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="#ffffff00" style={styles.submitRegister} onPress={() =>
-                    this.props.navigation.navigate('registerPage',{
+                    this.props.navigation.navigate('RegisterPage',{
                       name,callingCode,flag,code
                     })
                     }>
@@ -102,33 +102,3 @@ const customData = require("../utils/country.json");
 }
 
 
-// Navigation
-// https://www.youtube.com/watch?v=bUesHGYxSLg
-
-// shadow generator https://ethercreative.github.io/react-native-shadow-generator/
-
-//Cursos  de udemy
-// dev.mcastillo@gmail.com / soytigrecampeon UDEMY 
-
-
-// Navigation 
-// https://www.youtube.com/watch?v=bUesHGYxSLg
-
-//sliding tabbar react native 
-//https://www.youtube.com/watch?v=mRt7XIQoAO0
-
-//for passgin data for components 
-//https://snack.expo.io/@andypandy/catching-values-with-navigation-listeners
-
-//Floating animated
-//https://goshakkk.name/floating-label-input-rn-animated/
-
-//CSS options on react native 
-//https://www.styled-components.com/docs/faqs
-//https://blog.bitsrc.io/styling-in-react-native-c48caddfbe47
-
-//picker para se
-//https://www.youtube.com/watch?v=UiWgN39R9GA
-
-//animations cacas 
-//https://github.com/oblador/react-native-animatable

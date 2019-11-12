@@ -11,12 +11,15 @@ export default class DetailInfo extends Component {
     this.animatedValue = new Animated.Value(0);
     this.animatedRotation = new Animated.Value(1);
     this.realRotate = new Animated.Value(1)
+    this.ButtonAnimated = new Animated.Value(1)
     this.toggleFlag = 0;
     this.state = {
       disabled: true,
       back:false
     };
    
+    
+
     switch (this.props.navigation.state.params.info.company) {
       case "estafeta":
           image = require("../../assets/img/estafeta-logo.png");
@@ -69,10 +72,17 @@ export default class DetailInfo extends Component {
         this.realRotate,
         {
           toValue: value,
-          duration: 105
+          duration: 155
         }
         ).start();
-  
+      Animated.timing(
+        this.ButtonAnimated,
+        {
+          toValue: value,
+          duration: 155
+        }
+        ).start();
+        
 
   }
 
@@ -118,7 +128,7 @@ export default class DetailInfo extends Component {
     const animatedValue = this.animatedValue.interpolate(
       {
         inputRange: [0, 1],
-        outputRange: [0, 150]
+        outputRange: [0, 130]
       });
     const animatedRotation = this.animatedRotation.interpolate(
       {
@@ -129,6 +139,11 @@ export default class DetailInfo extends Component {
         {
           inputRange: [0, 1],
           outputRange: [`180deg`, `0deg`]
+        });
+      const ButtonAnimated = this.ButtonAnimated.interpolate(
+        {
+          inputRange: [0, 1],
+          outputRange: [140, 0]
         });
     const navigation = this.props.navigation.state.params.info;
     const price = parseFloat(navigation.price).toFixed(2);
@@ -161,7 +176,7 @@ export default class DetailInfo extends Component {
                           width: 0,
                           height: 8,
                       },
-                      height:100}} >
+                      height:130}} >
             <View style={styles.content}>
                 <TouchableOpacity style={styles.cardView} onPress={() => this.PressIn()}>
                   <Image style={styles.ImageStyle} source={image} />
@@ -173,12 +188,13 @@ export default class DetailInfo extends Component {
                     <Animated.View style={{transform:[{rotate:Rotation}]}}>
                       <Icon name="chevron-down" type="font-awesome" size={18} color="#d0d0d0" />
                     </Animated.View>
+                   
                   </View>
                 </TouchableOpacity>
                 <Animated.View style={{
                     flex:1,
                     width: "100%",
-                    top:101,
+                    top:131,
                     position:"absolute",
                     alignItems: "center",
                     flexDirection:"column",
@@ -190,7 +206,7 @@ export default class DetailInfo extends Component {
                     shadowColor: "#000",
                     shadowOpacity: 0.46,
                     shadowRadius: 2.14,
-                    elevation: 50,
+                    elevation: 2,
                     shadowOffset: {
                         width: 0,
                         height: 8,
@@ -209,13 +225,24 @@ export default class DetailInfo extends Component {
                     <Text style={{color:"#aeaeae",marginLeft:30}}>Seguro:</Text>
                     <Text style={{color:"#9d9d9d",marginRight:30}}>${price + " " +currency}</Text>
                   </View>
-                    <TouchableOpacity >
-                      <Animated.View style={{position:"absolute", bottom:10,height:animatedValue, borderWidth: 1,}}>
-                          <Text>Hola</Text>
-                      </Animated.View> 
-                    </TouchableOpacity>
+                  
                 </Animated.View>
               </View>
+              <Animated.View 
+              style={{
+                position:"absolute",
+                bottom:-20,
+                transform:[{translateY: ButtonAnimated}],
+                zIndex:12,
+                elevation:5
+                }}>
+              <Button 
+               title="Generar" 
+               buttonStyle={styles.buttonStyleRegister} 
+               titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} iconRight 
+               iconContainerStyle={{ paddingLeft: 20 }} 
+               icon={{ name:"dollar", type:"font-awesome", size:19, color:"white",}} />
+              </Animated.View>
            </Animated.View>
          </View>
       </View>

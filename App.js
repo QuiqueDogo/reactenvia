@@ -13,6 +13,7 @@ import Origin from "./app/screens/Origin";
 import InfoPackage from "./app/screens/InfoPackage"
 import GenerateGuide from "./app/screens/GenerateGuide";
 import DetailInfo from "./app/screens/DetailInfo"
+import Shipment from "./app/screens/Shipment"
 
 const NavStack = createStackNavigator({
     MainPage: { 
@@ -50,6 +51,9 @@ const NavStack = createStackNavigator({
     },
     DetailInfo:{
       screen: DetailInfo
+    },
+    Shipment:{
+      screen: Shipment
     },
     },
     {
