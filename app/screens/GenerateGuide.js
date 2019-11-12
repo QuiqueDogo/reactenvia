@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import styles from '../../assets/css/StylesGenerateGuide';
 import HeaderHome from "../components/HeaderHome";
 import Guides from "../components/Guides";
@@ -30,7 +30,6 @@ export default class GenerateGuide extends Component {
     let destination = rute.destination;
     let packages = rute.packages;
     let carriers = rute.carriers.data;
-
     carriers.forEach((element,index) => {
       let shipment = {"carrier": element.name,"type": 1};
       let params = {
@@ -51,25 +50,18 @@ export default class GenerateGuide extends Component {
       .then(response => response.json().then(data => this.infoRate(data,element.name)).catch(error => console.log(error)))
       .catch(error => console.log(error));
     });
-   
-    setTimeout(() => {
-      console.log("termine")
-    }, 1400);
-    
+
+   setTimeout(() => {
+     this.setState({change:true})
+   }, 2000);
+
   }
 
-  infoRate = (data,carrier, index, lengthCarriers = 0) => {
+  infoRate = (data,carrier) => {
+    var inf = this.state.info
     if(data.meta == "rate"){
-      console.log(`${data.data[0].carrier}, opciones: ${data.data.length}`)
+      this.setState({info: inf.concat(data)})
     }
-    // var join = this.state.info.concat(data.data);
-    // this.setState({info: join})
-    // if(index == lengthCarriers) {
-    //   this.setState({change:true})
-    // }
-  }
-  viewstate = () =>{
-    console.log(this.state)
   }
 
  sendData = (price,time,company,currency) => {
@@ -82,19 +74,6 @@ export default class GenerateGuide extends Component {
 
   render() {
       const {change,info} = this.state
-      const rows =[]; 
-      const AllinOne = [
-          {id:1,price:60.51,time:"24 a 36 hrs",company:"fedex", currency:"MXN"},
-          {id:2,price:123.40,time:"Dia Siguiente",company:"estafeta", currency:"USD"},
-          {id:3,price:23.00,time:"2 a 4 dias",company:"estafeta", currency:"MXN"},
-          {id:4,price:123.00,time:"1 a 5 dias",company:"fedex", currency:"USD"},
-          {id:5,price:53.00,time:"1 a 5 dias",company:"fedex", currency:"MXN"},
-        ];
-    AllinOne.forEach(element => {
-        rows.push(<Guides key={element.id} price={element.price} time={element.time} company={element.company} currency={element.currency} sendData={this.sendData} />)
-    });
-    
-        
     return (
       <View style={styles.containerRegister}>
         <HeaderHome title="Generar Guias" user="" pag="Generate" />
@@ -102,13 +81,12 @@ export default class GenerateGuide extends Component {
             <View style={styles.cardGenerate}>
                 <ScrollView style={{width:"100%"}} showsVerticalScrollIndicator={false}>
                     {change == false &&
-                    //   <ActivityIndicator style={{position:"absolute", left:"40%"}} animating={true} size="large" color={Colors.lightGreen400} />
-                    // }
-                    // {change == true &&
-                      info
+                      <ActivityIndicator style={{position:"absolute", left:"40%"}} animating={true} size="large" color={Colors.lightGreen400} />
+                    }
+                    {change == true &&
+                      <Guides data={info} sendData={this.sendData}/>
                     }
                 </ScrollView>
-                <Button title=" ver state" onPress={()=> this.viewstate()} />
             </View>
         </View>
       </View>

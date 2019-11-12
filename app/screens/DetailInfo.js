@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text,Image,Animated } from 'react-native';
+import { View, Text,Image,Animated,TouchableOpacity } from 'react-native';
 import styles from "../../assets/css/StyleDetailInfo";
 import { LinearGradient } from 'expo-linear-gradient';
-import { Button } from 'react-native-elements';
+import { Button,Icon } from 'react-native-elements';
 
 
 export default class DetailInfo extends Component {
@@ -10,6 +10,7 @@ export default class DetailInfo extends Component {
     super(props);
     this.animatedValue = new Animated.Value(0);
     this.animatedRotation = new Animated.Value(1);
+    this.realRotate = new Animated.Value(1)
     this.toggleFlag = 0;
     this.state = {
       disabled: true,
@@ -23,7 +24,30 @@ export default class DetailInfo extends Component {
       case "fedex":
           image = require("../../assets/img/fedex-logo.png");
           break;
+      case "noventa9Minutos":
+          image = require("../../assets/img/99min.jpg");
+          break;
+      case "redpack":
+          image = require("../../assets/img/redpack.jpeg");
+          break;
+      case "sendex":
+          image = require("../../assets/img/sendex.png");
+          break;
+      case "dhl":
+          image = require("../../assets/img/dhl.jpg");
+          break;
+      case "quiken":
+          image = require("../../assets/img/quiken.jpg");
+          break;
+      case "carssa":
+          image = require("../../assets/img/carssa.png");
+          break;
+      case "ups":
+          image = require("../../assets/img/ups.png");
+          break;
       default:
+          
+          image = require("../../assets/img/icon.png")
           break;
     }
   }
@@ -41,6 +65,14 @@ export default class DetailInfo extends Component {
           duration: 275
         }
         ).start();
+      Animated.timing(
+        this.realRotate,
+        {
+          toValue: value,
+          duration: 105
+        }
+        ).start();
+  
 
   }
 
@@ -86,13 +118,18 @@ export default class DetailInfo extends Component {
     const animatedValue = this.animatedValue.interpolate(
       {
         inputRange: [0, 1],
-        outputRange: [0, 100]
+        outputRange: [0, 150]
       });
     const animatedRotation = this.animatedRotation.interpolate(
       {
         inputRange: [0, 1],
         outputRange: [0, 15]
       });
+      const Rotation = this.realRotate.interpolate(
+        {
+          inputRange: [0, 1],
+          outputRange: [`180deg`, `0deg`]
+        });
     const navigation = this.props.navigation.state.params.info;
     const price = parseFloat(navigation.price).toFixed(2);
     const {company,currency,time} = this.props.navigation.state.params.info
@@ -126,16 +163,18 @@ export default class DetailInfo extends Component {
                       },
                       height:100}} >
             <View style={styles.content}>
-                <View style={styles.cardView}>
+                <TouchableOpacity style={styles.cardView} onPress={() => this.PressIn()}>
                   <Image style={styles.ImageStyle} source={image} />
                   <View style={styles.containerPriceMoney}>
                       <Text style={styles.PriceText}>${price + " " +currency}</Text>
                       <Text style={styles.TimeText}>{time}</Text>
                   </View>
                   <View style={{flex:1 }}>
-                      <Button icon={{name:"chevron-down", type:"font-awesome", size:18,color:"#d0d0d0"}} buttonStyle={{backgroundColor:"transparent"}} onPress={() => this.PressIn()}/>
+                    <Animated.View style={{transform:[{rotate:Rotation}]}}>
+                      <Icon name="chevron-down" type="font-awesome" size={18} color="#d0d0d0" />
+                    </Animated.View>
                   </View>
-                </View>
+                </TouchableOpacity>
                 <Animated.View style={{
                     flex:1,
                     width: "100%",
@@ -150,27 +189,31 @@ export default class DetailInfo extends Component {
                     borderBottomRightRadius: 15,
                     shadowColor: "#000",
                     shadowOpacity: 0.46,
-                    shadowRadius: 3.14,
-                    elevation: 20,
+                    shadowRadius: 2.14,
+                    elevation: 50,
                     shadowOffset: {
                         width: 0,
                         height: 8,
                     },
                     height:animatedValue,
                      }}>
-                  <View style={{flexDirection:"row", justifyContent: 'space-between',width:"100%",}}>
-                    <Text>Costo:</Text>
-                    <Text>${price + " " +currency}</Text>
+                  <View style={{flexDirection:"row", justifyContent: 'space-between',width:"100%",marginTop:20,}}>
+                    <Text style={{color:"#aeaeae",marginLeft:30}}>Costo:</Text>
+                    <Text style={{color:"#9d9d9d",marginRight:30}}>${price + " " +currency}</Text>
                   </View>
                   <View style={{flexDirection:"row", justifyContent: 'space-between',width:"100%",}}>
-                    <Text>Zona Extendida:</Text>
-                    <Text>${price + " " +currency}</Text>
+                    <Text style={{color:"#aeaeae",marginLeft:30}}>Zona Extendida:</Text>
+                    <Text style={{color:"#9d9d9d",marginRight:30}}>${price + " " +currency}</Text>
                   </View>
                   <View style={{flexDirection:"row", justifyContent: 'space-between',width:"100%",}}>
-                    <Text>Seguro:</Text>
-                    <Text>${price + " " +currency}</Text>
+                    <Text style={{color:"#aeaeae",marginLeft:30}}>Seguro:</Text>
+                    <Text style={{color:"#9d9d9d",marginRight:30}}>${price + " " +currency}</Text>
                   </View>
-                
+                    <TouchableOpacity >
+                      <Animated.View style={{position:"absolute", bottom:10,height:animatedValue, borderWidth: 1,}}>
+                          <Text>Hola</Text>
+                      </Animated.View> 
+                    </TouchableOpacity>
                 </Animated.View>
               </View>
            </Animated.View>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import mainPage from './app/screens/mainPage';
-import registerPage from './app/screens/registerPage';
-import verifyPage from './app/screens/verifyPage';
-import loginPage from './app/screens/loginPage';
+import MainPage from './app/screens/MainPage';
+import RegisterPage from './app/screens/RegisterPage';
+import VerifyPage from './app/screens/VerifyPage';
+import LoginPage from './app/screens/LoginPage';
 import HomePage from './app/screens/HomePage';
 import contRegisterPage from './app/screens/contRegisterPage';
 import Generate from "./app/screens/Generate";
@@ -15,20 +15,20 @@ import GenerateGuide from "./app/screens/GenerateGuide";
 import DetailInfo from "./app/screens/DetailInfo"
 
 const NavStack = createStackNavigator({
-    mainPage: { 
-        screen: mainPage
+    MainPage: { 
+        screen: MainPage
     },
-    registerPage: {
-      screen: registerPage
+    RegisterPage: {
+      screen: RegisterPage
     },
     contRegisterPage:{
       screen: contRegisterPage
     },
-    loginPage: {
-      screen: loginPage
+    LoginPage: {
+      screen: LoginPage
     },
-    verifyPage:{
-      screen: verifyPage
+    VerifyPage:{
+      screen: VerifyPage
     },
     HomePage:{
       screen: HomePage
