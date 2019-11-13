@@ -12,11 +12,17 @@ export default class SizeBox extends Component {
     }
     
     render() {
-        const {holder,type, dimensions} = this.props 
+        const {holder,type, dimensions, typeWeigth} = this.props 
         const ChangeText = this.props.ChangeText
+        const ChangeVolum = this.props.ChangeVolum
         return (
             <View style={{ flex:0.2, }}>
-                <Text style={styles.textStyle}>{type}</Text>
+                {typeof typeWeigth == "undefined" &&
+                    <Text onPress={() => ChangeVolum("dimensions")} style={styles.textStyle}>{type}</Text>
+                }
+                {typeof typeWeigth !== "undefined" &&
+                    <Text onPress={() => ChangeVolum("volum")} style={styles.textStyle}>{typeWeigth}</Text>
+                }
                 <TextInput placeholder={holder} placeholderTextColor="#39c4cb" style={styles.input} onChangeText={text => ChangeText(dimensions, text)} maxLength={3}/>
             </View>
         )
@@ -38,8 +44,8 @@ const styles= StyleSheet.create({
         position:"absolute",
         right:8,
         top: Platform.OS === "ios" ? "27%" : "35%",
-        width:25,
-        height:23,
+        width:30,
+        height:27,
         backgroundColor:"white",
         zIndex:1,
         textAlign:"center"

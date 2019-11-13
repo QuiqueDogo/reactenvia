@@ -48,10 +48,9 @@ export default class InfoPackage extends Component {
          <View style={styles.Division}>
              <View style={styles.cardVerify}>
                  <View style={styles.boxSelect}>
-                     <View style={{flex:5,paddingRight:20}}>
+                     <View style={{flex:5}}>
                          <ButtonModal title={select} onPress={() => {this.modalVisibleCountry(true);}} /> 
                      </View>
-                     <Button  containerStyle={{flex:1, paddingTop:18}} icon={{ name:"plus", type:"font-awesome", size:19, color:"white",}} buttonStyle={{height:48,width:55, borderRadius:10,backgroundColor:"#00b3bc"}}/>
                  </View>
                  <ScrollView style={styles.scrollStyle}>
                      <InputForm label="Contenido Envio" bigger={true} value={content} onChangeText={text => this.onChangeVerify(text,"content")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>

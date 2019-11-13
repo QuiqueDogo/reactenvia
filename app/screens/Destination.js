@@ -88,10 +88,9 @@ export default class Destination extends Component {
             <View style={styles.Division}>
                 <View style={styles.cardVerify}>
                     <View style={styles.boxSelect}>
-                        <View style={{flex:5,paddingRight:20}}>
+                        <View style={{flex:5}}>
                             <ButtonModal title={select} /> 
                         </View>
-                        <Button  containerStyle={{flex:1, paddingTop:18}} icon={{ name:"plus", type:"font-awesome", size:19, color:"white",}} buttonStyle={{height:48,width:55, borderRadius:10,backgroundColor:"#00b3bc"}}/>
                     </View>
                     <ScrollView style={styles.scrollStyle} >
                         <InputForm label="Empresa" value={this.state.company} onChangeText={text => this.onChangeVerify(text,"company")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>

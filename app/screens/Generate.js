@@ -29,6 +29,7 @@ export default class Generate extends Component {
           weight:"",
         }
         this.ChangeText = this.ChangeText.bind(this)
+        this.ChangeVolum = this.ChangeVolum.bind(this)
       };
       componentWillMount(){
         this.getAllData();
@@ -73,6 +74,10 @@ export default class Generate extends Component {
       this.setState({
         [state]: text
       });
+    }
+
+    ChangeVolum(type){
+      console.log(`tipo ${type}`)
     }
 
     CheckBoxes = (info) => {
@@ -184,10 +189,10 @@ export default class Generate extends Component {
                                         <Icon containerStyle={{marginTop:"5%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
                                       </View>
                                       <View style={{flex:2.5, flexDirection:"row",justifyContent:"space-around", padding:10}} >
-                                        <SizeBox type="cm" holder="Alto"  dimensions="height" ChangeText={this.ChangeText}/>
-                                        <SizeBox type="cm" holder="Ancho" dimensions="width" ChangeText={this.ChangeText}/>
-                                        <SizeBox type="cm" holder="Largo" dimensions="length" ChangeText={this.ChangeText}/>
-                                        <SizeBox type="kg" holder="Peso"  dimensions="weight" ChangeText={this.ChangeText} />
+                                        <SizeBox type="cm" holder="Alto"  dimensions="height" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                        <SizeBox type="cm" holder="Ancho" dimensions="width" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                        <SizeBox type="cm" holder="Largo" dimensions="length" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                        <SizeBox typeWeigth="kg" holder="Peso"  dimensions="weight" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
                                       </View>
 
                                     </View>
