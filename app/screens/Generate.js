@@ -38,7 +38,6 @@ export default class Generate extends Component {
       getAllData = async() => {
         let country_code = this.state.country_code
         let rutaAvailableCarriers = "https://queries.envia.com/available-carrier/"+country_code.toUpperCase()+"/0";
-        let rutaAllstates = "https://queries.envia.com/state?country_code="+country_code.toUpperCase();
         let params = {
           method: "GET",
           headers : {
@@ -49,7 +48,6 @@ export default class Generate extends Component {
         }
         fetch(rutaAvailableCarriers, params).then(response => response.json().then(data => this.setState({CarriersAvailable:data})).catch(error => console.log(error))).catch(error => console.log(error))
         
-        fetch(rutaAllstates, params).then(response => response.json().then(data => this.setState({AllStates:data})).catch(error => console.log(error))).catch(error => console.log(error))
 
       } 
 
@@ -90,7 +88,7 @@ export default class Generate extends Component {
   
     fall =new Animated.Value(1);  
     render() {
-      const {type, height, width, length, weight,country_code,AllStates} = this.state;
+      const {type, height, width, length, weight,country_code,} = this.state;
       const Origin = this.props.navigation.getParam("origin");
       const ValidateOrigin = this.props.navigation.state.params;
       const Destination = this.props.navigation.getParam("destination");
@@ -149,11 +147,11 @@ export default class Generate extends Component {
                                         <View>
                                           <Text>{(ValidateOrigin.origin.street + " "+ ValidateOrigin.origin.number +", ")+("Col. "+ValidateOrigin.origin.district+".")}</Text>
                                           <Text>{(ValidateOrigin.origin.city + ", ")+("CP." + ValidateOrigin.origin.postalCode)}</Text>
-                                          <Text>{(ValidateOrigin.stateCountry + ", ") + (country_code.toUpperCase())}</Text>
+                                          <Text>{(ValidateOrigin.stateCountry + ", ") + (ValidateOrigin.origin.country)}</Text>
                                         </View>
                                       }
                                       </View>
-                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin",{AllStates})}/>
+                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin")}/>
                                   </View>
                                 </View>
 
@@ -170,11 +168,11 @@ export default class Generate extends Component {
                                          <View>
                                           <Text>{(ValidateOrigin.destination.street + " "+ ValidateOrigin.destination.number +", ")+("Col. "+ValidateOrigin.destination.district+".")}</Text>
                                           <Text>{(ValidateOrigin.destination.city + ", ")+("CP." + ValidateOrigin.destination.postalCode)}</Text>
-                                          <Text>{(ValidateOrigin.stateCountry + ", ") + (country_code.toUpperCase())}</Text>
+                                          <Text>{(ValidateOrigin.stateCountry + ", ") + (ValidateOrigin.destination.country)}</Text>
                                         </View>
                                       }
                                       </View> 
-                                      <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination",{AllStates})}/>
+                                      <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={35} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
                                     </View>
                                 </View>
 
