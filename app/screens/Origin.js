@@ -199,6 +199,46 @@ export default class Destination extends Component {
     this.getAllStates(country.code);
   }
 
+  PostalCodeText = (newText, country) => {
+    this.setState({
+      postalCode: newText
+    })
+    
+    if(newText.length >= 3){
+      let ruta  = `https://enviaya.com.mx/shipping/address_short_search.json?q=${newText}&country=${country}`;
+      let params = {
+        method: "GET",
+        referer:"https://enviaya.com.mx",
+        headers : {
+          "Referer" : "https://enviaya.com.mx",
+          "authority" : "enviaya.com.mx",
+        },
+        mode: 'cors'
+      }
+      console.log(ruta)
+    }
+  }
+
+  checkpage = () => {
+    fetch('https://enviaya.com.mx/shipping/')
+    .then(function(response) {
+        console.log('response.body =', response.body);
+        console.log('response.bodyUsed =', response.bodyUsed);
+        console.log('response.headers =', response.headers);
+        console.log('response.ok =', response.ok);
+        console.log('response.status =', response.status);
+        console.log('response.statusText =', response.statusText);
+        console.log('response.type =', response.type);
+        console.log('response.url =', response.url);
+        return response.json();
+    })
+    .then(function(data) {
+        console.log('data = ', data);
+    })
+    .catch(function(err) {
+        console.error(err);
+    });
+  }
 
   render() {
     const { stateCountry,modal,name,select,valueKeyborad, company, street, number, postalCode, district, city, phone,email,reference, country,AllStates,state_2_digits,infoOrigin, modalVisibleCountry,countrySelect,selected, ButtonValue } =this.state
@@ -215,6 +255,7 @@ export default class Destination extends Component {
                 <View style={styles.cardVerify}>
                     <View style={styles.boxSelect}>
                         <View style={{flex:5,}}>
+                          <Button title="consultar" onPress={()=>this.checkpage()}/>
                             <ButtonModal title={select} onPress={() => this.setState({modalVisibleAdresss: true})}/> 
                         </View>
                     </View>
@@ -225,10 +266,8 @@ export default class Destination extends Component {
                         <InputForm label="Correo" value={email} onChangeText={text => this.onChangeVerify(text,"email")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
                         <ButtonModal title={countrySelect} onPress={()=> this.setState({modalVisibleCountry:true})}/>
                         <InputForm label="Calle" value={street} onChangeText={text => this.onChangeVerify(text,"street")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
-                    <View style={styles.CPandNumber}>
-                        <InputForm label="Numero" size="middle" value={number} onChangeText={text => this.onChangeVerify(text,"number")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
-                        <InputForm label="Codigo Postal" size="middle" value={postalCode} onChangeText={text => this.onChangeVerify(text,"postalCode")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
-                    </View>
+                        <InputForm label="Numero"  value={number} onChangeText={text => this.onChangeVerify(text,"number")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
+                        <InputForm label="Codigo Postal" bigger={true} value={postalCode} onChangeText={text => this.PostalCodeText(text, "mx")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                         <InputForm label="Colonia" value={district} onChangeText={text => this.onChangeVerify(text,"district")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
                         <InputForm label="Ciudad" value={city} onChangeText={text => this.onChangeVerify(text,"city")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
                         <ButtonModal disabled={ButtonValue} title={stateCountry} onPress={()=> this.onViewModal("state")}/>

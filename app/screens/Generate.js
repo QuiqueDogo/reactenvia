@@ -27,6 +27,8 @@ export default class Generate extends Component {
           width:"",
           length:"",
           weight:"",
+          weightUnit:"kg",
+          lengthUnit:"cm"
         }
         this.ChangeText = this.ChangeText.bind(this)
         this.ChangeVolum = this.ChangeVolum.bind(this)
@@ -75,7 +77,39 @@ export default class Generate extends Component {
     }
 
     ChangeVolum(type){
-      console.log(`tipo ${type}`)
+      const {height, width, length, weight} = this.state
+      if(type == "cm" || type == "kg"){
+        var changeHeight = this.ChangeUnitsValue(height,"in");
+        var changeWidth = this.ChangeUnitsValue(width,"in");
+        var changeLength = this.ChangeUnitsValue(length,"in");
+        var changeWeight = this.ChangeUnitsValue(weight,"lb");
+        this.setState({lengthUnit:"in",weightUnit:"lb", height: changeHeight ,width: changeWidth ,length: changeLength ,weight: changeWeight, });
+      }else if(type == "in" || type == "lb"){
+        var changeHeight = this.ChangeUnitsValue(height,"cm");
+        var changeWidth = this.ChangeUnitsValue(width,"cm");
+        var changeLength = this.ChangeUnitsValue(length,"cm");
+        var changeWeight = this.ChangeUnitsValue(weight,"kg");
+        this.setState({lengthUnit:"cm",weightUnit:"kg", height: changeHeight ,width: changeWidth ,length: changeLength ,weight: changeWeight, });
+      }
+      // console.log(`tipo ${type}, ${height}, ${width}, ${length}, ${weight}`)
+    }
+
+    ChangeUnitsValue = (val, type) => {
+      var change 
+      if(type == "in"){
+        change = val / 2.54
+        change = parseFloat(change).toFixed(2)     
+      }else if(type == "cm"){
+        change = val * 2.54
+        change = parseFloat(change).toFixed(2)     
+      }else if(type == "lb"){
+        change = val * 2.205
+        change = parseFloat(change).toFixed(2)     
+      }else if(type == "kg"){
+        change = val / 2.205
+        change = parseFloat(change).toFixed(2)     
+      }
+      return change;
     }
 
     CheckBoxes = (info) => {
@@ -88,7 +122,7 @@ export default class Generate extends Component {
   
     fall =new Animated.Value(1);  
     render() {
-      const {type, height, width, length, weight,country_code,} = this.state;
+      const {type, height, width, length, weight,weightUnit,lengthUnit } = this.state;
       const Origin = this.props.navigation.getParam("origin");
       const ValidateOrigin = this.props.navigation.state.params;
       const Destination = this.props.navigation.getParam("destination");
@@ -186,11 +220,11 @@ export default class Generate extends Component {
                                         <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Sobre" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedSobre} onPress={() => this.CheckBoxes("sobre")}/>
                                         <Icon containerStyle={{marginTop:"5%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
                                       </View>
-                                      <View style={{flex:2.5, flexDirection:"row",justifyContent:"space-around", padding:10}} >
-                                        <SizeBox type="cm" holder="Alto"  dimensions="height" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
-                                        <SizeBox type="cm" holder="Ancho" dimensions="width" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
-                                        <SizeBox type="cm" holder="Largo" dimensions="length" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
-                                        <SizeBox typeWeigth="kg" holder="Peso"  dimensions="weight" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                      <View style={{flex:2.5, flexDirection:"row",justifyContent:"space-around",}} >
+                                        <SizeBox type={lengthUnit} holder="Alto"  value={height} dimensions="height" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                        <SizeBox type={lengthUnit} holder="Ancho" value={width} dimensions="width" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                        <SizeBox type={lengthUnit} holder="Largo" value={length} dimensions="length" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                        <SizeBox type={weightUnit} holder="Peso"  value={weight} dimensions="weight" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
                                       </View>
 
                                     </View>
