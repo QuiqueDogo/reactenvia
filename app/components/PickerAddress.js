@@ -14,6 +14,7 @@ export default class PickerAddress extends Component {
 
   render() {
       const {label,data} = this.props
+      console.log(label, data)
     return (
       <View>
       </View>

@@ -1,29 +1,22 @@
 import React, { Component } from 'react';
-import { Text, View, Modal, ScrollView, Platform,Picker } from 'react-native';
+import { Text, View, Modal, ScrollView, Platform,Picker, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
+import { elementType } from 'prop-types';
 
 export default class ModalAdresss extends Component {
     constructor(props) {
-      super(props)
-
-      this.state = {
-            item:""
-        };
+      super(props);
     }; 
     
-    changeValue = (value, index) => {
-        this.setState({item:value})
-        console.log(value, index)
-    }
+   
 
     render() {
-        const {item} = this.state
-        const { address, origin ,...props} = this.props;
+        const { address, origin,value ,...props} = this.props;
         var closeModalAdresses = this.props.closeModal;
+        var changeValue = this.props.changeValue;
         let rows = [];
         let stylesButton = {
             backgroundColor:"#fff",
-            borderRadius:15,
             width:"100%",
             marginRight: "auto",
             marginLeft: "auto",
@@ -32,24 +25,24 @@ export default class ModalAdresss extends Component {
        if(address == "origin" && typeof origin != "undefined"){
            origin.data.forEach((element,i) => {
             rows.push(
-                // <Picker.Item key={`${i}-${element.name}-origin`}  label={`${element.name} - Av ${element.district},${element.state}`}  value={`${element.name} - Av ${element.district},${element.state}`}  />
-            <Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={`${i}-${element.name}-origin`} title={`${element.name} - Av ${element.district},${element.state}`}  
-            onPress={() => closeModalAdresses(
-                element.city, 
-                element.company, 
-                element.country, 
-                element.description, 
-                element.district, 
-                element.email, 
-                element.name, 
-                element.number, 
-                element.phone, 
-                element.postal_code, 
-                element.reference, 
-                element.state, 
-                element.street, 
-                element.type,
-                )} />
+                <Picker.Item key={`${i}-${element.name}-origin`}  label={`${element.name} - Av ${element.district},${element.state}`}  value={`${i}`}/>
+            // <Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={`${i}-${element.name}-origin`} title={`${element.name} - Av ${element.district},${element.state}`}  
+            // onPress={() => closeModalAdresses(
+            //     element.city, 
+            //     element.company, 
+            //     element.country, 
+            //     element.description, 
+            //     element.district, 
+            //     element.email, 
+            //     element.name, 
+            //     element.number, 
+            //     element.phone, 
+            //     element.postal_code, 
+            //     element.reference, 
+            //     element.state, 
+            //     element.street, 
+            //     element.type,
+            //     )} />
             )
            });
        }else if(address == "destination"){
@@ -77,20 +70,31 @@ export default class ModalAdresss extends Component {
        }
         
         return (
-                <View style={{flex:1,paddingTop:40,backgroundColor:"rgba(0,0,0,0.23)", alignItems:"center",justifyContent:"center"}}>
-                    <View style={{backgroundColor:"white", width:"95%",height:"auto", borderRadius:10}}>
-                        {/* <Picker
-                            selectedValue={item}
-                            onValueChange={(value, index) => this.changeValue(value,index)}
-                        >
+                <TouchableOpacity style={{flex:1,paddingTop:40,backgroundColor:"rgba(0,0,0,0.23)", alignItems:"center",justifyContent:"flex-end"}} onPressIn={()=>closeModalAdresses()}>
+                    <View style={{ backgroundColor:"white",width:"100%", borderBottomWidth:1, borderColor:"#e2e2e2", height:50, flexDirection:"row" , justifyContent: "space-around"}} >
+                        <TouchableOpacity style={{ width:"20%", alignItems:"center",justifyContent:"center",}} onPress={() => closeModalAdresses()} >
+                            <Text style={{fontSize:17, color:"red"}}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <View style={{ width:"20%", alignItems:"center",justifyContent:"center"}}>
+                            <Text style={{fontSize:15, }}>Origen</Text>
+                        </View>
+                        <TouchableOpacity style={{ width:"20%", alignItems:"center",justifyContent:"center"}} onPress={() => closeModalAdresses(value)}>
+                            <Text style={{fontSize:17, color:"#0d8ee9"}}>Aceptar</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{backgroundColor:"white", width:"100%",height:"auto",}}>
+                        <Picker
+                            selectedValue={value}
+                            onValueChange={(value, index) => changeValue(value,index)}
+                        >  
                             {rows}
-                        </Picker> */}
-                        <ScrollView  style={{width:"100%"}}>
+                        </Picker>
+                        {/* <ScrollView  style={{width:"100%"}}>
                              {rows}
                             <Text onPress={()=>closeModalAdresses()} >WTF</Text>
-                        </ScrollView>
+                        </ScrollView> */}
                     </View>
-                </View>
+                </TouchableOpacity>
         )
     }
 }
