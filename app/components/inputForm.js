@@ -52,7 +52,7 @@ export default class InputForm extends Component {
             height:48,
             width: "100%",
             borderWidth:1,
-            borderRadius:15,
+            borderRadius:10,
             borderColor:interpolateColor,
             paddingLeft: 2,
             paddingTop: 2,
@@ -62,15 +62,22 @@ export default class InputForm extends Component {
             height:48,
             width: "48%",
             borderWidth:1,
-            borderRadius:15,
+            borderRadius:10,
             borderColor:interpolateColor,
             paddingLeft: 2,
             paddingTop: 2,
             marginTop:18,   
         };
         const labelStyle = {
-            width: (label.length <= 7) ? 60: bigger,
-            backgroundColor:"#fff",
+            width: "auto",
+            paddingHorizontal: this._animatedIsFocused.interpolate({
+                inputRange:[0,1],
+                outputRange:[0,15]
+            }),
+            backgroundColor:this._animatedIsFocused.interpolate({
+                inputRange:[0,1],
+                outputRange:["rgba(255, 255, 255, 0)","rgba(255, 255, 255, 1)"]
+            }),
             position: 'absolute',
             left:this._animatedIsFocused.interpolate({
                 inputRange:[0,1],
@@ -123,7 +130,7 @@ const styles = StyleSheet.create({
         height:48,
         width: "100%",
         borderWidth:1,
-        borderRadius:15,
+        borderRadius:10,
         borderColor:"#dbdbdb",
         paddingLeft: 2,
         paddingTop: 2,
@@ -133,7 +140,7 @@ const styles = StyleSheet.create({
         height:48,
         width: "48%",
         borderWidth:1,
-        borderRadius:15,
+        borderRadius:10,
         borderColor:"#dbdbdb",
         paddingLeft: 2,
         paddingTop: 2,

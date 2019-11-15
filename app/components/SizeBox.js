@@ -29,7 +29,7 @@ const styles= StyleSheet.create({
     input:{
         borderWidth:1,
         height:53,
-        borderRadius:15,
+        borderRadius:10,
         borderColor:"#cecece",
         paddingLeft:13,
         width:70

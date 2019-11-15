@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import InputForm from "../components/inputForm";
 import ButtonModal from "../components/buttonModal"
 import ModalCountry from "../components/ModalCountry";
+import PickerAddress from "../components/PickerAddress";
 import ModalAdresss from "../components/ModalAdresses";
 import { Button, Icon } from 'react-native-elements';
 import { CountrySelection } from 'react-native-country-list';
@@ -36,7 +37,9 @@ export default class Destination extends Component {
         valueKeyborad:0,
         infoOrigin:null,
         AllStates:"",
-        ButtonValue: true
+        ButtonValue: true,
+        DataDistrict:null,
+        SelectedPicker:"Colonia",
     };
     this.closeModal= this.closeModal.bind(this);
     this.closeModalAdresses = this.closeModalAdresses.bind(this);
@@ -204,44 +207,37 @@ export default class Destination extends Component {
       postalCode: newText
     })
     
-    if(newText.length >= 3){
+    if(newText.length == 5){
       let ruta  = `https://enviaya.com.mx/shipping/address_short_search.json?q=${newText}&country=${country}`;
       let params = {
         method: "GET",
-        referer:"https://enviaya.com.mx",
         headers : {
-          "Referer" : "https://enviaya.com.mx",
-          "authority" : "enviaya.com.mx",
+          "referer":"https://enviaya.com.mx",
+          'Content-Type': 'application/json',
+          ":authority:":"https://enviaya.com.mx",
         },
         mode: 'cors'
       }
       console.log(ruta)
+      fetch(ruta,params).then(response => response.json().then(data => this.DataArray(data)).catch(error => console.log(error))).catch(error => console.log(error));
     }
   }
 
-  checkpage = () => {
-    fetch('https://enviaya.com.mx/shipping/')
-    .then(function(response) {
-        console.log('response.body =', response.body);
-        console.log('response.bodyUsed =', response.bodyUsed);
-        console.log('response.headers =', response.headers);
-        console.log('response.ok =', response.ok);
-        console.log('response.status =', response.status);
-        console.log('response.statusText =', response.statusText);
-        console.log('response.type =', response.type);
-        console.log('response.url =', response.url);
-        return response.json();
-    })
-    .then(function(data) {
-        console.log('data = ', data);
-    })
-    .catch(function(err) {
-        console.error(err);
+  DataArray = (data) => {
+    const info = [];
+    data.forEach(element => {
+      console.log(element);
+      info.push(element.neighborhood);
     });
+    this.setState({city:data[0].city})
+    this.setState({SelectedPicker:data[0].neighborhood})
+    this.setState({DataDistrict:info});
   }
 
+  
+
   render() {
-    const { stateCountry,modal,name,select,valueKeyborad, company, street, number, postalCode, district, city, phone,email,reference, country,AllStates,state_2_digits,infoOrigin, modalVisibleCountry,countrySelect,selected, ButtonValue } =this.state
+    const { stateCountry,modal,name,select,valueKeyborad, company, street, number, postalCode, district, city, phone,email,reference, country,AllStates,state_2_digits,infoOrigin, modalVisibleCountry,countrySelect,selected, ButtonValue, DataDistrict, SelectedPicker } =this.state
     return (
     <KeyboardAvoidingView style={styles.containerRegister} behavior="position" enabled contentContainerStyle={styles.containerRegister} keyboardVerticalOffset={valueKeyborad}>
       <View style={styles.containerRegister}>
@@ -255,8 +251,9 @@ export default class Destination extends Component {
                 <View style={styles.cardVerify}>
                     <View style={styles.boxSelect}>
                         <View style={{flex:5,}}>
-                          <Button title="consultar" onPress={()=>this.checkpage()}/>
-                            <ButtonModal title={select} onPress={() => this.setState({modalVisibleAdresss: true})}/> 
+
+                          <Button title="consultar state " onPress={()=> console.log(this.state)}/>
+                          <ButtonModal title={select} onPress={() => this.setState({modalVisibleAdresss: true})}/> 
                         </View>
                     </View>
                     <ScrollView style={styles.scrollStyle} >
@@ -268,7 +265,12 @@ export default class Destination extends Component {
                         <InputForm label="Calle" value={street} onChangeText={text => this.onChangeVerify(text,"street")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                         <InputForm label="Numero"  value={number} onChangeText={text => this.onChangeVerify(text,"number")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                         <InputForm label="Codigo Postal" bigger={true} value={postalCode} onChangeText={text => this.PostalCodeText(text, "mx")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
-                        <InputForm label="Colonia" value={district} onChangeText={text => this.onChangeVerify(text,"district")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
+                        { postalCode.length === 5 &&
+                          <PickerAddress label={SelectedPicker} data={DataDistrict} />
+                        }
+                        {postalCode.length !== 5 &&
+                          <InputForm label="Colonia" value={district} onChangeText={text => this.onChangeVerify(text,"district")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/> 
+                        }
                         <InputForm label="Ciudad" value={city} onChangeText={text => this.onChangeVerify(text,"city")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
                         <ButtonModal disabled={ButtonValue} title={stateCountry} onPress={()=> this.onViewModal("state")}/>
                         <InputForm label="Referencia" value={reference} onChangeText={text => this.onChangeVerify(text,"reference")} ChangeKeyBoard={value => this.ChangeKeyBoard(-80)}/>
