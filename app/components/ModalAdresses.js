@@ -89,10 +89,6 @@ export default class ModalAdresss extends Component {
                         >  
                             {rows}
                         </Picker>
-                        {/* <ScrollView  style={{width:"100%"}}>
-                             {rows}
-                            <Text onPress={()=>closeModalAdresses()} >WTF</Text>
-                        </ScrollView> */}
                     </View>
                 </TouchableOpacity>
         )

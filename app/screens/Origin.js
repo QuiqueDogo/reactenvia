@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import InputForm from "../components/inputForm";
 import ButtonModal from "../components/buttonModal"
 import ModalCountry from "../components/ModalCountry";
-import PickerAddress from "../components/PickerAddress";
+import PickerAddress from "../components/ios/PickerAddress";
 import ModalAdresss from "../components/ModalAdresses";
 import ModalAdresssAndroid from "../components/ModalAdressesAndroid";
 import { Button, Icon,ListItem } from 'react-native-elements';
@@ -43,7 +43,8 @@ export default class Destination extends Component {
         DataDistrict:null,
         SelectedPicker:"Colonia",
         itemSelect:0,
-        titleList:"Selecciona una opcion"
+        titleList:"Selecciona una opcion",
+        modalNeighborhood:false
     };
     this.closeModal= this.closeModal.bind(this);
     this.closeModalAdresses = this.closeModalAdresses.bind(this);
@@ -246,7 +247,7 @@ export default class Destination extends Component {
     this.getAllStates(country.code);
   }
 
-  PostalCodeText = (newText, country) => {
+  PostalCodeText = async (newText, country) => {
     this.setState({
       postalCode: newText
     })
@@ -269,19 +270,24 @@ export default class Destination extends Component {
 
   DataArray = (data) => {
     const info = [];
-    data.forEach(element => {
-      console.log(element);
-      info.push(element.neighborhood);
-    });
-    this.setState({city:data[0].city})
-    this.setState({SelectedPicker:data[0].neighborhood})
-    this.setState({DataDistrict:info});
+    if(typeof data == "object"){
+      data.forEach(element => {
+        info.push(element.neighborhood);
+      });
+      console.log(data[0].neighborhood);
+      this.setState({DataDistrict:info});
+      this.setState({city:data[0].city});
+      this.setState({modalNeighborhood: true});
+
+    }else{
+      console.log("no hay nada")
+    }
   }
 
   
 
   render() {
-    const { stateCountry,modal,name,select,valueKeyborad, company, street, number, postalCode, district, city, phone,email,reference, country,AllStates,state_2_digits,infoOrigin, modalVisibleCountry,countrySelect,selected, ButtonValue, DataDistrict, SelectedPicker,itemSelect,titleList } =this.state
+    const { stateCountry,modal,name,select,valueKeyborad, company, street, number, postalCode, district, city, phone,email,reference, country,AllStates,state_2_digits,infoOrigin, modalVisibleCountry,countrySelect,selected, ButtonValue, DataDistrict, tittleData,itemSelect,titleList } =this.state
     return (
     <KeyboardAvoidingView style={styles.containerRegister} behavior="position" enabled contentContainerStyle={styles.containerRegister} keyboardVerticalOffset={valueKeyborad}>
       <View style={styles.containerRegister}>
@@ -296,27 +302,14 @@ export default class Destination extends Component {
                     <View style={styles.boxSelect}>
                         <View style={{flex:5,}}>
 
-                          <Button title="consultar state " onPress={()=> console.log(this.state)}/>
+                          <Button title="consultar state " onPress={()=> this.setState({SelectedPicker:"WTF"})}/>
                           {Platform.OS === "ios" &&
-                            <ListItem  titleStyle={{fontSize:14}} style={{marginTop:10}} bottomDivider topDivider title={titleList} rightIcon={{name:"chevron-right", type:"font-awesome",  }} onPress={() => {this.modalVisibleAdresss(true)}} />
+                            // <ListItem  titleStyle={{fontSize:14}} style={{marginTop:10}} title={titleList} rightIcon={{name:"chevron-right", type:"font-awesome",  }} onPress={() => {this.modalVisibleAdresss(true)}} />
+                           <ButtonModal title={select} onPress={() => this.setState({modalVisibleAdresss: true})}/> 
                           }
                           {Platform.OS === "android" &&  
                            <ButtonModal title={select} onPress={() => this.setState({modalVisibleAdresssAndroid: true})}/> 
                           }
-                          <Picker style={{height: 150,  
-        width: "100%",  
-        color: '#344953',  
-        justifyContent: 'center', }} mode="dialog" prompt="holi">
-                            <Picker.Item label="hola" value="1"/>
-                            <Picker.Item label="hola" value="1"/>
-                            <Picker.Item label="hola" value="1"/>
-                            <Picker.Item label="hola" value="1"/>
-                            <Picker.Item label="hola" value="1"/>
-                            <Picker.Item label="hola" value="1"/>
-                            <Picker.Item label="hola" value="1"/>
-                            <Picker.Item label="hola" value="1"/>
-                            <Picker.Item label="hola" value="1"/>
-                          </Picker>
                         </View>
                     </View>
                     <ScrollView style={styles.scrollStyle} >
@@ -328,10 +321,10 @@ export default class Destination extends Component {
                         <InputForm label="Calle" value={street} onChangeText={text => this.onChangeVerify(text,"street")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                         <InputForm label="Numero"  value={number} onChangeText={text => this.onChangeVerify(text,"number")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                         <InputForm label="Codigo Postal" bigger={true} value={postalCode} onChangeText={text => this.PostalCodeText(text, "mx")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
-                        { postalCode.length === 5 &&
-                          <PickerAddress label={SelectedPicker} data={DataDistrict} />
+                        { this.state.modalNeighborhood ===  true &&
+                          <PickerAddress data={DataDistrict} />
                         }
-                        {postalCode.length !== 5 &&
+                        { this.state.modalNeighborhood === false &&
                           <InputForm label="Colonia" value={district} onChangeText={text => this.onChangeVerify(text,"district")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/> 
                         }
                         <InputForm label="Ciudad" value={city} onChangeText={text => this.onChangeVerify(text,"city")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>

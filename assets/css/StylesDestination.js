@@ -56,7 +56,7 @@ export default StyleSheet.create({
         paddingBottom:15,
         borderBottomWidth:1,
         borderColor:"#ebebeb",
-        paddingTop: 20,
+        padding: 20,
     },
     buttonStyleRegister:{
         borderWidth: 1,
