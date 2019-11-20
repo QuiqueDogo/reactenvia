@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { Text, View,TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Text, View,TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView, FlatList } from 'react-native';
 import { Icon,CheckBox,Button } from 'react-native-elements';
 import MenuEnvia from "../components/menuEnvia";
 import HeaderHome from "../components/HeaderHome";
+
 import BoxMoney from '../components/boxMoney';
 import styles from "../../assets/css/stylesGenerate";
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
-// import { GoogleAutoComplete } from 'react-native-google-autocomplete';
-// import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import LocationItem from "../components/LocationItem";
 import SizeBox from "../components/SizeBox";
+import Autocomplete from 'react-native-autocomplete-input';
+
 
 export default class Generate extends Component {
     constructor(props) {
@@ -28,7 +28,10 @@ export default class Generate extends Component {
           length:"",
           weight:"",
           weightUnit:"kg",
-          lengthUnit:"cm"
+          lengthUnit:"cm",
+          textOrigin:"",
+          infoPostalCode: [],
+          query: ''
         }
         this.ChangeText = this.ChangeText.bind(this)
         this.ChangeVolum = this.ChangeVolum.bind(this)
@@ -91,7 +94,6 @@ export default class Generate extends Component {
         var changeWeight = this.ChangeUnitsValue(weight,"kg");
         this.setState({lengthUnit:"cm",weightUnit:"kg", height: changeHeight ,width: changeWidth ,length: changeLength ,weight: changeWeight, });
       }
-      // console.log(`tipo ${type}, ${height}, ${width}, ${length}, ${weight}`)
     }
 
     ChangeUnitsValue = (val, type) => {
@@ -119,10 +121,27 @@ export default class Generate extends Component {
         this.setState({checkedSobre:!this.state.checkedSobre, checkedPackage:false, type:"pallet"})
       }
     }
+
+    OriginText = async (newText, country) => {
+      
+      if(newText.length >= 3){
+        let ruta  = `https://enviaya.com.mx/shipping/address_short_search.json?q=${newText}&country=${country}`;
+        let params = {
+          method: "GET",
+          headers : {
+            "Referer":"https://enviaya.com.mx",
+            'Content-Type': 'application/json',
+            "Origin":"https://enviaya.com.mx",
+          },
+          mode: 'cors'
+        }
+        fetch(ruta,params).then(response => response.json().then(data => this.setState({infoPostalCode:data})).catch(error => console.log(error))).catch(error => console.log(error));
+      }
+    }
   
     fall =new Animated.Value(1);  
     render() {
-      const {type, height, width, length, weight,weightUnit,lengthUnit } = this.state;
+      const {type, height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,country_code,query } = this.state;
       const Origin = this.props.navigation.getParam("origin");
       const ValidateOrigin = this.props.navigation.state.params;
       const Destination = this.props.navigation.getParam("destination");
@@ -144,38 +163,37 @@ export default class Generate extends Component {
                         <View style={styles.divisionHome}>
                         <BoxMoney balance="3,000 MXN"/>
                             <View style={styles.infoGenerate} >
-                            {/* <GoogleAutoComplete apiKey={"AIzaSyB7_xULf3RHZ_nDT3Ho28_1Nof6IYbW8OQ"} debounce={500} minLength={3}>
-                                          {({handleTextChange,locationResults}) => (
-                                            <React.Fragment>
-                                              {console.log('locationResults',locationResults)}
-                                            <View>
-                                              <TextInput 
-                                                style={{borderWidth:1,borderRadius:15,height:40,width:"95%",paddingHorizontal:13}} 
-                                                onChangeText={handleTextChange}
-                                                placeholder="busca un lugar" 
-                                              />
-                                            </View>
-                                            <ScrollView contentContainerStyle={{zIndex:2,height:200}}>
-                                              {locationResults.map(elemt => (
-                                                <LocationItem
-                                                  {...elemt}
-                                                  key={elemt.id}
-                                                />
-                                              ))}
-                                            </ScrollView>
-                                          </React.Fragment> 
-                                          )}
-
-                                        </GoogleAutoComplete> */}
                                 <View style={styles.boxes}>
                                   <View style={styles.boxsubTitle}>
                                     <Text style={styles.subTitle}>Origen</Text>
                                   </View>
-                                  <View style={{flex:2,flexDirection:"row",justifyContent: 'center',padding:15}}>
-                                      <View style={{flex:1}}>
+                                  <View style={{flex:4,flexDirection:"row",justifyContent: 'center',paddingTop:8, marginLeft:15}}>
+                                      <View style={{flex:1, }}>
                                       {(typeof Origin == "undefined") && 
-                                        
-                                        <TextInput style={{width:"100%",borderWidth:1,borderRadius:15, height:45,paddingLeft:10, borderColor:"#d4d4d4"}} onPress={() => this.props.navigation.navigate("Origin")}/>
+                                      <View style={{zIndex:10,position:"relative" }}>
+                                        <Autocomplete 
+                                          autoCapitalize="none"
+                                          autoCorrect={false}
+                                          containerStyle={styles.autocompleteContainer}
+                                          defaultValue={query}
+                                          data={infoPostalCode}
+                                          keyExtractor={(item, index) => item.value}
+                                          listContainerStyle={{backgroundColor:"red",}}
+                                          listStyle={{position:"absolute"}}
+                                          inputContainerStyle={{borderWidth: 1,height: 40,}}
+                                          onChangeText={text => this.OriginText(text,"mx")}
+                                          renderItem={(info) => (
+                                            <TouchableOpacity
+                                            style={{zIndex:100,}} 
+                                            onPress={() => console.log(info)}
+                                            >
+                                              <Text style={styles.itemText}>
+                                               {info.item.value}
+                                              </Text>
+                                            </TouchableOpacity>
+                                          )}
+                                        />
+                                      </View>
                                       }
                                       {(typeof Origin != "undefined") &&
                                         <View>
@@ -205,12 +223,12 @@ export default class Generate extends Component {
                                           <Text>{(ValidateOrigin.stateCountry + ", ") + (ValidateOrigin.destination.country)}</Text>
                                         </View>
                                       }
-                                      </View> 
+                                      </View>  
                                       <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
                                     </View>
                                 </View>
 
-                                <View style={{flex:2,}}>
+                                <View style={{height:"50%",}}>
                                     <View style={[styles.boxsubTitle,{marginTop:0}]}>
                                           <Text style={styles.subTitleInfo}>Informacion del Paquete</Text>
                                     </View>
@@ -220,7 +238,7 @@ export default class Generate extends Component {
                                         <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Sobre" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedSobre} onPress={() => this.CheckBoxes("sobre")}/>
                                         <Icon containerStyle={{marginTop:"5%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
                                       </View>
-                                      <View style={{flex:2.5, flexDirection:"row",justifyContent:"space-around",}} >
+                                      <View style={{flex:2.9, flexDirection:"row",justifyContent:"space-between",}} >
                                         <SizeBox type={lengthUnit} holder="Alto"  value={height} dimensions="height" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
                                         <SizeBox type={lengthUnit} holder="Ancho" value={width} dimensions="width" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
                                         <SizeBox type={lengthUnit} holder="Largo" value={length} dimensions="length" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>

@@ -17,7 +17,7 @@ export default class SizeBox extends Component {
         const ChangeText = this.props.ChangeText
         const ChangeVolum = this.props.ChangeVolum
         return (
-            <View style={{ flex:0.6, }}>
+            <View style={ (Platform.OS ==="ios" ) ? {flex:0.3} :{flex:0.6} }>
                 <Text onPress={() => ChangeVolum(type)} style={styles.textStyle}>{type}</Text>
                 <Input value={value} placeholder={holder} placeholderTextColor="#39c4cb" inputContainerStyle={styles.input} onChangeText={text => ChangeText(dimensions, text)} maxLength={4}/>
             </View>

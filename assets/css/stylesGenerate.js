@@ -30,7 +30,7 @@ export default StyleSheet.create({
         marginTop: 15  
       },
       infoGenerate:{
-        flex:0.75,
+        flex:0.8,
         marginTop:30,
         borderRadius:20,
         shadowColor: "#000",
@@ -41,7 +41,7 @@ export default StyleSheet.create({
         shadowOpacity: 0.58,
         shadowRadius: 16.00,
         elevation: 24,
-        width:"90%",
+        width:"95%",
         backgroundColor:"white"
       },
       subTitle:{
@@ -57,7 +57,7 @@ export default StyleSheet.create({
         marginTop:14
       },
       boxes:{
-        flex:1,
+        height:"25%",
         borderBottomWidth:1,
         borderColor:"#e4e4e4"
       },
@@ -93,5 +93,8 @@ export default StyleSheet.create({
       position:"absolute",
       bottom:"-4%",
       left: Platform.OS==="ios" ? "15%": "13%"
-  }
+    },
+    autocompleteContainer:{
+    }
+
 })

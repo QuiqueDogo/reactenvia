@@ -26,23 +26,6 @@ export default class ModalAdresss extends Component {
            origin.data.forEach((element,i) => {
             rows.push(
                 <Picker.Item key={`${i}-${element.name}-origin`}  label={`${element.name} - Av ${element.district},${element.state}`}  value={`${i}`}/>
-            // <Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={`${i}-${element.name}-origin`} title={`${element.name} - Av ${element.district},${element.state}`}  
-            // onPress={() => closeModalAdresses(
-            //     element.city, 
-            //     element.company, 
-            //     element.country, 
-            //     element.description, 
-            //     element.district, 
-            //     element.email, 
-            //     element.name, 
-            //     element.number, 
-            //     element.phone, 
-            //     element.postal_code, 
-            //     element.reference, 
-            //     element.state, 
-            //     element.street, 
-            //     element.type,
-            //     )} />
             )
            });
        }else if(address == "destination"){

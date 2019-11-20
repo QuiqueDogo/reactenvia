@@ -7,16 +7,17 @@ export default class PickerAddress extends Component {
     super(props);
     this.state = {
       data:this.props.data,
-      visibleModal:false
+      visibleModal:false,
     };
-    
-    console.log(this.props)
   }
 
 
 
   render() {
-      const {data, visibleModal} = this.state
+      const {value} = this.props
+      const {data, visibleModal} = this.state;
+      var changeValueDistrict = this.props.changeValueDistrict;
+
     return (
       <View>
         <TouchableOpacity style={styles.container} onPress={() => {this.setState({visibleModal:true})}}>
@@ -36,7 +37,10 @@ export default class PickerAddress extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={{backgroundColor:"white", width:"100%",height:"auto",}}>
-                        <Picker>  
+                        <Picker 
+                        selectedValue={value}
+                        onValueChange={(item, index)=> changeValueDistrict(item,index)}
+                        >  
                             {data
                             .map((val,id) => {
                             return <Picker.Item key={id+val} label={val} value={id}/>
