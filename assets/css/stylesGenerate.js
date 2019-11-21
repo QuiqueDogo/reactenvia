@@ -30,7 +30,7 @@ export default StyleSheet.create({
         marginTop: 15  
       },
       infoGenerate:{
-        flex:0.8,
+        flex:0.77,
         marginTop:30,
         borderRadius:20,
         shadowColor: "#000",
@@ -58,8 +58,10 @@ export default StyleSheet.create({
       },
       boxes:{
         height:"25%",
-        borderBottomWidth:1,
-        borderColor:"#e4e4e4"
+      },
+      boxesIos:{
+        height:"25%",
+        zIndex:10000
       },
       subTitleInfo:{
         fontSize:19,
@@ -90,11 +92,13 @@ export default StyleSheet.create({
         width:250,
     },
     buttonVerify:{
+      zIndex:0,
       position:"absolute",
       bottom:"-4%",
       left: Platform.OS==="ios" ? "15%": "13%"
     },
     autocompleteContainer:{
+      zIndex:1
     }
 
 })

@@ -19,7 +19,7 @@ export default class SizeBox extends Component {
         return (
             <View style={ (Platform.OS ==="ios" ) ? {flex:0.3} :{flex:0.6} }>
                 <Text onPress={() => ChangeVolum(type)} style={styles.textStyle}>{type}</Text>
-                <Input value={value} placeholder={holder} placeholderTextColor="#39c4cb" inputContainerStyle={styles.input} onChangeText={text => ChangeText(dimensions, text)} maxLength={4}/>
+                <Input keyboardType="number-pad" value={value} placeholder={holder} placeholderTextColor="#39c4cb" inputContainerStyle={styles.input} onChangeText={text => ChangeText(dimensions, text)} maxLength={4}/>
             </View>
         )
     }
@@ -38,7 +38,7 @@ const styles= StyleSheet.create({
         color:"#39c4cb",
         position:"absolute",
         right:8,
-        top: Platform.OS === "ios" ? "27%" : "35%",
+        top: Platform.OS === "ios" ? "25%" : "33%",
         width:30,
         height:27,
         backgroundColor:"white",

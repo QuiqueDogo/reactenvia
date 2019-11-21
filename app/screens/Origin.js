@@ -14,27 +14,28 @@ import { CountrySelection } from 'react-native-country-list';
 export default class Destination extends Component {
   constructor(props) {
     super(props);
+    const item = this.props.navigation.getParam("item")
     this.state = {
         selected:null,
-        name:"Luis Enrique",
+        name: "",
         company: "",
         street: "",
         number: "",
-        postalCode: "",
-        district: "",
-        city: "",
+        postalCode: (item)? item.postal_code : "",
+        district: (item)? item.neighborhood : "",
+        city: (item)? item.city : "",
         info: "",
-        phone:"",
-        email:"",
-        reference:"",
+        phone: "",
+        email: "",
+        reference: "",
         country:"",
+        state_2_digits: (item)? item.state_code :"",
         modalVisible:false,
         modalVisibleAdresss: false,
         modalVisibleAdresssAndroid: false,
         modalVisibleCountry:false,
         stateCountry:"Estado",
         countrySelect:"Selecciona un pais",
-        state_2_digits:"",
         modal:"",
         valueKeyborad:0,
         infoOrigin:null,
@@ -43,6 +44,7 @@ export default class Destination extends Component {
         DataDistrict:null,
         SelectedPicker:"Colonia",
         itemSelect:0,
+        itemSelectCountry:0,
         itemSelectDistrict:0,
         titleList:"Selecciona una opcion",
         modalNeighborhood:false
@@ -51,6 +53,7 @@ export default class Destination extends Component {
     this.closeModalAdresses = this.closeModalAdresses.bind(this);
     this.closeModalAdressesAndroid = this.closeModalAdressesAndroid.bind(this);
     this.changeValue = this.changeValue.bind(this);
+    this.changeValueCountry = this.changeValueCountry.bind(this);
     this.changeValueDistrict = this.changeValueDistrict.bind(this);
   }
   static navigationOptions ={
@@ -68,8 +71,16 @@ export default class Destination extends Component {
   }
 
   changeValueDistrict = (value, index) => {
-    console.log(value,index)
     this.setState({itemSelectDistrict:value})
+  }
+  changeValueCountry = (value, index) => {
+    this.setState({itemSelectCountry:value})
+    const AllStates = this.state.AllStates
+    console.log(AllStates)
+    this.setState({
+      stateCountry:AllStates.data[value].name,
+      state_2_digits:AllStates.data[value].code_2_digits
+    })
   }
 
   componentDidMount(){
@@ -109,6 +120,8 @@ export default class Destination extends Component {
     if(value2digits){
       this.setState({state_2_digits:value2digits});
      }
+    const AllStates = this.state.AllStates;
+
     this.setState({[state]:value});
     this.setState({modalVisible:false});
   }
@@ -223,7 +236,7 @@ export default class Destination extends Component {
                   this.setState({stateCountry:element.name})
                   this.setState({ButtonValue:false})
           }) )
-      .catch(error => console.log(error)))
+        .catch(error => console.log(error)))
     .catch(error => console.log(error));
   }
 
@@ -248,7 +261,7 @@ export default class Destination extends Component {
   
   onCountrySelection = (country) => {
     this.setState({countrySelect:country.name});
-    this.setState({state_2_digits:country.code});
+    this.setState({country:country.code});
     this.setState({modalVisibleCountry: false});
     this.setState({ButtonValue: false});
     this.getAllStates(country.code);
@@ -292,7 +305,33 @@ export default class Destination extends Component {
   
 
   render() {
-    const { stateCountry,modal,name,select,valueKeyborad, company, street, number, postalCode, district, city, phone,email,reference, country,AllStates,state_2_digits,infoOrigin, modalVisibleCountry,countrySelect,selected, ButtonValue, DataDistrict, tittleData,itemSelect,titleList,itemSelectDistrict } =this.state
+    const { stateCountry,
+            valueKeyborad,
+            modal,
+             name,
+             select,
+             company,
+             street,
+             number,
+             postalCode,
+             district,
+             city,
+             phone,
+             email,
+             reference,
+             country,
+             state_2_digits,
+            AllStates,
+            infoOrigin,
+            modalVisibleCountry,
+            countrySelect,
+            selected,
+            ButtonValue,
+            DataDistrict,
+            itemSelect,
+            itemSelectDistrict,
+            itemSelectCountry
+          } =this.state
     return (
     <KeyboardAvoidingView style={styles.containerRegister} behavior="position" enabled contentContainerStyle={styles.containerRegister} keyboardVerticalOffset={valueKeyborad}>
       <View style={styles.containerRegister}>
@@ -323,7 +362,8 @@ export default class Destination extends Component {
                         <ButtonModal title={countrySelect} onPress={()=> this.setState({modalVisibleCountry:true})}/>
                         <InputForm label="Calle" value={street} onChangeText={text => this.onChangeVerify(text,"street")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                         <InputForm label="Numero"  value={number} onChangeText={text => this.onChangeVerify(text,"number")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
-                        <InputForm label="Codigo Postal" bigger={true} value={postalCode} onChangeText={text => this.PostalCodeText(text, "mx")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
+                        <InputForm label="Codigo Postal" bigger={true} value={postalCode} onChangeText={text => this.PostalCodeText(text, "mx")} 
+                        ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                         { (this.state.modalNeighborhood ===  true && Platform.OS == "ios") &&
                           <PickerAddress data={DataDistrict} changeValueDistrict={this.changeValueDistrict} value={itemSelectDistrict}/>
                         }
@@ -363,7 +403,7 @@ export default class Destination extends Component {
 
             {/* Modals */}
             <Modal animationType="fade" transparent={true} visible={this.state.modalVisible} onRequestClose={() => {this.setModalVisible(false);}}>
-                  <ModalCountry  StatebyCountry={AllStates} modal={modal} closeModal={this.closeModal}/>
+                  <ModalCountry  StatebyCountry={AllStates} modal={modal} closeModal={this.closeModal} value={itemSelectCountry} changeValue={this.changeValueCountry}/>
             </Modal>
             {Platform.OS === "ios" &&
               <Modal animationType="fade" transparent={true} visible={this.state.modalVisibleAdresss} onRequestClose={() => {this.modalVisibleAdresss(false);}}>

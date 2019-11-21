@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View,TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView, FlatList } from 'react-native';
-import { Icon,CheckBox,Button } from 'react-native-elements';
+import { Text, View,TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView, FlatList, Platform } from 'react-native';
+import { Icon,CheckBox,Button, Divider } from 'react-native-elements';
 import MenuEnvia from "../components/menuEnvia";
 import HeaderHome from "../components/HeaderHome";
 
@@ -31,7 +31,11 @@ export default class Generate extends Component {
           lengthUnit:"cm",
           textOrigin:"",
           infoPostalCode: [],
-          query: ''
+          infoPostalCode2: [],
+          query: '',
+          query2: '',
+          result:false,
+          result2:false,
         }
         this.ChangeText = this.ChangeText.bind(this)
         this.ChangeVolum = this.ChangeVolum.bind(this)
@@ -123,8 +127,9 @@ export default class Generate extends Component {
     }
 
     OriginText = async (newText, country) => {
-      
+      this.setState({query:newText})
       if(newText.length >= 3){
+        this.setState({result:false})
         let ruta  = `https://enviaya.com.mx/shipping/address_short_search.json?q=${newText}&country=${country}`;
         let params = {
           method: "GET",
@@ -138,10 +143,28 @@ export default class Generate extends Component {
         fetch(ruta,params).then(response => response.json().then(data => this.setState({infoPostalCode:data})).catch(error => console.log(error))).catch(error => console.log(error));
       }
     }
-  
+    
+    OriginText2 = async (newText, country) => {
+      this.setState({query2:newText})
+      if(newText.length >= 3){
+        this.setState({result2:false})
+        let ruta  = `https://enviaya.com.mx/shipping/address_short_search.json?q=${newText}&country=${country}`;
+        let params = {
+          method: "GET",
+          headers : {
+            "Referer":"https://enviaya.com.mx",
+            'Content-Type': 'application/json',
+            "Origin":"https://enviaya.com.mx",
+          },
+          mode: 'cors'
+        }
+        fetch(ruta,params).then(response => response.json().then(data => this.setState({infoPostalCode2:data})).catch(error => console.log(error))).catch(error => console.log(error));
+      }
+    }
+      
     fall =new Animated.Value(1);  
     render() {
-      const {type, height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,country_code,query } = this.state;
+      const {type, height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,infoPostalCode2,country_code,query,result,query2,result2 } = this.state;
       const Origin = this.props.navigation.getParam("origin");
       const ValidateOrigin = this.props.navigation.state.params;
       const Destination = this.props.navigation.getParam("destination");
@@ -163,145 +186,166 @@ export default class Generate extends Component {
                         <View style={styles.divisionHome}>
                         <BoxMoney balance="3,000 MXN"/>
                             <View style={styles.infoGenerate} >
-                                <View style={styles.boxes}>
+                              <View style={(Platform.OS === "android")?styles.boxes:styles.boxesIos}>
+                                <View style={styles.boxsubTitle}>
+                                  <Text style={styles.subTitle}>Origen</Text>
+                                </View>
+                                <View style={{flex:3,flexDirection:"row",justifyContent: 'center',paddingTop:8,marginHorizontal:(Platform.OS === "ios") ? 10:0}}>
+                                    <View style={{flex:1, }}>
+                                    {(typeof Origin == "undefined") && 
+                                      <Autocomplete 
+                                        autoCapitalize="none"
+                                        autoCorrect={false}
+                                        defaultValue={query}
+                                        data={infoPostalCode}
+                                        keyExtractor={(item, index) => item.value}
+                                        listContainerStyle={{width:"100%",zIndex:10,backgroundColor:"white"}}
+                                        listStyle={{ maxHeight:135, width:"100%",zIndex:10,backgroundColor:"white", borderRadius:10}}
+                                        inputContainerStyle={{borderRadius:10, width:"100%",zIndex:10,marginHorizontal:(Platform.OS === "android") ? 10:0, paddingLeft:10,paddingRight:10}}
+                                        onChangeText={text => this.OriginText(text,"mx")}
+                                        hideResults={result}
+                                        renderItem={(info) => (
+                                          <View style={{padding:10, borderBottomWidth:0.8, borderColor:"#e4e4e4"}}>
+                                          <TouchableOpacity 
+                                          onPress={() => {this.setState({query:info.item.value, result:true}), this.props.navigation.navigate("Origin",info)}}
+                                          >
+                                            <Text style={styles.itemText}>
+                                             {info.item.value}
+                                            </Text>
+                                          </TouchableOpacity>
+                                          </View>
+                                        )}
+                                      />
+                                    }
+                                    {(typeof Origin != "undefined") &&
+                                      <View>
+                                        <Text>{(ValidateOrigin.origin.street + " "+ ValidateOrigin.origin.number +", ")+("Col. "+ValidateOrigin.origin.district+".")}</Text>
+                                        <Text>{(ValidateOrigin.origin.city + ", ")+("CP. " + ValidateOrigin.origin.postalCode)}</Text>
+                                        <Text>{(ValidateOrigin.stateCountry + ", ") + (ValidateOrigin.origin.country)}</Text>
+                                      </View>
+                                    }
+                                    </View>
+                                  <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin")}/>
+                                </View>
+                                <Divider style={{backgroundColor:"#e4e4e4", height:1, zIndex:-1}}/>
+                              </View>
+
+                              <View style={[(Platform.OS === "android")?styles.boxes:styles.boxesIos,{zIndex:8}]}>
                                   <View style={styles.boxsubTitle}>
-                                    <Text style={styles.subTitle}>Origen</Text>
+                                    <Text style={styles.subTitle}>Destino</Text>
                                   </View>
-                                  <View style={{flex:4,flexDirection:"row",justifyContent: 'center',paddingTop:8, marginLeft:15}}>
-                                      <View style={{flex:1, }}>
-                                      {(typeof Origin == "undefined") && 
-                                      <View style={{zIndex:10,position:"relative" }}>
-                                        <Autocomplete 
-                                          autoCapitalize="none"
-                                          autoCorrect={false}
-                                          containerStyle={styles.autocompleteContainer}
-                                          defaultValue={query}
-                                          data={infoPostalCode}
-                                          keyExtractor={(item, index) => item.value}
-                                          listContainerStyle={{backgroundColor:"red",}}
-                                          listStyle={{position:"absolute"}}
-                                          inputContainerStyle={{borderWidth: 1,height: 40,}}
-                                          onChangeText={text => this.OriginText(text,"mx")}
-                                          renderItem={(info) => (
-                                            <TouchableOpacity
-                                            style={{zIndex:100,}} 
-                                            onPress={() => console.log(info)}
-                                            >
-                                              <Text style={styles.itemText}>
-                                               {info.item.value}
-                                              </Text>
-                                            </TouchableOpacity>
-                                          )}
-                                        />
-                                      </View>
-                                      }
-                                      {(typeof Origin != "undefined") &&
-                                        <View>
-                                          <Text>{(ValidateOrigin.origin.street + " "+ ValidateOrigin.origin.number +", ")+("Col. "+ValidateOrigin.origin.district+".")}</Text>
-                                          <Text>{(ValidateOrigin.origin.city + ", ")+("CP." + ValidateOrigin.origin.postalCode)}</Text>
-                                          <Text>{(ValidateOrigin.stateCountry + ", ") + (ValidateOrigin.origin.country)}</Text>
+                                  <View style={{flex:2,flexDirection:"row",justifyContent: 'center',paddingTop:8,marginHorizontal:(Platform.OS === "ios") ? 10:0}}>
+                                    <View style={{flex:1}}>
+                                    {(typeof Destination == "undefined") && 
+                                      <Autocomplete 
+                                      autoCapitalize="none"
+                                      autoCorrect={false}
+                                      defaultValue={query2}
+                                      data={infoPostalCode2}
+                                      keyExtractor={(item, index) => item.value}
+                                      listContainerStyle={{width:"100%",zIndex:10,backgroundColor:"white"}}
+                                      listStyle={{ maxHeight:135, width:"100%",zIndex:10,backgroundColor:"white", borderRadius:10}}
+                                      inputContainerStyle={{borderRadius:10, width:"100%",zIndex:10,marginHorizontal:(Platform.OS === "android") ? 10:0, paddingLeft:10,paddingRight:10}}
+                                      onChangeText={text => this.OriginText2(text,"mx")}
+                                      hideResults={result2}
+                                      renderItem={(info) => (
+                                        <View style={{padding:10, borderBottomWidth:0.8, borderColor:"#e4e4e4"}}>
+                                        <TouchableOpacity 
+                                        onPress={() => {this.setState({query2:info.item.value, result2:true}), this.props.navigation.navigate("Destination",info)}}
+                                        >
+                                          <Text style={styles.itemText}>
+                                           {info.item.value}
+                                          </Text>
+                                        </TouchableOpacity>
                                         </View>
-                                      }
+                                      )}
+                                    />
+                                    }
+                                    {(typeof Destination != "undefined") && 
+                                       <View>
+                                        <Text>{(ValidateOrigin.destination.street + " "+ ValidateOrigin.destination.number +", ")+("Col. "+ValidateOrigin.destination.district+".")}</Text>
+                                        <Text>{(ValidateOrigin.destination.city + ", ")+("CP." + ValidateOrigin.destination.postalCode)}</Text>
+                                        <Text>{(ValidateOrigin.stateCountry + ", ") + (ValidateOrigin.destination.country)}</Text>
                                       </View>
-                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin")}/>
+                                    }
+                                    </View>  
+                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
                                   </View>
-                                </View>
+                                  <Divider style={{backgroundColor:"#e4e4e4", height:1, zIndex:-1}}/>
+                              </View>
 
-                                <View style={styles.boxes}>
-                                    <View style={styles.boxsubTitle}>
-                                      <Text style={styles.subTitle}>Destino</Text>
+                              <View style={{height:"50%",}}>
+                                  <View style={[styles.boxsubTitle,{marginTop:0}]}>
+                                        <Text style={styles.subTitleInfo}>Informacion del Paquete</Text>
+                                  </View>
+                                  <View style={{flex:4,}}>
+                                    <View style={{flex:1, flexDirection:"row", justifyContent:"flex-start"}} >
+                                      <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0,}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Paquete" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedPackage} onPress={() => this.CheckBoxes("package")}/>
+                                      <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Sobre" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedSobre} onPress={() => this.CheckBoxes("sobre")}/>
+                                      <Icon containerStyle={{marginTop:"5%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
                                     </View>
-                                    <View style={{flex:2,flexDirection:"row",justifyContent: 'center',padding:15}}>
-                                      <View style={{flex:1}}>
-                                      {(typeof Destination == "undefined") && 
-                                        <TextInput style={{width:"100%",borderWidth:1,borderRadius:15, height:45,paddingLeft:10, borderColor:"#d4d4d4"}} />
-                                      }
-                                      {(typeof Destination != "undefined") && 
-                                         <View>
-                                          <Text>{(ValidateOrigin.destination.street + " "+ ValidateOrigin.destination.number +", ")+("Col. "+ValidateOrigin.destination.district+".")}</Text>
-                                          <Text>{(ValidateOrigin.destination.city + ", ")+("CP." + ValidateOrigin.destination.postalCode)}</Text>
-                                          <Text>{(ValidateOrigin.stateCountry + ", ") + (ValidateOrigin.destination.country)}</Text>
-                                        </View>
-                                      }
-                                      </View>  
-                                      <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
+                                    <View style={{flex:2.9, flexDirection:"row",justifyContent:"space-between",}} >
+                                      <SizeBox type={lengthUnit} holder="Alto"  value={height} dimensions="height" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                      <SizeBox type={lengthUnit} holder="Ancho" value={width} dimensions="width" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                      <SizeBox type={lengthUnit} holder="Largo" value={length} dimensions="length" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                      <SizeBox type={weightUnit} holder="Peso"  value={weight} dimensions="weight" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
                                     </View>
-                                </View>
-
-                                <View style={{height:"50%",}}>
-                                    <View style={[styles.boxsubTitle,{marginTop:0}]}>
-                                          <Text style={styles.subTitleInfo}>Informacion del Paquete</Text>
-                                    </View>
-                                    <View style={{flex:4,}}>
-                                      <View style={{flex:1, flexDirection:"row", justifyContent:"flex-start"}} >
-                                        <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0,}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Paquete" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedPackage} onPress={() => this.CheckBoxes("package")}/>
-                                        <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Sobre" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedSobre} onPress={() => this.CheckBoxes("sobre")}/>
-                                        <Icon containerStyle={{marginTop:"5%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
-                                      </View>
-                                      <View style={{flex:2.9, flexDirection:"row",justifyContent:"space-between",}} >
-                                        <SizeBox type={lengthUnit} holder="Alto"  value={height} dimensions="height" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
-                                        <SizeBox type={lengthUnit} holder="Ancho" value={width} dimensions="width" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
-                                        <SizeBox type={lengthUnit} holder="Largo" value={length} dimensions="length" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
-                                        <SizeBox type={weightUnit} holder="Peso"  value={weight} dimensions="weight" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
-                                      </View>
-
-                                    </View>
-                                </View>
-                               <Button  title="Cotizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"dollar", type:"font-awesome", size:19, color:"white",}} 
-                                       onPress={ () => { this.props.navigation.navigate("GenerateGuide",{
-                                        // origin:Origin,
-                                        // destination:Destination,
-                                        // packages:Packages,
-                                        origin:{
-                                          "city": "Morelia",
-                                          "company": "1212",
-                                          "country": "MX",
-                                          "district": "Issac Arriaga",
-                                          "email": "lol@lol.com",
-                                          "name": "Luis Enrique",
-                                          "number": "21",
-                                          "phone": "12",
-                                          "postalCode": "58210",
-                                          "reference": "12212",
-                                          "state": "MI",
-                                          "street": "2121"
-                                        },
-                                        destination:{
-                                          "city": "Monterrey",
-                                          "company": "Weqwe",
-                                          "country": "MX",
-                                          "district": "Chepevera",
-                                          "email": "Qweqwe@lel.com",
-                                          "name": "Luis Enrique",
-                                          "number": "We",
-                                          "phone": "Qwe",
-                                          "postalCode": "64030",
-                                          "reference": "Qwe",
-                                          "state": "NL",
-                                          "street": "We"
-                                        },
-                                        packages:[{
-                                          "amount": 1,
-                                          "content": "Qweqw",
-                                          "declaredValue": 0,
-                                          "dimensions":  {
-                                            "height": 10,
-                                            "length": 10,
-                                            "width": 10
-                                          },
-                                          "insurance": 10,
-                                          "lengthUnit": "CM",
-                                          "type": "box",
-                                          "weight": 10,
-                                          "weightUnit": "KG"
-                                        }],
-                                        carriers:this.state.CarriersAvailable
-                                       })}} 
-                                  />
+                              
+                                  </View>
+                              <Button title="state" onPress={() => console.log(this.props)}/>
+                              </View>
+                              <Button  title="Cotizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"dollar", type:"font-awesome", size:19, color:"white",}} 
+                                      onPress={ () => { this.props.navigation.navigate("GenerateGuide",{
+                                       // origin:Origin,
+                                       // destination:Destination,
+                                       // packages:Packages,
+                                       origin:{
+                                         "city": "Morelia",
+                                         "company": "1212",
+                                         "country": "MX",
+                                         "district": "Issac Arriaga",
+                                         "email": "lol@lol.com",
+                                         "name": "Luis Enrique",
+                                         "number": "21",
+                                         "phone": "12",
+                                         "postalCode": "58210",
+                                         "reference": "12212",
+                                         "state": "MI",
+                                         "street": "2121"
+                                       },
+                                       destination:{
+                                         "city": "Monterrey",
+                                         "company": "Weqwe",
+                                         "country": "MX",
+                                         "district": "Chepevera",
+                                         "email": "Qweqwe@lel.com",
+                                         "name": "Luis Enrique",
+                                         "number": "We",
+                                         "phone": "Qwe",
+                                         "postalCode": "64030",
+                                         "reference": "Qwe",
+                                         "state": "NL",
+                                         "street": "We"
+                                       },
+                                       packages:[{
+                                         "amount": 1,
+                                         "content": "Qweqw",
+                                         "declaredValue": 0,
+                                         "dimensions":  {
+                                           "height": 10,
+                                           "length": 10,
+                                           "width": 10
+                                         },
+                                         "insurance": 10,
+                                         "lengthUnit": "CM",
+                                         "type": "box",
+                                         "weight": 10,
+                                         "weightUnit": "KG"
+                                       }],
+                                       carriers:this.state.CarriersAvailable
+                                      })}} 
+                                 /> 
                             </View>
-                        <View style={{position:"absolute", bottom:0 }}>
-                          <Text>hola</Text>
-                        </View>
                         </View>
                         
                 </Animated.View>
