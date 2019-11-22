@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View,TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView, FlatList, Platform } from 'react-native';
+import { Text, View,TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView, FlatList, Platform, Modal } from 'react-native';
 import { Icon,CheckBox,Button, Divider } from 'react-native-elements';
 import MenuEnvia from "../components/menuEnvia";
 import HeaderHome from "../components/HeaderHome";
-
+import PickerPackage from "../components/PickerPackage";
 import BoxMoney from '../components/boxMoney';
+import ModalPicker from '../components/ModalPicker';
 import styles from "../../assets/css/stylesGenerate";
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
@@ -36,9 +37,12 @@ export default class Generate extends Component {
           query2: '',
           result:false,
           result2:false,
+          ModalPickerVisible:false,
+          typePackage:"content",
         }
         this.ChangeText = this.ChangeText.bind(this)
         this.ChangeVolum = this.ChangeVolum.bind(this)
+        this.ModalPickerVisible = this.ModalPickerVisible.bind(this)
       };
       componentWillMount(){
         this.getAllData();
@@ -64,11 +68,13 @@ export default class Generate extends Component {
       static navigationOptions ={
         header:null
       };
-
+      
+      
+      
       MyfFinalMessage = (changedaworld) =>{
         this.props.navigation.navigate(changedaworld)
       }
-  
+      
       renderHeader = () => (
         <View style={styles.header}>
           <View style={styles.panelHeader}>
@@ -76,75 +82,82 @@ export default class Generate extends Component {
           </View>
         </View>
       )
-
-    ChangeText(state, text){
-      this.setState({
-        [state]: text
-      });
-    }
-
-    ChangeVolum(type){
-      const {height, width, length, weight} = this.state
-      if(type == "cm" || type == "kg"){
-        var changeHeight = this.ChangeUnitsValue(height,"in");
-        var changeWidth = this.ChangeUnitsValue(width,"in");
-        var changeLength = this.ChangeUnitsValue(length,"in");
-        var changeWeight = this.ChangeUnitsValue(weight,"lb");
-        this.setState({lengthUnit:"in",weightUnit:"lb", height: changeHeight ,width: changeWidth ,length: changeLength ,weight: changeWeight, });
-      }else if(type == "in" || type == "lb"){
-        var changeHeight = this.ChangeUnitsValue(height,"cm");
-        var changeWidth = this.ChangeUnitsValue(width,"cm");
-        var changeLength = this.ChangeUnitsValue(length,"cm");
-        var changeWeight = this.ChangeUnitsValue(weight,"kg");
-        this.setState({lengthUnit:"cm",weightUnit:"kg", height: changeHeight ,width: changeWidth ,length: changeLength ,weight: changeWeight, });
+      
+      ChangeText(state, text){
+        this.setState({
+          [state]: text
+        });
       }
-    }
-
-    ChangeUnitsValue = (val, type) => {
-      var change 
-      if(type == "in"){
-        change = val / 2.54
-        change = parseFloat(change).toFixed(2)     
-      }else if(type == "cm"){
-        change = val * 2.54
-        change = parseFloat(change).toFixed(2)     
-      }else if(type == "lb"){
-        change = val * 2.205
-        change = parseFloat(change).toFixed(2)     
-      }else if(type == "kg"){
-        change = val / 2.205
-        change = parseFloat(change).toFixed(2)     
-      }
-      return change;
-    }
-
-    CheckBoxes = (info) => {
-      if(info== "package"){
-        this.setState({checkedPackage:!this.state.checkedPackage, checkedSobre:false, type:"box"})
-      }else if(info== "sobre"){
-        this.setState({checkedSobre:!this.state.checkedSobre, checkedPackage:false, type:"pallet"})
-      }
-    }
-
-    OriginText = async (newText, country) => {
-      this.setState({query:newText})
-      if(newText.length >= 3){
-        this.setState({result:false})
-        let ruta  = `https://enviaya.com.mx/shipping/address_short_search.json?q=${newText}&country=${country}`;
-        let params = {
-          method: "GET",
-          headers : {
-            "Referer":"https://enviaya.com.mx",
-            'Content-Type': 'application/json',
-            "Origin":"https://enviaya.com.mx",
-          },
-          mode: 'cors'
+      
+      ChangeVolum(type){
+        const {height, width, length, weight} = this.state
+        if(type == "cm" || type == "kg"){
+          var changeHeight = this.ChangeUnitsValue(height,"in");
+          var changeWidth = this.ChangeUnitsValue(width,"in");
+          var changeLength = this.ChangeUnitsValue(length,"in");
+          var changeWeight = this.ChangeUnitsValue(weight,"lb");
+          this.setState({lengthUnit:"in",weightUnit:"lb", height: changeHeight ,width: changeWidth ,length: changeLength ,weight: changeWeight, });
+        }else if(type == "in" || type == "lb"){
+          var changeHeight = this.ChangeUnitsValue(height,"cm");
+          var changeWidth = this.ChangeUnitsValue(width,"cm");
+          var changeLength = this.ChangeUnitsValue(length,"cm");
+          var changeWeight = this.ChangeUnitsValue(weight,"kg");
+          this.setState({lengthUnit:"cm",weightUnit:"kg", height: changeHeight ,width: changeWidth ,length: changeLength ,weight: changeWeight, });
         }
-        fetch(ruta,params).then(response => response.json().then(data => this.setState({infoPostalCode:data})).catch(error => console.log(error))).catch(error => console.log(error));
       }
-    }
-    
-    OriginText2 = async (newText, country) => {
+      
+      ChangeUnitsValue = (val, type) => {
+        var change 
+        if(type == "in"){
+          change = val / 2.54
+          change = parseFloat(change).toFixed(2)     
+        }else if(type == "cm"){
+          change = val * 2.54
+          change = parseFloat(change).toFixed(2)     
+        }else if(type == "lb"){
+          change = val * 2.205
+          change = parseFloat(change).toFixed(2)     
+        }else if(type == "kg"){
+          change = val / 2.205
+          change = parseFloat(change).toFixed(2)     
+        }
+        return change;
+      }
+      
+      CheckBoxes = (info) => {
+        if(info== "package"){
+          this.setState({checkedPackage:!this.state.checkedPackage, checkedSobre:false, type:"box"})
+        }else if(info== "sobre"){
+          this.setState({checkedSobre:!this.state.checkedSobre, checkedPackage:false, type:"pallet"})
+        }
+      }
+      
+      OriginText = async (newText, country) => {
+        this.setState({query:newText})
+        if(newText.length >= 3){
+          this.setState({result:false})
+          let ruta  = `https://enviaya.com.mx/shipping/address_short_search.json?q=${newText}&country=${country}`;
+          let params = {
+            method: "GET",
+            headers : {
+              "Referer":"https://enviaya.com.mx",
+              'Content-Type': 'application/json',
+              "Origin":"https://enviaya.com.mx",
+            },
+            mode: 'cors'
+          }
+          fetch(ruta,params).then(response => response.json().then(data => this.setState({infoPostalCode:data})).catch(error => console.log(error))).catch(error => console.log(error));
+        }
+      }
+      
+      ModalPickerVisible = () => {
+        this.setState({ModalPickerVisible:!this.state.ModalPickerVisible})
+        if (this.state.ModalPickerVisible === false && this.state.typePackage == "content") {
+          console.log(this.state.typePackage, "Puto")
+        }
+      }
+
+      OriginText2 = async (newText, country) => {
       this.setState({query2:newText})
       if(newText.length >= 3){
         this.setState({result2:false})
@@ -164,7 +177,7 @@ export default class Generate extends Component {
       
     fall =new Animated.Value(1);  
     render() {
-      const {type, height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,infoPostalCode2,country_code,query,result,query2,result2 } = this.state;
+      const {type, height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,infoPostalCode2,country_code,query,result,query2,result2, ModalPickerVisible, typePackage } = this.state;
       const Origin = this.props.navigation.getParam("origin");
       const ValidateOrigin = this.props.navigation.state.params;
       const Destination = this.props.navigation.getParam("destination");
@@ -207,7 +220,7 @@ export default class Generate extends Component {
                                         renderItem={(info) => (
                                           <View style={{padding:10, borderBottomWidth:0.8, borderColor:"#e4e4e4"}}>
                                           <TouchableOpacity 
-                                          onPress={() => {this.setState({query:info.item.value, result:true}), this.props.navigation.navigate("Origin",info)}}
+                                          onPress={() => {this.setState({query:info.item.value, result:true}), this.props.navigation.navigate("Origin",{info, code_country:country_code})}}
                                           >
                                             <Text style={styles.itemText}>
                                              {info.item.value}
@@ -251,7 +264,7 @@ export default class Generate extends Component {
                                       renderItem={(info) => (
                                         <View style={{padding:10, borderBottomWidth:0.8, borderColor:"#e4e4e4"}}>
                                         <TouchableOpacity 
-                                        onPress={() => {this.setState({query2:info.item.value, result2:true}), this.props.navigation.navigate("Destination",info)}}
+                                        onPress={() => {this.setState({query2:info.item.value, result2:true}), this.props.navigation.navigate("Destination",{info, code_country:country_code})}}
                                         >
                                           <Text style={styles.itemText}>
                                            {info.item.value}
@@ -279,12 +292,14 @@ export default class Generate extends Component {
                                         <Text style={styles.subTitleInfo}>Informacion del Paquete</Text>
                                   </View>
                                   <View style={{flex:4,}}>
-                                    <View style={{flex:1, flexDirection:"row", justifyContent:"flex-start"}} >
-                                      <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0,}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Paquete" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedPackage} onPress={() => this.CheckBoxes("package")}/>
-                                      <CheckBox containerStyle={{backgroundColor:"white" ,borderWidth:0}} textStyle={{fontWeight:"300",color:"#0eb7c0"}} title="Sobre" size={28} iconType='material' checkedIcon='check-box' uncheckedIcon='crop-square' checkedColor="#00b3bc" checked={this.state.checkedSobre} onPress={() => this.CheckBoxes("sobre")}/>
+                                    <View style={{flex:1, flexDirection:"row", justifyContent:"space-between",marginVertical:10, marginHorizontal:15 }} >
+                                      <PickerPackage title="Tipo de Envio" value="Paquete" ModalPickerVisible={this.ModalPickerVisible} />
+                                      <PickerPackage title="Medida" value="cm" ModalPickerVisible={this.ModalPickerVisible}/>
+                                      {/* 
                                       <Icon containerStyle={{marginTop:"5%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
+                                       */}
                                     </View>
-                                    <View style={{flex:2.9, flexDirection:"row",justifyContent:"space-between",}} >
+                                    <View style={{flex:2.6, flexDirection:"row",justifyContent:"space-between",}} >
                                       <SizeBox type={lengthUnit} holder="Alto"  value={height} dimensions="height" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
                                       <SizeBox type={lengthUnit} holder="Ancho" value={width} dimensions="width" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
                                       <SizeBox type={lengthUnit} holder="Largo" value={length} dimensions="length" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
@@ -292,7 +307,7 @@ export default class Generate extends Component {
                                     </View>
                               
                                   </View>
-                              <Button title="state" onPress={() => console.log(this.props)}/>
+                              {/* <Button title="state" onPress={() => console.log(this.props)}/> */}
                               </View>
                               <Button  title="Cotizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"dollar", type:"font-awesome", size:19, color:"white",}} 
                                       onPress={ () => { this.props.navigation.navigate("GenerateGuide",{
@@ -350,6 +365,9 @@ export default class Generate extends Component {
                         
                 </Animated.View>
             </View>
+            <Modal animationType="fade" animated={true} transparent={true} visible={ModalPickerVisible} >
+              <ModalPicker type={typePackage} ModalPickerVisible={this.ModalPickerVisible} />
+            </Modal>
           </KeyboardAvoidingView>
         )
     }

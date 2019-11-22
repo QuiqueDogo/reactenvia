@@ -32,7 +32,7 @@ export default class PickerAddress extends Component {
                         <View style={{ width:"20%", alignItems:"center",justifyContent:"center"}}>
                             <Text style={{fontSize:15, }}>Colonia</Text>
                         </View>
-                        <TouchableOpacity style={{ width:"20%", alignItems:"center",justifyContent:"center"}} >
+                        <TouchableOpacity style={{ width:"20%", alignItems:"center",justifyContent:"center"}} onPress={()=>{this.setState({visibleModal:false})}}>
                             <Text style={{fontSize:17, color:"#0d8ee9"}}>Aceptar</Text>
                         </TouchableOpacity>
                     </View>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Modal, ScrollView, Platform,Picker, TouchableOpacity } from 'react-native';
-import { Button } from 'react-native-elements';
-import { elementType } from 'prop-types';
+import { Button,Divider } from 'react-native-elements';
+
 
 export default class ModalAdresss extends Component {
     constructor(props) {
@@ -17,30 +17,35 @@ export default class ModalAdresss extends Component {
         let stylesButton = {
             backgroundColor:"#fff",
             width:"100%",
-            marginRight: "auto",
-            marginLeft: "auto",
+            height:50,
+            padding:15,
         };
         
        if(address == "origin" && typeof origin != "undefined"){
            origin.data.forEach((element,i) => {
             rows.push(
-            <Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={`${i}-${element.name}-origin`} title={`${element.name} - Av ${element.district},${element.state}`}  
-            onPress={() => closeModalAdresses(
-                element.city, 
-                element.company, 
-                element.country, 
-                element.description, 
-                element.district, 
-                element.email, 
-                element.name, 
-                element.number, 
-                element.phone, 
-                element.postal_code, 
-                element.reference, 
-                element.state, 
-                element.street, 
-                element.type,
-                )} />
+             <View key={`${i}-${element.name}-origin`}>   
+                <TouchableOpacity style={stylesButton}    
+                onPress={() => closeModalAdresses(
+                    element.city, 
+                    element.company, 
+                    element.country, 
+                    element.description, 
+                    element.district, 
+                    element.email, 
+                    element.name, 
+                    element.number, 
+                    element.phone, 
+                    element.postal_code, 
+                    element.reference, 
+                    element.state, 
+                    element.street, 
+                    element.type,
+                    )} 
+                >
+                    <Text style={{textTransform:"uppercase", fontWeight:"400"}}>{`${element.name} - Av ${element.district},${element.state}`}</Text>
+                </TouchableOpacity>
+            </View>
             )
            });
        }else if(address == "destination"){
@@ -69,10 +74,9 @@ export default class ModalAdresss extends Component {
         
         return (
                 <TouchableOpacity style={{flex:1,paddingTop:40,backgroundColor:"rgba(0,0,0,0.23)", alignItems:"center",justifyContent:"center"}} onPressIn={()=>closeModalAdresses()}>
-                    <View style={{ backgroundColor:"white",width:"95%", height:"30%",}} >
+                    <View style={{ backgroundColor:"white",width:"90%", height:"50%",}} >
                         <ScrollView  style={{width:"100%"}}>
                              {rows}
-                            <Text onPress={()=>closeModalAdresses()} >WTF</Text>
                         </ScrollView>
                     </View>
                 </TouchableOpacity>

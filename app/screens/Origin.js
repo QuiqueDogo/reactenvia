@@ -10,26 +10,29 @@ import ModalAdresss from "../components/ModalAdresses";
 import ModalAdresssAndroid from "../components/ModalAdressesAndroid";
 import { Button, Icon,ListItem } from 'react-native-elements';
 import { CountrySelection } from 'react-native-country-list';
+import Country from "../utils/country.json";
+
 
 export default class Destination extends Component {
   constructor(props) {
     super(props);
-    const item = this.props.navigation.getParam("item")
+    const item = this.props.navigation.getParam("info")
     this.state = {
+        countryForSelect: Country,
         selected:null,
         name: "",
         company: "",
         street: "",
         number: "",
-        postalCode: (item)? item.postal_code : "",
-        district: (item)? item.neighborhood : "",
-        city: (item)? item.city : "",
+        postalCode: (item)? item.item.postal_code : "",
+        district: (item)? item.item.neighborhood : "",
+        city: (item)? item.item.city : "",
         info: "",
         phone: "",
         email: "",
         reference: "",
         country:"",
-        state_2_digits: (item)? item.state_code :"",
+        state_2_digits: (item)? item.item.state_code :"",
         modalVisible:false,
         modalVisibleAdresss: false,
         modalVisibleAdresssAndroid: false,
@@ -74,17 +77,23 @@ export default class Destination extends Component {
     this.setState({itemSelectDistrict:value})
   }
   changeValueCountry = (value, index) => {
-    this.setState({itemSelectCountry:value})
-    const AllStates = this.state.AllStates
-    console.log(AllStates)
+    this.setState({itemSelectCountry:value});
+    const AllStates = this.state.AllStates;
     this.setState({
       stateCountry:AllStates.data[value].name,
       state_2_digits:AllStates.data[value].code_2_digits
-    })
+    });
   }
 
   componentDidMount(){
     this.GetAdressesOrigin();
+    const code_country = this.props.navigation.getParam("code_country");
+    if(typeof code_country !== "undefined"){
+      const result = this.state.countryForSelect.find(code => code.code === code_country.toUpperCase());
+      console.log(result.name, result.code,)
+      this.setState({countrySelect: result.name, country:result.code, ButtonValue:false});
+      this.getAllStates(result.code)
+    }
   }
 
   GetAdressesOrigin = async () =>{
@@ -99,7 +108,7 @@ export default class Destination extends Component {
     }
     fetch(ruta,params)
     .then(response => response.json().then(data => this.ValidationOrigin(data)).catch(error => console.log(error)))
-    .catch(error => console.log(error))
+    .catch(error => console.log(error));
   }
 
   ValidationOrigin = (data) => {
@@ -120,8 +129,6 @@ export default class Destination extends Component {
     if(value2digits){
       this.setState({state_2_digits:value2digits});
      }
-    const AllStates = this.state.AllStates;
-
     this.setState({[state]:value});
     this.setState({modalVisible:false});
   }
@@ -141,11 +148,10 @@ export default class Destination extends Component {
     this.setState({modalVisibleAdresssAndroid:value});
   }
   //adress
-  closeModalAdresses(index ,city, company, country, description, district, email, name, number, phone, postal_code, reference, state, street, type){
+  closeModalAdresses(index){
     if(typeof index !== "undefined"){
       const infoOrigin = this.state.infoOrigin.data;
       this.setState({
-        titleList:`${infoOrigin[index].name} - Av ${infoOrigin[index].district},${infoOrigin[index].state}`,
         city:infoOrigin[index].city,
         company:infoOrigin[index].company,
         country:infoOrigin[index].country,
@@ -345,7 +351,6 @@ export default class Destination extends Component {
                 <View style={styles.cardVerify}>
                     <View style={styles.boxSelect}>
                         <View style={{flex:5}}>
-                          <Button title="consultar state " onPress={()=> console.log(this.state)}/>
                           {Platform.OS === "ios" &&
                            <ButtonModal title={select} onPress={() => this.setState({modalVisibleAdresss: true})}/> 
                           }
