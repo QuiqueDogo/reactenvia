@@ -1,0 +1,25 @@
+{
+    "MainPage":{
+        "Login": "Iniciar Sesión",
+        "Register": "Registrarte",
+        "deliveries":"envios",
+        "international":"INTERNACIONALES"
+    },
+    "LoginPage":{
+        "title":"Bienvenidos!",
+        "title2":"Inicia Sesion en tu cuenta o registrate con nosotros para empezar a realizar envios facil y rapido"
+    },
+    "labels":{
+        "user":"Usuario",
+        "password":"Contraseña",
+        "phone":"Telefono",
+        "email": "Correo Electronico",
+        "country":"Selecciona un Pais",
+        "accept":"Al Continuar aceptas los ",
+        "terms":"Terminos y Condiciones"
+    },
+    "buttons":{
+        "Login":"Inicia Sesión",
+        "Register":"Registrarse"
+    }     
+}

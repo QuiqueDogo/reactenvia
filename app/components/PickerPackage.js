@@ -14,9 +14,9 @@ export default class PickerPackage extends Component {
       const{title, value} = this.props;
       const ModalPickerVisible = this.props.ModalPickerVisible
     return (
-        <TouchableOpacity style={{width:150, borderColor:"#dbdbdb"}} onPress={() => ModalPickerVisible()}>
+        <TouchableOpacity style={{width:150, borderColor:"#dbdbdb"}} onPress={() => ModalPickerVisible(value)}>
         <Text style={{color:"#004b74" }}>{title}</Text>
-          <View style={{flexDirection:"row" ,borderBottomWidth:1, width:"100%", alignItems:"center" ,justifyContent:"space-between",height:30, backgroundColor:"#dbdbdb"}}>
+          <View style={{flexDirection:"row" ,borderBottomWidth:1, width:"100%", alignItems:"center" ,justifyContent:"space-between",height:30}}>
             <Text style={{marginLeft:5}}>{value}</Text>
             <Icon containerStyle={{marginRight:15}} name="chevron-down" type="font-awesome" size={15}/>
           </View>

@@ -39,10 +39,13 @@ export default class Generate extends Component {
           result2:false,
           ModalPickerVisible:false,
           typePackage:"content",
+          valueContent:0,
+          valueweigth:0
         }
-        this.ChangeText = this.ChangeText.bind(this)
-        this.ChangeVolum = this.ChangeVolum.bind(this)
-        this.ModalPickerVisible = this.ModalPickerVisible.bind(this)
+        this.ChangeText = this.ChangeText.bind(this);
+        this.ChangeVolum = this.ChangeVolum.bind(this);
+        this.ModalPickerVisible = this.ModalPickerVisible.bind(this);
+        this.changeValuePackage = this.changeValuePackage.bind(this);
       };
       componentWillMount(){
         this.getAllData();
@@ -150,10 +153,22 @@ export default class Generate extends Component {
         }
       }
       
-      ModalPickerVisible = () => {
+      ModalPickerVisible = (type) => {
         this.setState({ModalPickerVisible:!this.state.ModalPickerVisible})
-        if (this.state.ModalPickerVisible === false && this.state.typePackage == "content") {
-          console.log(this.state.typePackage, "Puto")
+        if(type == "Paquete"){
+         this.setState({typePackage:"content"})
+        }else if(type == "cm"){
+          this.setState({typePackage:"weigth"})
+        }
+      }
+
+      changeValuePackage = (value, state) => {
+        if(state === "content"){
+          console.log("entra en paquete", value);
+          this.setState({valueContent:value})
+        }else if(state === "weigth"){
+          console.log("entra en peso", value);
+          this.setState({valueweigth:value})
         }
       }
 
@@ -177,7 +192,7 @@ export default class Generate extends Component {
       
     fall =new Animated.Value(1);  
     render() {
-      const {type, height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,infoPostalCode2,country_code,query,result,query2,result2, ModalPickerVisible, typePackage } = this.state;
+      const {type, height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,infoPostalCode2,country_code,query,result,query2,result2, ModalPickerVisible, typePackage,valueContent,valueweigth } = this.state;
       const Origin = this.props.navigation.getParam("origin");
       const ValidateOrigin = this.props.navigation.state.params;
       const Destination = this.props.navigation.getParam("destination");
@@ -293,7 +308,7 @@ export default class Generate extends Component {
                                   </View>
                                   <View style={{flex:4,}}>
                                     <View style={{flex:1, flexDirection:"row", justifyContent:"space-between",marginVertical:10, marginHorizontal:15 }} >
-                                      <PickerPackage title="Tipo de Envio" value="Paquete" ModalPickerVisible={this.ModalPickerVisible} />
+                                      <Pic444444kerPackage title="Tipo de Envio" value="Paquete" ModalPickerVisible={this.ModalPickerVisible} />
                                       <PickerPackage title="Medida" value="cm" ModalPickerVisible={this.ModalPickerVisible}/>
                                       {/* 
                                       <Icon containerStyle={{marginTop:"5%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
@@ -366,7 +381,7 @@ export default class Generate extends Component {
                 </Animated.View>
             </View>
             <Modal animationType="fade" animated={true} transparent={true} visible={ModalPickerVisible} >
-              <ModalPicker type={typePackage} ModalPickerVisible={this.ModalPickerVisible} />
+              <ModalPicker type={typePackage}  ModalPickerVisible={this.ModalPickerVisible} valueContent={valueContent} valueweigth={valueweigth} changeValuePackage={this.changeValuePackage} />
             </Modal>
           </KeyboardAvoidingView>
         )

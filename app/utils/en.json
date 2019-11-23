@@ -1,0 +1,25 @@
+{
+    "MainPage":{
+       "Login": "Login",
+       "Register": "Register",
+       "deliveries":"international",
+       "international":"SHIPMENTS"
+    },
+    "LoginPage":{
+        "title":"Welcome!",
+        "title2":"Login to your account or sign up with us to start making quick and easy shipments"
+    },
+    "labels":{
+        "user":"User",
+        "password":"Password",
+        "phone":"Phone",
+        "email": "Email",
+        "country":"Select a Country",
+        "accept":"If you continue, you accept",
+        "terms":"Terms and Conditions"
+    },
+    "buttons":{
+        "Login":"Login",
+        "Register":"Register"
+    }   
+}

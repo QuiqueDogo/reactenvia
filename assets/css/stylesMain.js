@@ -88,7 +88,7 @@ export default StyleSheet.create({
     color:"white",
     paddingBottom:10,
     letterSpacing: 2,
-    fontSize:25,
+    fontSize:32,
   },
   containerImages:{
     flex:5,

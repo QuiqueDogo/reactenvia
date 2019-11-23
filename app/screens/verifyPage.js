@@ -7,6 +7,7 @@ import ButtonModal from "../components/buttonModal"
 import ModalCountry from "../components/ModalCountry";
 import { Button } from 'react-native-elements';
 
+
 export default class verifyPage extends Component{
   constructor(props) {
     super(props);
@@ -30,10 +31,14 @@ export default class verifyPage extends Component{
         modal:"",
         StatebyCountry:"mx", // este debe sacarse de la primera pagina
         valueKeyborad: -170,
-        AllStates:null
+        AllStates:null,
+        valueSends:0,
+        valueHowTo:0,
+        valueState:0,
     }
-    this.closeModal= this.closeModal.bind(this)
-    this.ChangeKeyBoard = this.ChangeKeyBoard.bind(this)
+    this.closeModal= this.closeModal.bind(this);
+    this.ChangeKeyBoard = this.ChangeKeyBoard.bind(this);
+    this.changeValueCountry = this.changeValueCountry.bind(this);
   }
   static navigationOptions ={
     header:null,
@@ -57,6 +62,7 @@ export default class verifyPage extends Component{
     })
   }
 
+
   onViewModal = (modal) => {
     this.setState({modal:modal})
     this.setState({modalVisible:true})
@@ -77,10 +83,30 @@ export default class verifyPage extends Component{
   ChangeKeyBoard(value ){
     this.setState({valueKeyborad:value})
   }
+
+  changeValueCountry = (value,index,modal) => {
+    console.log(value, index, modal);
+    if(modal == "sends"){
+      this.setState({valueSends:value});
+    }else if(modal == "howto"){
+      this.setState({valueHowTo:value});
+    }else if(modal == "state"){
+      this.setState({valueState:value});
+    }
+
+  }
   
 
   render(){
-    const { stateCountry,countryName,modal,sends,howto, valueKeyborad,AllStates} =this.state
+    let SendRows = ["Menos de 25","De 26 a 100","De 101 a 300","Mas de 300"];
+        let HowTo = [
+            one=["BUSCADOR","Buscador (Google, Yahoo, Bing u otros)"],
+            two=["REDES_SOCIALES","Redes Sociales."],
+            three=["RECOMENDACION","Recomendación de un conocido."],
+            four=["EJECUTIVO","La contacto un ejecutivo de Envía."],
+            five=["OTRO","Otro."]
+        ];
+    const { stateCountry,countryName,modal,sends,howto, valueKeyborad,AllStates,valueSends, valueHowTo, valueState} =this.state
     const verticalNumber = (Platform.OS == "android") ? 0 : -250;
     return(
     <KeyboardAvoidingView style={styles.containerRegister} behavior="position" contentContainerStyle={styles.containerRegister} keyboardVerticalOffset={valueKeyborad} >  
@@ -100,7 +126,7 @@ export default class verifyPage extends Component{
            		<InputForm label="Ciudad" value={this.state.ciudad} onChangeText={text => this.onChangeVerify(text,"ciudad")} ChangeKeyBoard={() => this.ChangeKeyBoard(-250)}/>
            	  <ButtonModal title={stateCountry} onPress={()=> this.onViewModal("state")}/>
               <Modal animationType="fade" transparent={true} visible={this.state.modalVisible} onRequestClose={() => {this.setModalVisible(false);}}>
-                <ModalCountry StatebyCountry={AllStates} modal={modal} countryName={countryName} closeModal={this.closeModal}/>
+                <ModalCountry StatebyCountry={AllStates} modal={modal} countryName={countryName} value={valueState} valueSends={valueSends} valueHowTo={valueHowTo} changeValue={this.changeValueCountry} closeModal={this.closeModal}/>
               </Modal>
               <ButtonModal title={sends} onPress={()=> this.onViewModal("sends")} onRequestClose={() => {this.setModalVisible(false);}}/>
               <ButtonModal title={howto} onPress={()=> this.onViewModal("howto")} onRequestClose={() => {this.setModalVisible(false);}}/>
@@ -108,7 +134,10 @@ export default class verifyPage extends Component{
             <Text style={styles.textTerms}>Al continuar aceptas los Terminos y Condiciones</Text>
            <Button  title="Finalizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"arrow-right", type:"font-awesome", size:19, color:"white",}} 
           //  onPress={ ()=> console.log(this.state)} 
-           onPress={ ()=> this.props.navigation.navigate("HomePage")} 
+           onPress={ ()=> {
+            //  this.props.navigation.navigate("HomePage")
+            console.log(this.state)
+            }} 
            />   
            </View> 
         </View>

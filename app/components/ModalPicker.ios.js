@@ -5,22 +5,29 @@ export default class ModalPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        value:""
     };
   }
-
+  
+  
   render() {
-      const {value} = this.state;
-      const {type} = this.props;
+      const {valueContent,valueweigth,type} = this.props;
       const ModalPickerVisible = this.props.ModalPickerVisible;
+      const changeValuePackage = this.props.changeValuePackage
       const rows = [];
-      const content = ["Paquete", "Tarima"]
+      const content = ["Paquete", "Tarima"];
+      const contentweight = ["cm", "in"];
       if(type === "content"){
           content.forEach((element,index) => {
               rows.push(
                   <Picker.Item key={index+element} label={element} value={index}/>
               );
           });
+      }else if(type === "weigth"){
+        contentweight.forEach((element,index) => {
+            rows.push(
+                <Picker.Item key={index+element} label={element} value={index}/>
+            );
+        });
       }
     return (
     //   <View>
@@ -44,8 +51,8 @@ export default class ModalPicker extends Component {
                 </View>
                 <View style={{backgroundColor:"white", width:"100%",height:"auto",}}>
                     <Picker
-                        selectedValue={value}
-                        onValueChange={(value, index) => changeValueCountry(value,index)}
+                        selectedValue={(type== "content")?valueContent:valueweigth}
+                        onValueChange={(value) => changeValuePackage(value, type)}
                     >  
                         {rows}
                     </Picker>

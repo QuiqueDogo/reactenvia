@@ -6,7 +6,8 @@ import styles from "../../assets/css/stylesRegister";
 import Header from "../components/Header";
 import { CountrySelection } from 'react-native-country-list';
 import InputForm from "../components/inputForm";
-import ButtonModal from "../components/buttonModal"
+import ButtonModal from "../components/buttonModal";
+import i18n from "../utils/i18n";
 
 
 export default class registerPage extends Component {
@@ -17,10 +18,10 @@ export default class registerPage extends Component {
   this.state = {
     modalVisible: false,
     selected:{
-      name:(!country.name) ? "Selecciona Pais" :country.name ,
-      callingCode:(!country.callingCode) ? "" :country.callingCode ,
-      flag:(!country.flag) ? "no" :country.flag ,
-      code: (!country.code) ? "" : country.code 
+      // name:(!country.name) ? i18n.t("labels.country") :country.name ,
+      // callingCode:(!country.callingCode) ? "" :country.callingCode ,
+      // flag:(!country.flag) ? "no" :country.flag ,
+      // code: (!country.code) ? "" : country.code 
     },
     number:"",
     formErrorMessage:"",
@@ -99,32 +100,32 @@ render() {
 
   return (
     <KeyboardAvoidingView style={styles.containerRegister} behavior="position" contentContainerStyle={styles.containerRegister} keyboardVerticalOffset={valueKeyborad} >
- 
         <View style={styles.containerRegister}>
             <View style={styles.containerRegister}>
-
-            <Header title="Bienvenidos!" title2="Inicia Sesion en tu cuenta o registrate con nosotros para empezar a realizar envios facil y rapido"/> 
+            <Header title={i18n.t("LoginPage.title")} title2={i18n.t("LoginPage.title2")}/>
               <View style={styles.section2}>
                 <View style={styles.cardStyleGood}>
                   <TabsSelection item="register"/>
                   <Text style={{color:"red",fontWeight:"200", fontSize:13}}>{formErrorMessage}</Text>
                   <ScrollView style={{width:"100%",marginBottom:40}}>
-                          <InputForm  label="Nombre" value={this.state.name} onChangeText={text =>this.handleText(text,"name")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)} />
-                          <InputForm label="Email" value={this.state.email} onChangeText={text =>this.handleText(text,"email")} ChangeKeyBoard={value => this.ChangeKeyBoard(-210)}/>
+                          <InputForm  label={i18n.t("labels.user")} value={this.state.name} onChangeText={text =>this.handleText(text,"name")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)} />
+                          <InputForm label={i18n.t("labels.email")} value={this.state.email} onChangeText={text =>this.handleText(text,"email")} ChangeKeyBoard={value => this.ChangeKeyBoard(-210)}/>
                           <ButtonModal title={name} onPress={() => {this.setModalVisible(true);}} />
-
                           <View style={styles.phoneInput}>
                             <View style={styles.codePhone}>
                               <Image style={styles.flagStyle} source={{uri:flag}} />
                               <Text style={styles.codeStyle}>+{callingCode}</Text>
                             </View>
-                            <TextInput placeholder="Telefono" placeholderTextColor="#38b3b9" returnKeyType="next" keyboardType={'numeric'} maxLength={10} inputContainerStyle={{width:"60%", borderBottomWidth:0}} style={styles.styleNumber} onChangeText={value => this.OnChangeNumber(value,callingCode)} onFocus={() => this.setState({valueKeyborad:-190})} />
+                            <TextInput placeholder={i18n.t("labels.phone")} placeholderTextColor="#38b3b9" returnKeyType="next" keyboardType='numeric' maxLength={10} inputContainerStyle={{width:"60%", borderBottomWidth:0}} style={styles.styleNumber} onChangeText={value => this.OnChangeNumber(value,callingCode)} onFocus={() => this.setState({valueKeyborad:-190})} />
                           </View>
 
-                          <InputForm label="Contraseña" text="true"value={this.state.password} onChangeText={text =>this.handleText(text,"password")} ChangeKeyBoard={value => this.ChangeKeyBoard(-140)} />
-                          <Text style={styles.textTerms}>Al Continuar aceptas los Terminos y Condiciones </Text>
+                          <InputForm label={i18n.t("labels.password")} text="true"value={this.state.password} onChangeText={text =>this.handleText(text,"password")} ChangeKeyBoard={value => this.ChangeKeyBoard(-140)} />
+                          <View style={{flexDirection:"row"}}>
+                            <Text style={styles.textTerms}>Al Continuar aceptas los </Text>
+                            <Text style={styles.textTerms}> Terminos y Condiciones </Text>
+                          </View>
                   </ScrollView>
-                    <Button containerStyle={styles.buttonFloating} title="Registrarse" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30 }}  iconRight iconContainerStyle={{ marginLeft: 0 }} icon={{name:"arrow-right", type:"font-awesome", size:19, color:"white",}} onPress={()=>this.register()} />   
+                    <Button containerStyle={styles.buttonFloating} title={i18n.t("buttons.Register")} buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30 }}  iconRight iconContainerStyle={{ marginLeft: 0 }} icon={{name:"arrow-right", type:"font-awesome", size:19, color:"white",}} onPress={()=>this.register()} />   
                 </View>
 
                     <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => {this.setModalVisible(false);}}>

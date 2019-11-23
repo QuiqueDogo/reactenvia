@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Platform, KeyboardAvoidingView, Modal, TextInput} from 'react-native';
+import {View, Platform, KeyboardAvoidingView, Modal, TextInput, SafeAreaView} from 'react-native';
 import { Button , Text} from 'react-native-elements';
 import  TabsSelection  from "../components/TabsSelection";
 import styles from "../../assets/css/stylesRegister";
@@ -81,7 +81,7 @@ export default class registerPage extends Component {
 
     validation(){
       if(this.state.textButton == "Continuar"){
-        this.props.navigation.navigate("verifyPage");
+        this.props.navigation.navigate("VerifyPage");
       } else {
         this.setState({loading:true})
         setInterval(() => {
@@ -112,7 +112,7 @@ export default class registerPage extends Component {
                         <Text style={styles.numberFormat}>{numberFormat}</Text>
                         <View style={{flex:1,width:"100%", alignItems:"center",}}>
                           <View style={{width:"70%",height:100,flexDirection:"row",  }}>
-                            <TextInput maxLength={1} blurOnSubmit={false} returnKeyType={ "next" }  style={styles.inputText} ref={ input => { this.inputs['one'] = input; }} onChangeText={() => { this.focusNextField('two'); }}/>
+                            <TextInput maxLength={1} blurOnSubmit={false} returnKeyType={ "next" }  style={styles.inputText} ref={ input => { this.inputs['one'] = input }} onChangeText={() => { this.focusNextField('two'); }}/>
                             <TextInput maxLength={1} blurOnSubmit={false} returnKeyType={ "next" }  style={styles.inputText} ref={ input => { this.inputs['two'] = input; }} onChangeText={() => { this.focusNextField('three'); }}/>
                             <TextInput maxLength={1} blurOnSubmit={false} returnKeyType={ "next" }  style={styles.inputText} ref={ input => { this.inputs['three'] = input; }} onChangeText={() => { this.focusNextField('four'); }}/>
                             <TextInput maxLength={1} blurOnSubmit={false} returnKeyType={ "next" }  style={styles.inputText} ref={ input => { this.inputs['four'] = input; }} onChangeText={() => { this.focusNextField('five'); }}/>
@@ -145,7 +145,8 @@ export default class registerPage extends Component {
                           titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttoncontRegister2} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{name:iconName, type:"font-awesome", size:19, color:"white",}} onPress={() => this.validation()}
                               ><Text>Hola</Text></Button>   
                       </View>
-                    
+                    <SafeAreaView>
+
                     <ActionSheet
                       ref={o => { this.ActionSheet = o }}
                       title={title}
@@ -153,7 +154,8 @@ export default class registerPage extends Component {
                       cancelButtonIndex={CANCEL_INDEX}
                       destructiveButtonIndex={DESTRUCTION_INDEX}
                       onPress={(index) => this.handlePress(index)}
-                    />
+                      />
+                  </SafeAreaView>
                    </View>
              </View>
          );

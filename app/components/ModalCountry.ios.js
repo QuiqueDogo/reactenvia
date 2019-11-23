@@ -17,7 +17,7 @@ export default class ModalCountry extends Component {
 
     render() {
         const {modal} =this.state
-        const {value, ...props} = this.props;
+        const {valueSends ,valueHowTo ,value, ...props} = this.props;
         var closeModal = this.props.closeModal;
         var changeValueCountry = this.props.changeValue;
         var StatebyCountry = this.state.StatebyCountry.data;
@@ -25,7 +25,7 @@ export default class ModalCountry extends Component {
         let SendRows = ["Menos de 25","De 26 a 100","De 101 a 300","Mas de 300"];
         let HowTo = [
             one=["BUSCADOR","Buscador (Google, Yahoo, Bing u otros)"],
-            two=["REDES_SOCIALES","Redes Sociales (Facebook, Instagram o Twitter)."],
+            two=["REDES_SOCIALES","Redes Sociales."],
             three=["RECOMENDACION","Recomendación de un conocido."],
             four=["EJECUTIVO","La contacto un ejecutivo de Envía."],
             five=["OTRO","Otro."]
@@ -41,20 +41,28 @@ export default class ModalCountry extends Component {
         if (modal == "state") {
            
             StatebyCountry.forEach((element,i) => {
-                rows.push(<Picker.Item key={`${element.name}`} label={`${element.name}`} value={`${i}`}  onPress={() => closeModal(`${element.name}`, "stateCountry",`${element.code_2_digits}`)} />)
+                rows.push(
+                <Picker.Item key={`${element.name}`} label={`${element.name}`} value={`${i}`}  onPress={() => closeModal(`${element.name}`, "stateCountry",`${element.code_2_digits}`)} />
+                )
             });
 
         } else if(modal == "sends"){
 
-            SendRows.forEach(element => {
-                rows.push(<Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={`${element}`} title={`${element}`}  onPress={() => closeModal(`${element}`, "sends")} />)
+            SendRows.forEach((element,i) => {
+                rows.push(
+                    <Picker.Item key={`${element}`} label={`${element}`} value={`${i}`} />
+                // <Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={`${element}`} title={`${element}`}  onPress={() => closeModal(`${element}`, "sends")} />
+                )
             });
                 
             
         } else if(modal == "howto"){
 
-            HowTo.forEach(element => {
-              rows.push(<Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={element[1]} title={element[1]} onPress={() => closeModal(`${element[0]}`, "howto")} />)  
+            HowTo.forEach((element,i) => {
+              rows.push(
+                <Picker.Item key={`${element[1]}`} label={`${element[1]}`} value={`${i}`} />
+            //   <Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={element[1]} title={element[1]} onPress={() => closeModal(`${element[0]}`, "howto")} />
+              )  
             });
         }
 
@@ -73,8 +81,8 @@ export default class ModalCountry extends Component {
                 </View>
                 <View style={{backgroundColor:"white", width:"100%",height:"auto",}}>
                     <Picker
-                        selectedValue={value}
-                        onValueChange={(value, index) => changeValueCountry(value,index)}
+                        selectedValue={(modal == "sends")?valueSends:(modal == "howto")?valueHowTo:value}
+                        onValueChange={(value, index) => changeValueCountry(value,index, modal)}
                     >  
                         {rows}
                     </Picker>
