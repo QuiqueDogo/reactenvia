@@ -57,7 +57,7 @@ const NavStack = createStackNavigator({
     },
     },
     {
-      initialRouteName:"RegisterPage"
+      initialRouteName:"Generate"
     }
    
 );

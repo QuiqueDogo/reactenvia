@@ -21,7 +21,7 @@ export default class PickerAddress extends Component {
     return (
       <View>
         <TouchableOpacity style={styles.container} onPress={() => {this.setState({visibleModal:true})}}>
-            <Text style={styles.text}>{data[0]}</Text>
+            <Text style={styles.text}>{data[value]}</Text>
         </TouchableOpacity>
       <Modal animationType="fade" transparent={true} visible={visibleModal}>
         <TouchableOpacity style={{flex:1,paddingTop:40,backgroundColor:"rgba(0,0,0,0.23)", alignItems:"center",justifyContent:"flex-end"}} onPressIn={()=>{this.setState({visibleModal:false})}}>

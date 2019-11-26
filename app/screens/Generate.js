@@ -10,6 +10,7 @@ import styles from "../../assets/css/stylesGenerate";
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import SizeBox from "../components/SizeBox";
+import base64 from 'react-native-base64'
 import Autocomplete from 'react-native-autocomplete-input';
 
 
@@ -40,18 +41,27 @@ export default class Generate extends Component {
           ModalPickerVisible:false,
           typePackage:"content",
           valueContent:0,
-          valueweigth:0
+          valueweigth:0,
+          namePackage:["Paquete","Tarima"],
+          nameweight:["cm","in"],
+          PackageSelected:[{selectWeigth:"KG",selectLength:"CM"},{selectWeigth:"LB",selectLength:"IN"}]
         }
         this.ChangeText = this.ChangeText.bind(this);
-        this.ChangeVolum = this.ChangeVolum.bind(this);
         this.ModalPickerVisible = this.ModalPickerVisible.bind(this);
         this.changeValuePackage = this.changeValuePackage.bind(this);
+        this.ChangeKeyBoard = this.ChangeKeyBoard.bind(this);
       };
       componentWillMount(){
         this.getAllData();
       }
 
+      ChangeKeyBoard(value ){
+        this.setState({valueKeyborad:value});
+      }
+
+      
       getAllData = async() => {
+        // https://queries.envia.com/available-carrier/{{country_code}}/{{international}}/{{shipment_type}}
         let country_code = this.state.country_code
         let rutaAvailableCarriers = "https://queries.envia.com/available-carrier/"+country_code.toUpperCase()+"/0";
         let params = {
@@ -62,9 +72,7 @@ export default class Generate extends Component {
           },
           mode: 'cors'
         }
-        fetch(rutaAvailableCarriers, params).then(response => response.json().then(data => this.setState({CarriersAvailable:data})).catch(error => console.log(error))).catch(error => console.log(error))
-        
-
+        fetch(rutaAvailableCarriers, params).then(response => response.json().then(data => {this.setState({CarriersAvailable:data}), console.log(data)}).catch(error => console.log(error))).catch(error => console.log(error));
       } 
 
 
@@ -155,9 +163,9 @@ export default class Generate extends Component {
       
       ModalPickerVisible = (type) => {
         this.setState({ModalPickerVisible:!this.state.ModalPickerVisible})
-        if(type == "Paquete"){
+        if(type == "Paquete" || type == "Tarima"){
          this.setState({typePackage:"content"})
-        }else if(type == "cm"){
+        }else if(type == "cm" || type == "in" ){
           this.setState({typePackage:"weigth"})
         }
       }
@@ -192,7 +200,7 @@ export default class Generate extends Component {
       
     fall =new Animated.Value(1);  
     render() {
-      const {type, height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,infoPostalCode2,country_code,query,result,query2,result2, ModalPickerVisible, typePackage,valueContent,valueweigth } = this.state;
+      const {type, height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,infoPostalCode2,country_code,query,result,query2,result2, ModalPickerVisible, typePackage,valueContent,valueweigth, PackageSelected } = this.state;
       const Origin = this.props.navigation.getParam("origin");
       const ValidateOrigin = this.props.navigation.state.params;
       const Destination = this.props.navigation.getParam("destination");
@@ -307,18 +315,18 @@ export default class Generate extends Component {
                                         <Text style={styles.subTitleInfo}>Informacion del Paquete</Text>
                                   </View>
                                   <View style={{flex:4,}}>
-                                    <View style={{flex:1, flexDirection:"row", justifyContent:"space-between",marginVertical:10, marginHorizontal:15 }} >
-                                      <Pic444444kerPackage title="Tipo de Envio" value="Paquete" ModalPickerVisible={this.ModalPickerVisible} />
-                                      <PickerPackage title="Medida" value="cm" ModalPickerVisible={this.ModalPickerVisible}/>
-                                      {/* 
+                                    <View style={{flex:0.7, flexDirection:"row", justifyContent:"space-around",marginBottom:10, marginHorizontal:10 }} >
+                                      <PickerPackage title="Tipo de Envio" value={this.state.namePackage[valueContent]} ModalPickerVisible={this.ModalPickerVisible} />
+                                      <PickerPackage title="Medida" value={this.state.nameweight[valueweigth]} ModalPickerVisible={this.ModalPickerVisible}/>
+                                      {/* weightUnit lengthUnit
                                       <Icon containerStyle={{marginTop:"5%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
                                        */}
                                     </View>
-                                    <View style={{flex:2.6, flexDirection:"row",justifyContent:"space-between",}} >
-                                      <SizeBox type={lengthUnit} holder="Alto"  value={height} dimensions="height" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
-                                      <SizeBox type={lengthUnit} holder="Ancho" value={width} dimensions="width" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
-                                      <SizeBox type={lengthUnit} holder="Largo" value={length} dimensions="length" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
-                                      <SizeBox type={weightUnit} holder="Peso"  value={weight} dimensions="weight" ChangeText={this.ChangeText} ChangeVolum={this.ChangeVolum}/>
+                                    <View style={{flex:2.6, flexDirection:"row",justifyContent:"space-around",marginHorizontal:10, marginVertical:10}} >
+                                      <SizeBox type={lengthUnit} label="Alto"  value={height} dimensions="height" ChangeText={this.ChangeText}  ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
+                                      <SizeBox type={lengthUnit} label="Ancho" value={width} dimensions="width" ChangeText={this.ChangeText}  ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
+                                      <SizeBox type={lengthUnit} label="Largo" value={length} dimensions="length" ChangeText={this.ChangeText}  ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
+                                      <SizeBox type={weightUnit} label="Peso"  value={weight} dimensions="weight" ChangeText={this.ChangeText}  ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
                                     </View>
                               
                                   </View>
@@ -326,52 +334,23 @@ export default class Generate extends Component {
                               </View>
                               <Button  title="Cotizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"dollar", type:"font-awesome", size:19, color:"white",}} 
                                       onPress={ () => { this.props.navigation.navigate("GenerateGuide",{
-                                       // origin:Origin,
-                                       // destination:Destination,
-                                       // packages:Packages,
-                                       origin:{
-                                         "city": "Morelia",
-                                         "company": "1212",
-                                         "country": "MX",
-                                         "district": "Issac Arriaga",
-                                         "email": "lol@lol.com",
-                                         "name": "Luis Enrique",
-                                         "number": "21",
-                                         "phone": "12",
-                                         "postalCode": "58210",
-                                         "reference": "12212",
-                                         "state": "MI",
-                                         "street": "2121"
-                                       },
-                                       destination:{
-                                         "city": "Monterrey",
-                                         "company": "Weqwe",
-                                         "country": "MX",
-                                         "district": "Chepevera",
-                                         "email": "Qweqwe@lel.com",
-                                         "name": "Luis Enrique",
-                                         "number": "We",
-                                         "phone": "Qwe",
-                                         "postalCode": "64030",
-                                         "reference": "Qwe",
-                                         "state": "NL",
-                                         "street": "We"
-                                       },
+                                       origin:Origin,
+                                       destination:Destination,
                                        packages:[{
-                                         "amount": 1,
-                                         "content": "Qweqw",
-                                         "declaredValue": 0,
-                                         "dimensions":  {
-                                           "height": 10,
-                                           "length": 10,
-                                           "width": 10
-                                         },
-                                         "insurance": 10,
-                                         "lengthUnit": "CM",
-                                         "type": "box",
-                                         "weight": 10,
-                                         "weightUnit": "KG"
-                                       }],
+                                           "amount": 1,
+                                           "content": "Prueba",
+                                           "declaredValue": 0,
+                                           "dimensions":  {
+                                             "height": parseInt(height),
+                                             "length": parseInt(length),
+                                             "width": parseInt(width)
+                                           },
+                                           "insurance": 0,
+                                           "lengthUnit": PackageSelected[valueweigth].selectLength,
+                                           "type": "box",
+                                           "weight": parseInt(weight),
+                                           "weightUnit": PackageSelected[valueweigth].selectWeigth
+                                         }],
                                        carriers:this.state.CarriersAvailable
                                       })}} 
                                  /> 

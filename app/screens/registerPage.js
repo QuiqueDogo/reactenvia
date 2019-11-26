@@ -8,6 +8,7 @@ import { CountrySelection } from 'react-native-country-list';
 import InputForm from "../components/inputForm";
 import ButtonModal from "../components/buttonModal";
 import i18n from "../utils/i18n";
+import { Linking } from 'expo';
 
 
 export default class registerPage extends Component {
@@ -18,10 +19,10 @@ export default class registerPage extends Component {
   this.state = {
     modalVisible: false,
     selected:{
-      // name:(!country.name) ? i18n.t("labels.country") :country.name ,
-      // callingCode:(!country.callingCode) ? "" :country.callingCode ,
-      // flag:(!country.flag) ? "no" :country.flag ,
-      // code: (!country.code) ? "" : country.code 
+      name:(!country.name) ? i18n.t("labels.country") :country.name ,
+      callingCode:(!country.callingCode) ? "" :country.callingCode ,
+      flag:(!country.flag) ? "no" :country.flag ,
+      code: (!country.code) ? "" : country.code 
     },
     number:"",
     formErrorMessage:"",
@@ -51,7 +52,15 @@ register = () => {
         }else{
           this.setState({ formErrorMessage: "Correo invalido" });
         }
-   }
+    }else{
+      this.OnChangeValue();
+    }
+}
+
+OnChangeValue = () => {
+  this.user.checkvalue() // para verificar que cada campo no este vacio (solo funciona con el componente de inputForm.js)
+  this.email.checkvalue() 
+  this.pass.checkvalue() 
 }
 
 handleText = (newText, state) =>{
@@ -108,8 +117,8 @@ render() {
                   <TabsSelection item="register"/>
                   <Text style={{color:"red",fontWeight:"200", fontSize:13}}>{formErrorMessage}</Text>
                   <ScrollView style={{width:"100%",marginBottom:40}}>
-                          <InputForm  label={i18n.t("labels.user")} value={this.state.name} onChangeText={text =>this.handleText(text,"name")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)} />
-                          <InputForm label={i18n.t("labels.email")} value={this.state.email} onChangeText={text =>this.handleText(text,"email")} ChangeKeyBoard={value => this.ChangeKeyBoard(-210)}/>
+                          <InputForm onRef={ref => (this.user = ref)} label={i18n.t("labels.user")} value={this.state.name} onChangeText={text =>this.handleText(text,"name")} ChangeKeyBoard={value => this.ChangeKeyBoard(-250)} />
+                          <InputForm onRef={ref => (this.email = ref)} label={i18n.t("labels.email")} value={this.state.email} onChangeText={text =>this.handleText(text,"email")} ChangeKeyBoard={value => this.ChangeKeyBoard(-210)}/>
                           <ButtonModal title={name} onPress={() => {this.setModalVisible(true);}} />
                           <View style={styles.phoneInput}>
                             <View style={styles.codePhone}>
@@ -119,13 +128,17 @@ render() {
                             <TextInput placeholder={i18n.t("labels.phone")} placeholderTextColor="#38b3b9" returnKeyType="next" keyboardType='numeric' maxLength={10} inputContainerStyle={{width:"60%", borderBottomWidth:0}} style={styles.styleNumber} onChangeText={value => this.OnChangeNumber(value,callingCode)} onFocus={() => this.setState({valueKeyborad:-190})} />
                           </View>
 
-                          <InputForm label={i18n.t("labels.password")} text="true"value={this.state.password} onChangeText={text =>this.handleText(text,"password")} ChangeKeyBoard={value => this.ChangeKeyBoard(-140)} />
-                          <View style={{flexDirection:"row"}}>
-                            <Text style={styles.textTerms}>Al Continuar aceptas los </Text>
-                            <Text style={styles.textTerms}> Terminos y Condiciones </Text>
+                          <InputForm onRef={ref => (this.pass = ref)} label={i18n.t("labels.password")} text="true"value={this.state.password} onChangeText={text =>this.handleText(text,"password")} ChangeKeyBoard={value => this.ChangeKeyBoard(-140)} />
+                          <View style={{flexDirection:"row", width:"100%", justifyContent:"center" }}>
+                            <Text style={[styles.textTerms,{color:"#bdbdbd"}]}>{i18n.t("labels.accept")}</Text>
+                            <TouchableOpacity onPress={() => Linking.openURL('https://www.youtube.com/watch?v=2NLAUARFWrc')} >
+                              <Text style={[styles.textTerms,{color:"#02b2bc"}]}>{i18n.t("labels.terms")}</Text>
+                            </TouchableOpacity>
                           </View>
                   </ScrollView>
-                    <Button containerStyle={styles.buttonFloating} title={i18n.t("buttons.Register")} buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30 }}  iconRight iconContainerStyle={{ marginLeft: 0 }} icon={{name:"arrow-right", type:"font-awesome", size:19, color:"white",}} onPress={()=>this.register()} />   
+                    <Button containerStyle={styles.buttonFloating} title={i18n.t("buttons.Register")} buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30 }}  iconRight iconContainerStyle={{ marginLeft: 0 }} icon={{name:"arrow-right", type:"font-awesome", size:19, color:"white",}} 
+                    onPress={()=>this.register()} 
+                    />   
                 </View>
 
                     <Modal animationType="slide" transparent={false} visible={this.state.modalVisible} onRequestClose={() => {this.setModalVisible(false);}}>

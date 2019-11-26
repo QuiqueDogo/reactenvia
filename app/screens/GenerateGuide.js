@@ -8,6 +8,7 @@ import Guides from "../components/Guides";
 export default class GenerateGuide extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props.navigation.state)
     this.state = {
       info:[],
       change: false,

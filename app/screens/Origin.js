@@ -74,7 +74,8 @@ export default class Destination extends Component {
   }
 
   changeValueDistrict = (value, index) => {
-    this.setState({itemSelectDistrict:value})
+    this.setState({itemSelectDistrict:value});
+    this.setState({district: this.state.DataDistrict[value]})
   }
   changeValueCountry = (value, index) => {
     this.setState({itemSelectCountry:value});
@@ -88,11 +89,16 @@ export default class Destination extends Component {
   componentDidMount(){
     this.GetAdressesOrigin();
     const code_country = this.props.navigation.getParam("code_country");
+    const info = this.props.navigation.getParam("info");
     if(typeof code_country !== "undefined"){
       const result = this.state.countryForSelect.find(code => code.code === code_country.toUpperCase());
-      console.log(result.name, result.code,)
+      console.log(result.name, result.code,info)
       this.setState({countrySelect: result.name, country:result.code, ButtonValue:false});
       this.getAllStates(result.code)
+      if(info.item.state_code == "MC"){
+        info.item.state_code = "MI";
+      }
+      this.getSingleState(info.item.state_code,result.code)
     }
   }
 
@@ -290,11 +296,11 @@ export default class Destination extends Component {
         mode: 'cors'
       }
       console.log(ruta)
-      fetch(ruta,params).then(response => response.json().then(data => this.DataArray(data)).catch(error => console.log(error))).catch(error => console.log(error));
+      fetch(ruta,params).then(response => response.json().then(data => this.DataArray(data, country.toUpperCase())).catch(error => console.log(error))).catch(error => console.log(error));
     }
   }
 
-  DataArray = (data) => {
+  DataArray = (data,country) => {
     const info = [];
     if(typeof data == "object"){
       data.forEach(element => {
@@ -304,7 +310,14 @@ export default class Destination extends Component {
       this.setState({city:data[0].city});
       this.setState({district:data[0].neighborhood});
       this.setState({modalNeighborhood: true});
-
+      if(data[0].state_code){
+        if(data[0].state_code == "MC"){
+          data[0].state_code = "MI";
+        }
+        this.setState({ButtonValue: false});
+        this.getSingleState(data[0].state_code,country)
+        this.getAllStates(country);
+      }
     }
   }
 

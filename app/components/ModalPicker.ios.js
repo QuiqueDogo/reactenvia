@@ -51,7 +51,7 @@ export default class ModalPicker extends Component {
                 </View>
                 <View style={{backgroundColor:"white", width:"100%",height:"auto",}}>
                     <Picker
-                        selectedValue={(type== "content")?valueContent:valueweigth}
+                        selectedValue={(type== "content")?valueContent:valueweigth  }
                         onValueChange={(value) => changeValuePackage(value, type)}
                     >  
                         {rows}

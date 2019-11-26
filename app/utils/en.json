@@ -15,7 +15,7 @@
         "phone":"Phone",
         "email": "Email",
         "country":"Select a Country",
-        "accept":"If you continue, you accept",
+        "accept":"If you continue, you accept ",
         "terms":"Terms and Conditions"
     },
     "buttons":{

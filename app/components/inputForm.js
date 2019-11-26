@@ -12,6 +12,24 @@ export default class InputForm extends Component {
          bigger: !this.props.bigger ? 90 : 110
       };
     };
+    componentDidMount(){
+        if (this.props.onRef) {
+            this.props.onRef(this)
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.props.onRef) {
+        this.props.onRef(undefined)
+        }
+    }
+
+    checkvalue(){
+        if(this.props.value === ""){
+            this.AnimatedEmpty();
+        }
+    }
+
     componentWillMount() {
         this._animatedIsFocused = new Animated.Value(this.props.value === "" ? 0 :1);
         this.animatedValue = new Animated.Value(0);

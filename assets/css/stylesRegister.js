@@ -97,8 +97,6 @@ export default StyleSheet.create({
         bottom:"-5%"
     },
     textTerms:{
-        width:"100%",
-        textAlign:"center",
         fontSize:13,
         marginTop:18
     },

@@ -52,7 +52,7 @@ export default StyleSheet.create({
       },
       boxsubTitle:{
         flex:1,
-        justifyContent:"flex-end",
+        justifyContent:"center",
         paddingLeft:20,
         marginTop:14
       },

@@ -62,6 +62,10 @@ export default class verifyPage extends Component{
     })
   }
 
+  OnChangeValue = () => {
+    this.empresa.checkvalue() // para verificar que cada campo no este vacio (solo funciona con el componente de inputForm.js)
+    
+  }
 
   onViewModal = (modal) => {
     this.setState({modal:modal})
@@ -96,6 +100,11 @@ export default class verifyPage extends Component{
 
   }
   
+  CheckValues = () => {
+    // if(thisempresa thiscalle thisnumero thiscodigoPostal thiscolonia thisciudad){
+
+    // }
+  }
 
   render(){
     let SendRows = ["Menos de 25","De 26 a 100","De 101 a 300","Mas de 300"];
@@ -115,7 +124,7 @@ export default class verifyPage extends Component{
         <View style={styles.section2}>
            <View style={styles.cardVerify}> 
             <ScrollView style={styles.scrollStyle}>
-           		<InputForm label="Empresa" value={this.state.empresa} onChangeText={text => this.onChangeVerify(text,"empresa")} ChangeKeyBoard={() => this.ChangeKeyBoard(-250)} />
+           		<InputForm onRef={ref => (this.empresa = ref)} label="Empresa" value={this.state.empresa} onChangeText={text => this.onChangeVerify(text,"empresa")} ChangeKeyBoard={() => this.ChangeKeyBoard(-250)} />
                <Text style={styles.textStyle}>Direccion</Text>
            		<InputForm label="Calle" value={this.state.calle} onChangeText={text => this.onChangeVerify(text,"calle")} ChangeKeyBoard={() => this.ChangeKeyBoard(-250)}/>
               <View style={styles.CPandNumber}>
@@ -133,10 +142,8 @@ export default class verifyPage extends Component{
             </ScrollView>
             <Text style={styles.textTerms}>Al continuar aceptas los Terminos y Condiciones</Text>
            <Button  title="Finalizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"arrow-right", type:"font-awesome", size:19, color:"white",}} 
-          //  onPress={ ()=> console.log(this.state)} 
            onPress={ ()=> {
-            //  this.props.navigation.navigate("HomePage")
-            console.log(this.state)
+            this.CheckValues()
             }} 
            />   
            </View> 

@@ -6,6 +6,7 @@ import InputForm from "../components/inputForm";
 import ButtonModal from "../components/buttonModal"
 import ModalCountry from "../components/ModalCountry";
 import ModalAdresss from "../components/ModalAdresses";
+import PickerAddress from "../components/ios/PickerAddress";
 import ModalAdresssAndroid from "../components/ModalAdressesAndroid";
 import { Button, Icon } from 'react-native-elements';
 import { CountrySelection } from 'react-native-country-list';
@@ -15,11 +16,10 @@ export default class Destination extends Component {
   constructor(props) {
     super(props);
     const item = this.props.navigation.getParam("info")
-    console.log(this.props)
     this.state = {
         countryForSelect:Country,
         selected:"",
-        name:"Luis Enrique",
+        name:"",
         company: "",
         street: "",
         number: "",
@@ -46,11 +46,16 @@ export default class Destination extends Component {
         ButtonValue: true,
         itemSelect:0,
         itemSelectCountry:0,
+        itemSelectDistrict:0,
+        DataDistrict:null,
+        modalNeighborhood:false
+        
     };
     this.closeModal= this.closeModal.bind(this);
     this.closeModalAdresses = this.closeModalAdresses.bind(this);
-    this.changeValue = this.changeValue.bind(this)
-    this.changeValueCountry = this.changeValueCountry.bind(this)
+    this.changeValue = this.changeValue.bind(this);
+    this.changeValueCountry = this.changeValueCountry.bind(this);
+    this.changeValueDistrict = this.changeValueDistrict.bind(this);
   }
   static navigationOptions ={
     header:null
@@ -65,6 +70,11 @@ export default class Destination extends Component {
     this.setState({itemSelect:value})
   }
 
+  changeValueDistrict = (value, index) => {
+    this.setState({itemSelectDistrict:value});
+    this.setState({district: this.state.DataDistrict[value]})
+  }
+
   changeValueCountry = (value) => {
     this.setState({itemSelectCountry: value})
     const AllStates = this.state.AllStates;
@@ -77,13 +87,17 @@ export default class Destination extends Component {
   componentDidMount(){
     this.GetAdressesDestination();
     const code_country = this.props.navigation.getParam("code_country");
+    const info = this.props.navigation.getParam("info");
     if(typeof code_country !== "undefined"){
       const result = this.state.countryForSelect.find(code => code.code === code_country.toUpperCase());
       console.log(result.name, result.code,)
       this.setState({countrySelect: result.name, country:result.code, ButtonValue:false});
-      this.getAllStates(result.code)
+      this.getAllStates(result.code);
+      if(info.item.state_code == "MC"){
+        info.item.state_code = "MI";
+      }
+      this.getSingleState(info.item.state_code,result.code)
     }
-
   }
 
   GetAdressesDestination = async ()=>{
@@ -225,16 +239,57 @@ export default class Destination extends Component {
   
   onCountrySelection = (country) => {
     this.setState({countrySelect:country.name});
-    this.setState({state_2_digits:country.code});
+    this.setState({country:country.code});
     this.setState({modalVisibleCountry: false});
     this.setState({ButtonValue: false});
     this.getAllStates(country.code);
   }
+
+  PostalCodeText = async (newText, country) => {
+    this.setState({
+      postalCode: newText
+    })
+    
+    if(newText.length == 5){
+      let ruta  = `https://enviaya.com.mx/shipping/address_short_search.json?q=${newText}&country=${country}`;
+      let params = {
+        method: "GET",
+        headers : {
+          "Referer":"https://enviaya.com.mx",
+          'Content-Type': 'application/json',
+          "Origin":"https://enviaya.com.mx",
+        },
+        mode: 'cors'
+      }
+      console.log(ruta)
+      fetch(ruta,params).then(response => response.json().then(data => this.DataArray(data, country.toUpperCase())).catch(error => console.log(error))).catch(error => console.log(error));
+    }
+  }
   
+  DataArray = (data, country) => {
+    const info = [];
+    if(typeof data == "object"){
+      data.forEach(element => {
+        info.push(element.neighborhood);
+      });
+      this.setState({DataDistrict:info});
+      this.setState({city:data[0].city});
+      this.setState({district:data[0].neighborhood});
+      this.setState({modalNeighborhood: true});
+      if(data[0].state_code){
+        if(data[0].state_code == "MC"){
+          data[0].state_code = "MI";
+        }
+        this.setState({ButtonValue: false});
+        this.getSingleState(data[0].state_code,country)
+        this.getAllStates(country);
+      }
+    }
+  }
 
 
   render() {
-    const { stateCountry,countryName,modal,name,select,valueKeyborad, company, street, number, postalCode, district, city, phone,email,reference, country,state_2_digits,AllStates,infoOrigin,modalVisibleCountry,selected, countrySelect,ButtonValue,itemSelect, infoDestination,itemSelectCountry } =this.state
+    const { stateCountry,countryName,modal,name,select,valueKeyborad, company, street, number, postalCode, district, city, phone,email,reference, country,state_2_digits,AllStates,infoOrigin,modalVisibleCountry,selected, countrySelect,ButtonValue,itemSelect, infoDestination,itemSelectCountry,DataDistrict,itemSelectDistrict } =this.state
     return (
     <KeyboardAvoidingView style={styles.containerRegister} behavior="position" enabled contentContainerStyle={styles.containerRegister} keyboardVerticalOffset={valueKeyborad}>
       <View style={styles.containerRegister}>
@@ -264,8 +319,16 @@ export default class Destination extends Component {
                         <ButtonModal title={countrySelect} onPress={()=> this.setState({modalVisibleCountry:true})}/>
                         <InputForm label="Calle" value={street} onChangeText={text => this.onChangeVerify(text,"street")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
                         <InputForm label="Numero"  value={number} onChangeText={text => this.onChangeVerify(text,"number")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
-                        <InputForm label="Codigo Postal"  value={postalCode} onChangeText={text => this.onChangeVerify(text,"postalCode")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
-                        <InputForm label="Colonia" value={district} onChangeText={text => this.onChangeVerify(text,"district")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
+                        <InputForm label="Codigo Postal" bigger={true} value={postalCode} onChangeText={text => this.PostalCodeText(text, "mx")} ChangeKeyBoard={value => this.ChangeKeyBoard(-120)}/>
+                        { (this.state.modalNeighborhood ===  true && Platform.OS == "ios") &&
+                          <PickerAddress data={DataDistrict} changeValueDistrict={this.changeValueDistrict} value={itemSelectDistrict}/>
+                        }
+                        { (this.state.modalNeighborhood ===  true && Platform.OS == "android") &&
+                          <PickerAddress data={DataDistrict} />
+                        }
+                        { this.state.modalNeighborhood === false &&
+                          <InputForm label="Colonia" value={district} onChangeText={text => this.onChangeVerify(text,"district")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/> 
+                        }
                         <InputForm label="Ciudad" value={city} onChangeText={text => this.onChangeVerify(text,"city")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/>
                         <ButtonModal disabled={ButtonValue} title={stateCountry} onPress={()=> this.onViewModal("state")}/>
                         <InputForm label="Referencia" value={reference} onChangeText={text => this.onChangeVerify(text,"reference")} ChangeKeyBoard={value => this.ChangeKeyBoard(-80)}/>
@@ -296,7 +359,7 @@ export default class Destination extends Component {
 
             {/* Modals */}
             <Modal animationType="fade" transparent={true} visible={this.state.modalVisible} onRequestClose={() => {this.setModalVisible(false);}}>
-                        <ModalCountry StatebyCountry={AllStates} modal={modal} countryName={countryName} closeModal={this.closeModal} value={itemSelectCountry} changeValue={this.changeValueCountry}/>
+                  <ModalCountry StatebyCountry={AllStates} modal={modal} countryName={countryName} closeModal={this.closeModal} value={itemSelectCountry} changeValue={this.changeValueCountry}/>
             </Modal>
             {Platform.OS === "ios" && 
             <Modal animationType="fade" transparent={true} visible={this.state.modalVisibleAdresss} onRequestClose={() => {this.modalVisibleAdresss(false);}}>
@@ -305,7 +368,7 @@ export default class Destination extends Component {
             }
             {Platform.OS === "android" &&
               <Modal animationType="fade" transparent={true} visible={this.state.modalVisibleAdresssAndroid} onRequestClose={() => {this.modalVisibleAdresssAndroid(false);}}>
-                    <ModalAdresssAndroid address="destination" origin={infoDestination} value={itemSelect}  closeModal={this.closeModalAdressesAndroid}/>
+                  <ModalAdresssAndroid address="destination" origin={infoDestination} value={itemSelect}  closeModal={this.closeModalAdressesAndroid}/>
               </Modal>
             }
             <Modal animationType="slide" transparent={false} visible={modalVisibleCountry} onRequestClose={() => {this.setModalVisible(false);}}>

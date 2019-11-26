@@ -44,30 +44,26 @@ import i18n from "../utils/i18n";
       const latitude = this.state.location.coords.latitude
       const longitude = this.state.location.coords.longitude
 
-      let ruta ="https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+latitude+"&lon="+longitude;
+      let ruta ="https://nominatim.openstreetmap.org/reverse?format=json&lat="+latitude+"&lon="+longitude;
       let params = {
         method:"GET",
-        
         header:{
           'Content-Type': 'application/json',
-          "Referer":"https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+latitude+"&lon="+longitude
-          
         },
         mode:"cors"
       };
       console.log(ruta)
       fetch(ruta, params)
-                .then((response) => response.text()
+                .then((response) => response.json()
                 .then((responseJson) => {
-                  console.log(responseJson)
-                      // const countryCode  = responseJson.address.country_code
-                      // const listCountry = this.state.listCountry
-                      // listCountry.find(element =>{
-                      //   if(element.code === countryCode.toUpperCase()){
-                      //       this.setState({name:element.name,callingCode:element.callingCode,flag:element.flag,code:element.code})
-                      //       console.log("listo")
-                      //     }
-                      //   })              
+                      const countryCode  = responseJson.address.country_code
+                      const listCountry = this.state.listCountry
+                      listCountry.find(element =>{
+                        if(element.code === countryCode.toUpperCase()){
+                            this.setState({name:element.name,callingCode:element.callingCode,flag:element.flag,code:element.code})
+                            console.log("listo")
+                          }
+                        })              
                 }))
                 .catch((error) =>{ console.error(error)});
                 
