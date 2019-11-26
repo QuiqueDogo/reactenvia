@@ -18,7 +18,7 @@ export default class PickerPackage extends Component {
         <Text style={styles.textLabel}>{title}</Text>
           <View style={{flexDirection:"row" , width:"100%", alignItems:"center", height:30}}>
             <Text style={{marginLeft:15,color: '#38b3b9'}}>{value}</Text>
-            <Icon containerStyle={{marginRight:15,marginLeft:"auto"}} name="chevron-down" type="font-awesome" size={15}/>
+            <Icon containerStyle={{marginRight:15,marginLeft:"auto"}} name="chevron-down" type="font-awesome" size={15} color="#38b3b9"/>
           </View>
         </TouchableOpacity>
     );

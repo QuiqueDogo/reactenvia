@@ -226,8 +226,8 @@ export default class Generate extends Component {
                                 <View style={styles.boxsubTitle}>
                                   <Text style={styles.subTitle}>Origen</Text>
                                 </View>
-                                <View style={{flex:3,flexDirection:"row",justifyContent: 'center',paddingTop:8,marginHorizontal:(Platform.OS === "ios") ? 10:0}}>
-                                    <View style={{flex:1, }}>
+                                <View style={{flex:2,flexDirection:"row",justifyContent: 'flex-start',paddingTop:8,marginHorizontal:(Platform.OS === "ios") ? 10:0}}>
+                                    <View style={{flex:0.9, }}>
                                     {(typeof Origin == "undefined") && 
                                       <Autocomplete 
                                         autoCapitalize="none"
@@ -237,7 +237,7 @@ export default class Generate extends Component {
                                         keyExtractor={(item, index) => item.value}
                                         listContainerStyle={{width:"100%",zIndex:10,backgroundColor:"white"}}
                                         listStyle={{ maxHeight:135, width:"100%",zIndex:10,backgroundColor:"white", borderRadius:10}}
-                                        inputContainerStyle={{borderRadius:10, width:"100%",zIndex:10,marginHorizontal:(Platform.OS === "android") ? 10:0, paddingLeft:10,paddingRight:10}}
+                                        inputContainerStyle={{borderRadius:10, width:"100%",zIndex:10,marginHorizontal:(Platform.OS === "android") ? 10:10, paddingLeft:10,paddingRight:10}}
                                         onChangeText={text => this.OriginText(text,"mx")}
                                         hideResults={result}
                                         renderItem={(info) => (
@@ -261,7 +261,7 @@ export default class Generate extends Component {
                                       </View>
                                     }
                                     </View>
-                                  <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin")}/>
+                                  <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin")}/>
                                 </View>
                                 <Divider style={{backgroundColor:"#e4e4e4", height:1, zIndex:-1}}/>
                               </View>
@@ -270,8 +270,8 @@ export default class Generate extends Component {
                                   <View style={styles.boxsubTitle}>
                                     <Text style={styles.subTitle}>Destino</Text>
                                   </View>
-                                  <View style={{flex:2,flexDirection:"row",justifyContent: 'center',paddingTop:8,marginHorizontal:(Platform.OS === "ios") ? 10:0}}>
-                                    <View style={{flex:1}}>
+                                  <View style={{flex:2,flexDirection:"row",justifyContent: 'flex-start',paddingTop:8,marginHorizontal:(Platform.OS === "ios") ? 10:0}}>
+                                    <View style={{flex:0.9}}>
                                     {(typeof Destination == "undefined") && 
                                       <Autocomplete 
                                       autoCapitalize="none"
@@ -281,7 +281,7 @@ export default class Generate extends Component {
                                       keyExtractor={(item, index) => item.value}
                                       listContainerStyle={{width:"100%",zIndex:10,backgroundColor:"white"}}
                                       listStyle={{ maxHeight:135, width:"100%",zIndex:10,backgroundColor:"white", borderRadius:10}}
-                                      inputContainerStyle={{borderRadius:10, width:"100%",zIndex:10,marginHorizontal:(Platform.OS === "android") ? 10:0, paddingLeft:10,paddingRight:10}}
+                                      inputContainerStyle={{borderRadius:10, width:"100%",zIndex:10,marginHorizontal:(Platform.OS === "android") ? 10:10, paddingLeft:10,paddingRight:10}}
                                       onChangeText={text => this.OriginText2(text,"mx")}
                                       hideResults={result2}
                                       renderItem={(info) => (
@@ -305,7 +305,7 @@ export default class Generate extends Component {
                                       </View>
                                     }
                                     </View>  
-                                    <Icon containerStyle={{flex:0.3,marginTop:"2%"}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
+                                    <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
                                   </View>
                                   <Divider style={{backgroundColor:"#e4e4e4", height:1, zIndex:-1}}/>
                               </View>
