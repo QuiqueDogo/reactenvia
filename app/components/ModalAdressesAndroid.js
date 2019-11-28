@@ -51,23 +51,27 @@ export default class ModalAdresss extends Component {
        }else if(address == "destination"){
         origin.data.forEach((element,i) => {
             rows.push(
-            <Button buttonStyle={stylesButton} titleStyle={{color:"#38b3b9"}} key={`${i}-${element.name}-destination`} title={`${element.name} - Av ${element.district},${element.state}`}  
-            onPress={() => closeModalAdresses(
-                element.city, 
-                element.company, 
-                element.country, 
-                element.description, 
-                element.district, 
-                element.email, 
-                element.name, 
-                element.number, 
-                element.phone, 
-                element.postal_code, 
-                element.reference, 
-                element.state, 
-                element.street, 
-                element.type,
-                )} />
+            <View key={`${i}-${element.name}-origin`}> 
+                <TouchableOpacity style={stylesButton}   
+                onPress={() => closeModalAdresses(
+                    element.city, 
+                    element.company, 
+                    element.country, 
+                    element.description, 
+                    element.district, 
+                    element.email, 
+                    element.name, 
+                    element.number, 
+                    element.phone, 
+                    element.postal_code, 
+                    element.reference, 
+                    element.state, 
+                    element.street, 
+                    element.type,
+                    )}>
+                    <Text style={{textTransform:"uppercase", fontWeight:"400"}}>{`${element.name} - Av ${element.district},${element.state}`}</Text>
+                </TouchableOpacity>
+            </View>    
             )
            });
        }

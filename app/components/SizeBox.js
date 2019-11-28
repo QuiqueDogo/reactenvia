@@ -48,12 +48,12 @@ export default class SizeBox extends Component {
         if(this.props.value.length === 0){
             Animated.timing(this.animatedValue, {
                 toValue: 1,
-                duration: 650,
+                duration: 150,
             }).start();
         }else if(this.props.value.length !== 0){
             Animated.timing(this.animatedValue, {
                 toValue: 0,
-                duration: 650,
+                duration: 150,
             }).start();
         }
     }

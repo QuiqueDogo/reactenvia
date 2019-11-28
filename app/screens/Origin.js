@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,ScrollView,Modal, KeyboardAvoidingView, Platform, Picker, SafeAreaView } from 'react-native';
+import { View, Text,ScrollView,Modal, KeyboardAvoidingView, Platform, Picker, SafeAreaView, TouchableHighlightBase } from 'react-native';
 import styles from "../../assets/css/StylesDestination";
 import { LinearGradient } from 'expo-linear-gradient';
 import InputForm from "../components/inputForm";
@@ -17,6 +17,8 @@ export default class Destination extends Component {
   constructor(props) {
     super(props);
     const item = this.props.navigation.getParam("info")
+    const Origin = this.props.navigation.getParam("Origin")
+    console.log(this.props.count)
     this.state = {
         countryForSelect: Country,
         selected:null,
@@ -49,6 +51,7 @@ export default class Destination extends Component {
         itemSelect:0,
         itemSelectCountry:0,
         itemSelectDistrict:0,
+        valueDistrictAndroid:0,
         titleList:"Selecciona una opcion",
         modalNeighborhood:false
     };
@@ -58,6 +61,7 @@ export default class Destination extends Component {
     this.changeValue = this.changeValue.bind(this);
     this.changeValueCountry = this.changeValueCountry.bind(this);
     this.changeValueDistrict = this.changeValueDistrict.bind(this);
+    this.AddressCheck = this.AddressCheck.bind(this);
   }
   static navigationOptions ={
     header:null
@@ -199,7 +203,7 @@ export default class Destination extends Component {
           phone:phone,
           postalCode:postal_code,
           reference:reference,
-          state:state,
+          state_2_digits:state,
           street:street,
           type:type,
           select:`${name} - Av ${district},${state}`
@@ -321,6 +325,11 @@ export default class Destination extends Component {
     }
   }
 
+  AddressCheck = (data, index) => {
+    this.setState({district: data});
+    this.setState({valueDistrictAndroid:index});
+  }
+
   
 
   render() {
@@ -349,7 +358,8 @@ export default class Destination extends Component {
             DataDistrict,
             itemSelect,
             itemSelectDistrict,
-            itemSelectCountry
+            itemSelectCountry,
+            valueDistrictAndroid,
           } =this.state
     return (
     <KeyboardAvoidingView style={styles.containerRegister} behavior="position" enabled contentContainerStyle={styles.containerRegister} keyboardVerticalOffset={valueKeyborad}>
@@ -386,7 +396,7 @@ export default class Destination extends Component {
                           <PickerAddress data={DataDistrict} changeValueDistrict={this.changeValueDistrict} value={itemSelectDistrict}/>
                         }
                         { (this.state.modalNeighborhood ===  true && Platform.OS == "android") &&
-                          <PickerAddress data={DataDistrict} />
+                          <PickerAddress data={DataDistrict} value={valueDistrictAndroid} AddressCheck={this.AddressCheck}/>
                         }
                         { this.state.modalNeighborhood === false &&
                           <InputForm label="Colonia" value={district} onChangeText={text => this.onChangeVerify(text,"district")} ChangeKeyBoard={value => this.ChangeKeyBoard(-110)}/> 

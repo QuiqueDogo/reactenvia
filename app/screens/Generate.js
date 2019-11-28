@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View,TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView, FlatList, Platform, Modal } from 'react-native';
+import { Text, View,TouchableOpacity, KeyboardAvoidingView, Platform, Modal } from 'react-native';
 import { Icon,CheckBox,Button, Divider } from 'react-native-elements';
 import MenuEnvia from "../components/menuEnvia";
 import HeaderHome from "../components/HeaderHome";
@@ -10,7 +10,6 @@ import styles from "../../assets/css/stylesGenerate";
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import SizeBox from "../components/SizeBox";
-import base64 from 'react-native-base64'
 import Autocomplete from 'react-native-autocomplete-input';
 
 
@@ -50,6 +49,7 @@ export default class Generate extends Component {
         this.ModalPickerVisible = this.ModalPickerVisible.bind(this);
         this.changeValuePackage = this.changeValuePackage.bind(this);
         this.ChangeKeyBoard = this.ChangeKeyBoard.bind(this);
+        this.ModalPickerAnd = this.ModalPickerAnd.bind(this);
       };
       componentWillMount(){
         this.getAllData();
@@ -72,7 +72,7 @@ export default class Generate extends Component {
           },
           mode: 'cors'
         }
-        fetch(rutaAvailableCarriers, params).then(response => response.json().then(data => {this.setState({CarriersAvailable:data}), console.log(data)}).catch(error => console.log(error))).catch(error => console.log(error));
+        fetch(rutaAvailableCarriers, params).then(response => response.json().then(data => {this.setState({CarriersAvailable:data})}).catch(error => console.log(error))).catch(error => console.log(error));
       } 
 
 
@@ -180,6 +180,17 @@ export default class Generate extends Component {
         }
       }
 
+      ModalPickerAnd = (value, state) => {
+        console.log(value, state);
+        if(state === "content"){
+          this.setState({valueContent:value})
+          this.setState({ModalPickerVisible:!this.state.ModalPickerVisible});
+        }else if(state === "weigth"){
+          this.setState({valueweigth:value})
+          this.setState({ModalPickerVisible:!this.state.ModalPickerVisible});
+        }
+      }
+
       OriginText2 = async (newText, country) => {
       this.setState({query2:newText})
       if(newText.length >= 3){
@@ -197,16 +208,22 @@ export default class Generate extends Component {
         fetch(ruta,params).then(response => response.json().then(data => this.setState({infoPostalCode2:data})).catch(error => console.log(error))).catch(error => console.log(error));
       }
     }
+
+    someFun = (Origin) => {
+      this.props.dispatch({
+        type : "ORIGIN",
+        state : Origin
+      })
+    }
       
     fall =new Animated.Value(1);  
     render() {
-      const {type, height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,infoPostalCode2,country_code,query,result,query2,result2, ModalPickerVisible, typePackage,valueContent,valueweigth, PackageSelected } = this.state;
+      const { height, width, length, weight,weightUnit,lengthUnit,infoPostalCode,infoPostalCode2,country_code,query,result,query2,result2, ModalPickerVisible, typePackage,valueContent,valueweigth, PackageSelected } = this.state;
       const Origin = this.props.navigation.getParam("origin");
       const ValidateOrigin = this.props.navigation.state.params;
       const Destination = this.props.navigation.getParam("destination");
-      const Packages = this.props.navigation.getParam("packages");
         return (
-          <KeyboardAvoidingView contentContainerStyle={styles.containerRegister} style={styles.containerRegister} behavior="position" keyboardVerticalOffset={-200} >
+          <KeyboardAvoidingView contentContainerStyle={styles.containerRegister} style={styles.containerRegister} behavior="position" keyboardVerticalOffset={-250} >
                 <BottomSheet 
                     snapPoints = {[300, 100]}
                     renderHeader={this.renderHeader}
@@ -237,7 +254,8 @@ export default class Generate extends Component {
                                         keyExtractor={(item, index) => item.value}
                                         listContainerStyle={{width:"100%",zIndex:10,backgroundColor:"white"}}
                                         listStyle={{ maxHeight:135, width:"100%",zIndex:10,backgroundColor:"white", borderRadius:10}}
-                                        inputContainerStyle={{borderRadius:10, width:"100%",zIndex:10,marginHorizontal:(Platform.OS === "android") ? 10:10, paddingLeft:10,paddingRight:10}}
+                                        placeholder="Origen (Ciudad o Codigo Postal)"
+                                        inputContainerStyle={{borderRadius:10, width:"100%",zIndex:10,marginHorizontal:(Platform.OS === "android") ? 10:10, paddingLeft:10,paddingRight:10,borderColor:"#bdbdbd"}}
                                         onChangeText={text => this.OriginText(text,"mx")}
                                         hideResults={result}
                                         renderItem={(info) => (
@@ -254,21 +272,25 @@ export default class Generate extends Component {
                                       />
                                     }
                                     {(typeof Origin != "undefined") &&
-                                      <View>
+                                      <View style={{paddingLeft:15}}>
                                         <Text>{(ValidateOrigin.origin.street + " "+ ValidateOrigin.origin.number +", ")+("Col. "+ValidateOrigin.origin.district+".")}</Text>
                                         <Text>{(ValidateOrigin.origin.city + ", ")+("CP. " + ValidateOrigin.origin.postalCode)}</Text>
                                         <Text>{(ValidateOrigin.stateCountry + ", ") + (ValidateOrigin.origin.country)}</Text>
                                       </View>
                                     }
                                     </View>
+                                  {(typeof Origin == "undefined") &&
                                   <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin")}/>
+                                  }
+                                  {(typeof Origin != "undefined") &&
+                                  <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => {this.props.navigation.navigate("Origin",{Origin}), this.someFun(Origin)}}/>
+                                  }
                                 </View>
                                 <Divider style={{backgroundColor:"#e4e4e4", height:1, zIndex:-1}}/>
                               </View>
-
                               <View style={[(Platform.OS === "android")?styles.boxes:styles.boxesIos,{zIndex:8}]}>
                                   <View style={styles.boxsubTitle}>
-                                    <Text style={styles.subTitle}>Destino</Text>
+                                    <Text style={styles.subTitle}>Origin</Text>
                                   </View>
                                   <View style={{flex:2,flexDirection:"row",justifyContent: 'flex-start',paddingTop:8,marginHorizontal:(Platform.OS === "ios") ? 10:0}}>
                                     <View style={{flex:0.9}}>
@@ -281,6 +303,7 @@ export default class Generate extends Component {
                                       keyExtractor={(item, index) => item.value}
                                       listContainerStyle={{width:"100%",zIndex:10,backgroundColor:"white"}}
                                       listStyle={{ maxHeight:135, width:"100%",zIndex:10,backgroundColor:"white", borderRadius:10}}
+                                      placeholder="Destino (Ciudad o Codigo Postal)"
                                       inputContainerStyle={{borderRadius:10, width:"100%",zIndex:10,marginHorizontal:(Platform.OS === "android") ? 10:10, paddingLeft:10,paddingRight:10}}
                                       onChangeText={text => this.OriginText2(text,"mx")}
                                       hideResults={result2}
@@ -298,14 +321,23 @@ export default class Generate extends Component {
                                     />
                                     }
                                     {(typeof Destination != "undefined") && 
-                                       <View>
+                                       <View style={{paddingLeft:15}}>
                                         <Text>{(ValidateOrigin.destination.street + " "+ ValidateOrigin.destination.number +", ")+("Col. "+ValidateOrigin.destination.district+".")}</Text>
                                         <Text>{(ValidateOrigin.destination.city + ", ")+("CP." + ValidateOrigin.destination.postalCode)}</Text>
                                         <Text>{(ValidateOrigin.stateCountry + ", ") + (ValidateOrigin.destination.country)}</Text>
                                       </View>
                                     }
-                                    </View>  
-                                    <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Destination")}/>
+                                    </View>
+                                    {(typeof Destination == "undefined") && 
+                                    <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4"
+                                    onPress={() => this.props.navigation.navigate("Destination")}
+                                    />
+                                    }
+                                    {(typeof Destination != "undefined") && 
+                                    <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4"
+                                    onPress={() => this.props.navigation.navigate("Destination",)}
+                                    />
+                                    }
                                   </View>
                                   <Divider style={{backgroundColor:"#e4e4e4", height:1, zIndex:-1}}/>
                               </View>
@@ -315,22 +347,17 @@ export default class Generate extends Component {
                                         <Text style={styles.subTitleInfo}>Informacion del Paquete</Text>
                                   </View>
                                   <View style={{flex:4,}}>
-                                    <View style={{flex:0.7, flexDirection:"row", justifyContent:"space-around",marginBottom:10, marginHorizontal:10 }} >
+                                    <View style={{flex:0.85, flexDirection:"row", justifyContent:"space-around",marginBottom:10, marginHorizontal:10 }} >
                                       <PickerPackage title="Tipo de Envio" value={this.state.namePackage[valueContent]} ModalPickerVisible={this.ModalPickerVisible} />
                                       <PickerPackage title="Medida" value={this.state.nameweight[valueweigth]} ModalPickerVisible={this.ModalPickerVisible}/>
-                                      {/* weightUnit lengthUnit
-                                      <Icon containerStyle={{marginTop:"5%",marginRight:40}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("InfoPackage",{type, height, width, length, weight})}/>
-                                       */}
                                     </View>
-                                    <View style={{flex:2.6, flexDirection:"row",justifyContent:"space-around",marginHorizontal:10, marginVertical:10}} >
+                                    <View style={{flex:2.8, flexDirection:"row",justifyContent:"space-around",marginHorizontal:10, marginVertical:10}} >
                                       <SizeBox type={lengthUnit} label="Alto"  value={height} dimensions="height" ChangeText={this.ChangeText}  ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
                                       <SizeBox type={lengthUnit} label="Ancho" value={width} dimensions="width" ChangeText={this.ChangeText}  ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
                                       <SizeBox type={lengthUnit} label="Largo" value={length} dimensions="length" ChangeText={this.ChangeText}  ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
                                       <SizeBox type={weightUnit} label="Peso"  value={weight} dimensions="weight" ChangeText={this.ChangeText}  ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
                                     </View>
-                              
                                   </View>
-                              {/* <Button title="state" onPress={() => console.log(this.props)}/> */}
                               </View>
                               <Button  title="Cotizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"dollar", type:"font-awesome", size:19, color:"white",}} 
                                       onPress={ () => { this.props.navigation.navigate("GenerateGuide",{
@@ -359,8 +386,9 @@ export default class Generate extends Component {
                         
                 </Animated.View>
             </View>
+            
             <Modal animationType="fade" animated={true} transparent={true} visible={ModalPickerVisible} >
-              <ModalPicker type={typePackage}  ModalPickerVisible={this.ModalPickerVisible} valueContent={valueContent} valueweigth={valueweigth} changeValuePackage={this.changeValuePackage} />
+              <ModalPicker type={typePackage}  ModalPickerVisible={this.ModalPickerVisible} valueContent={valueContent} valueweigth={valueweigth} changeValuePackage={this.changeValuePackage} ModalPickerAnd={this.ModalPickerAnd}/>
             </Modal>
           </KeyboardAvoidingView>
         )

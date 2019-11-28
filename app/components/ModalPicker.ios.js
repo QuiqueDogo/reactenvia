@@ -30,13 +30,6 @@ export default class ModalPicker extends Component {
         });
       }
     return (
-    //   <View>
-    //       <SafeAreaView>
-    //         <TouchableOpacity onPress={() => ModalPickerVisible()}>
-    //         <Text> ModalPicker.ios </Text>
-    //         </TouchableOpacity>
-    //       </SafeAreaView>
-    //   </View>
     <TouchableOpacity style={styles.background} onPressIn={() => ModalPickerVisible()}>
                 <View style={styles.content} >
                     <TouchableOpacity style={styles.title} onPress={() => ModalPickerVisible()} >

@@ -16,6 +16,9 @@ export default class Destination extends Component {
   constructor(props) {
     super(props);
     const item = this.props.navigation.getParam("info")
+    console.log('====================================');
+    console.log(this.props.count);
+    console.log('====================================');
     this.state = {
         countryForSelect:Country,
         selected:"",
@@ -53,9 +56,11 @@ export default class Destination extends Component {
     };
     this.closeModal= this.closeModal.bind(this);
     this.closeModalAdresses = this.closeModalAdresses.bind(this);
+    this.closeModalAdressesAndroid = this.closeModalAdressesAndroid.bind(this);
     this.changeValue = this.changeValue.bind(this);
     this.changeValueCountry = this.changeValueCountry.bind(this);
     this.changeValueDistrict = this.changeValueDistrict.bind(this);
+    this.AddressCheck = this.AddressCheck.bind(this);
   }
   static navigationOptions ={
     header:null
@@ -84,7 +89,7 @@ export default class Destination extends Component {
     });
   }
   
-  componentDidMount(){
+  componentWillMount(){
     this.GetAdressesDestination();
     const code_country = this.props.navigation.getParam("code_country");
     const info = this.props.navigation.getParam("info");
@@ -164,7 +169,7 @@ export default class Destination extends Component {
         phone:infoDestination[index].phone,
         postalCode:infoDestination[index].postal_code,
         reference:infoDestination[index].reference,
-        state:infoDestination[index].state,
+        state_2_digits:infoDestination[index].state,
         street:infoDestination[index].street,
         type:infoDestination[index].type,
         select:`${infoDestination[index].name} - Av ${infoDestination[index].district},${infoDestination[index].state}`
@@ -177,6 +182,34 @@ export default class Destination extends Component {
       this.setState({modalVisibleAdresss:false});
     }
       
+  }
+
+  closeModalAdressesAndroid = (city, company, country, description, district, email, name, number, phone, postal_code, reference, state, street, type) => {
+    if(typeof company !== "undefined"){
+        this.setState({
+          city:city,
+          company:company,
+          country:country,
+          description:description,
+          district:district,
+          email:email,
+          name:name,
+          number:number,
+          phone:phone,
+          postalCode:postal_code,
+          reference:reference,
+          state_2_digits:state,
+          street:street,
+          type:type,
+          select:`${name} - Av ${district},${state}`
+        })
+        this.setState({modalVisibleAdresssAndroid:false});
+        this.getSingleCountry(country);
+        this.getSingleState(state,country);
+        this.getAllStates(country);
+      }else{
+        this.setState({modalVisibleAdresssAndroid:false});
+      }
   }
   
   getSingleCountry = async (code) =>{
@@ -287,6 +320,9 @@ export default class Destination extends Component {
     }
   }
 
+  AddressCheck = (data) => {
+    console.log(data)
+  }
 
   render() {
     const { stateCountry,countryName,modal,name,select,valueKeyborad, company, street, number, postalCode, district, city, phone,email,reference, country,state_2_digits,AllStates,infoOrigin,modalVisibleCountry,selected, countrySelect,ButtonValue,itemSelect, infoDestination,itemSelectCountry,DataDistrict,itemSelectDistrict } =this.state
