@@ -16,33 +16,18 @@ import DetailInfo from "./app/screens/DetailInfo";
 import Shipment from "./app/screens/Shipment";
 import { Provider, connect } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
-
-//actions
-
-
-//reducer
- const counter = (state = [], action) => {
-  const {OriginBefore} = state
-
-  switch (action.type) {
-    case 'ORIGIN' :{
-      return {
-        state: [action.state],
-      }
-    }
-    default:
-      return state;
-  }
-}
-
+import { OriginState,DestinationState } from "./redux/reducer/Reducer";
 
 // A very simple store
-let store = createStore(combineReducers({ count: counter }));
+let store = createStore(combineReducers({
+  OriginState: OriginState,
+  DestinationState: DestinationState
+}));
 
 // Connect the screens to Redux
-let GenerateContainer = connect( state => ({count: state.count}))(Generate);
-let OriginContainer = connect( state => ({count: state.count}))(Origin);
-let DestinationContainer = connect( state => ({count: state.count}))(Destination);
+let GenerateContainer = connect( state => ({OriginState: state.OriginState,DestinationState:state.DestinationState}))(Generate);
+let OriginContainer = connect( state => ({OriginState: state.OriginState, DestinationState:state.DestinationState}))(Origin);
+let DestinationContainer = connect( state => ({OriginState: state.OriginState, DestinationState:state.DestinationState}))(Destination);
 
 
 const NavStack = createStackNavigator({

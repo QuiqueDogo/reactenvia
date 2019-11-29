@@ -11,30 +11,31 @@ import ModalAdresssAndroid from "../components/ModalAdressesAndroid";
 import { Button, Icon,ListItem } from 'react-native-elements';
 import { CountrySelection } from 'react-native-country-list';
 import Country from "../utils/country.json";
+import { func } from 'prop-types';
 
 
 export default class Destination extends Component {
   constructor(props) {
     super(props);
-    const item = this.props.navigation.getParam("info")
-    const Origin = this.props.navigation.getParam("Origin")
-    console.log(this.props.count)
+    const item = this.props.navigation.getParam("info");
+    const OriginRedux = this.props.OriginState;
     this.state = {
         countryForSelect: Country,
         selected:null,
-        name: "",
-        company: "",
-        street: "",
-        number: "",
-        postalCode: (item)? item.item.postal_code : "",
-        district: (item)? item.item.neighborhood : "",
-        city: (item)? item.item.city : "",
+        name: OriginRedux.name,
+        company: OriginRedux.company,
+        street: OriginRedux.street,
+        number: OriginRedux.number,
+        postalCode: (item)? item.item.postal_code : OriginRedux.postalCode,
+        district: (item)? item.item.neighborhood : OriginRedux.district,
+        city: (item)? item.item.city : OriginRedux.city,
         info: "",
-        phone: "",
-        email: "",
+        select: "Cargando...",
+        phone: OriginRedux.phone,
+        email: OriginRedux.email,
         reference: "",
-        country:"",
-        state_2_digits: (item)? item.item.state_code :"",
+        country:OriginRedux.country,
+        state_2_digits: (item)? item.item.state_code : OriginRedux.state,
         modalVisible:false,
         modalVisibleAdresss: false,
         modalVisibleAdresssAndroid: false,
@@ -67,6 +68,29 @@ export default class Destination extends Component {
     header:null
   };
 
+  componentDidMount() {
+    this.GetAdressesOrigin();
+    this.CodePostalGenerate();
+    this.CheckRedux();
+  }
+
+  CheckRedux = async () => {
+    const CheckValues = this.props.OriginState;
+    function checkProperties(obj) {
+      for (var key in obj) {
+        if (obj[key] !== null && obj[key] != "")
+          return false;
+      }
+      return true;
+    }
+    if(checkProperties(CheckValues) === false){
+      this.getSingleCountry(CheckValues.country);
+      this.getSingleState(CheckValues.state, CheckValues.country)
+      this.getAllStates(CheckValues.country)
+    }
+  }
+
+
   onChangeVerify = (newText, state) => {
     this.setState({
       [state]: newText
@@ -90,21 +114,25 @@ export default class Destination extends Component {
     });
   }
 
-  componentDidMount(){
-    this.GetAdressesOrigin();
+  CodePostalGenerate = async () => {
     const code_country = this.props.navigation.getParam("code_country");
     const info = this.props.navigation.getParam("info");
-    if(typeof code_country !== "undefined"){
+    if (typeof code_country !== "undefined") {
       const result = this.state.countryForSelect.find(code => code.code === code_country.toUpperCase());
-      console.log(result.name, result.code,info)
-      this.setState({countrySelect: result.name, country:result.code, ButtonValue:false});
+      this.setState({
+        countrySelect: result.name,
+        country: result.code,
+        ButtonValue: false
+      });
       this.getAllStates(result.code)
-      if(info.item.state_code == "MC"){
+      if (info.item.state_code == "MC") {
         info.item.state_code = "MI";
       }
-      this.getSingleState(info.item.state_code,result.code)
+      this.getSingleState(info.item.state_code, result.code)
     }
   }
+
+  
 
   GetAdressesOrigin = async () =>{
     var ruta = "https://queries-dev.herokuapp.com/all-addresses/origin";

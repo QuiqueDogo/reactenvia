@@ -209,9 +209,9 @@ export default class Generate extends Component {
       }
     }
 
-    someFun = (Origin) => {
+    someFun = (Origin, type) => {
       this.props.dispatch({
-        type : "ORIGIN",
+        type: type,
         state : Origin
       })
     }
@@ -283,14 +283,14 @@ export default class Generate extends Component {
                                   <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => this.props.navigation.navigate("Origin")}/>
                                   }
                                   {(typeof Origin != "undefined") &&
-                                  <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => {this.props.navigation.navigate("Origin",{Origin}), this.someFun(Origin)}}/>
+                                  <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4" onPress={() => {this.props.navigation.navigate("Origin",{Origin}), this.someFun(Origin,"ORIGIN")}}/>
                                   }
                                 </View>
                                 <Divider style={{backgroundColor:"#e4e4e4", height:1, zIndex:-1}}/>
                               </View>
                               <View style={[(Platform.OS === "android")?styles.boxes:styles.boxesIos,{zIndex:8}]}>
                                   <View style={styles.boxsubTitle}>
-                                    <Text style={styles.subTitle}>Origin</Text>
+                                    <Text style={styles.subTitle}>Destino</Text>
                                   </View>
                                   <View style={{flex:2,flexDirection:"row",justifyContent: 'flex-start',paddingTop:8,marginHorizontal:(Platform.OS === "ios") ? 10:0}}>
                                     <View style={{flex:0.9}}>
@@ -335,7 +335,7 @@ export default class Generate extends Component {
                                     }
                                     {(typeof Destination != "undefined") && 
                                     <Icon containerStyle={{marginTop:"2%",marginLeft:"auto", marginRight:10}} name="chevron-right" type="font-awesome" size={25} color="#e4e4e4"
-                                    onPress={() => this.props.navigation.navigate("Destination",)}
+                                    onPress={() => {this.props.navigation.navigate("Destination",),this.someFun(Destination,"DESTINATION")}}
                                     />
                                     }
                                   </View>
@@ -358,6 +358,14 @@ export default class Generate extends Component {
                                       <SizeBox type={weightUnit} label="Peso"  value={weight} dimensions="weight" ChangeText={this.ChangeText}  ChangeKeyBoard={value => this.ChangeKeyBoard(-250)}/>
                                     </View>
                                   </View>
+                              <Button title="checar props" 
+                              onPress={() => {
+                                console.log('====================================');
+                                console.log("ORIGIN \n", this.props.OriginState);
+                                console.log("DESTINATION \n", this.props.DestinationState);
+                                console.log("NAVIGATION \n", this.props.navigation.state);
+                                console.log('====================================');
+                              }}/>
                               </View>
                               <Button  title="Cotizar" buttonStyle={styles.buttonStyleRegister} titleStyle={{ fontSize: 21, paddingRight:30, textAlign:"center"}} containerStyle={styles.buttonVerify} iconRight iconContainerStyle={{ paddingLeft: 20 }} icon={{ name:"dollar", type:"font-awesome", size:19, color:"white",}} 
                                       onPress={ () => { this.props.navigation.navigate("GenerateGuide",{

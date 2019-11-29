@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableHighlight, NativeModules} from 'react-native';
+import { Text, View, Image, TouchableHighlight, NativeModules, ScrollView, FlatList} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Location from "expo-location";
 import * as Permissions  from "expo-permissions"; 
@@ -12,22 +12,24 @@ import i18n from "../utils/i18n";
  export default class mainPage extends Component{
     constructor(props) {
       super(props);
-      this.state={
-        location:{
-          coords:{
-            latitude:"",
-            longitude:""
+      this.state = {
+        location: {
+          coords: {
+            latitude: "",
+            longitude: ""
           }
         },
-        listCountry: customData,
-      }
+        listCountry: customData
+      };
     }
 
     componentDidMount(){
       this._getLocation();
-      console.log(i18n.currentLocale())
+      console.log(i18n.currentLocale());
     }
-    
+
+
+
     _getLocation = async () =>{
       const {status} = await Permissions.askAsync(Permissions.LOCATION);
     
@@ -52,7 +54,7 @@ import i18n from "../utils/i18n";
         },
         mode:"cors"
       };
-      console.log(ruta)
+      
       fetch(ruta, params)
                 .then((response) => response.json()
                 .then((responseJson) => {

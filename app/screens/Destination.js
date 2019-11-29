@@ -16,25 +16,27 @@ export default class Destination extends Component {
   constructor(props) {
     super(props);
     const item = this.props.navigation.getParam("info")
+    const DestinationRedux = this.props.DestinationState;
     console.log('====================================');
-    console.log(this.props.count);
+    console.log(this.props.DestinationState);
     console.log('====================================');
     this.state = {
+        select:"Cargando...",
         countryForSelect:Country,
         selected:"",
-        name:"",
-        company: "",
-        street: "",
-        number: "",
-        postalCode: (item) ? item.item.postal_code :"",
-        district: (item) ? item.item.neighborhood : "",
-        city: (item) ? item.item.city : "",
+        name:DestinationRedux.name,
+        company: DestinationRedux.company,
+        street: DestinationRedux.street,
+        number: DestinationRedux.number,
+        postalCode: (item) ? item.item.postal_code :DestinationRedux.postalCode,
+        district: (item) ? item.item.neighborhood : DestinationRedux.district,
+        city: (item) ? item.item.city : DestinationRedux.city,
         info: "",
-        phone:"",
-        email:"",
+        phone:DestinationRedux.phone,
+        email:DestinationRedux.email,
         reference:"",
-        country:"",
-        state_2_digits:(item) ? item.item.state_code :"",
+        country:DestinationRedux.country,
+        state_2_digits:(item) ? item.item.state_code :DestinationRedux.state_2_digits,
         modalVisible:false,
         modalVisibleAdresss: false,
         modalVisibleAdresssAndroid: false,
@@ -65,6 +67,27 @@ export default class Destination extends Component {
   static navigationOptions ={
     header:null
   };
+  componentWillMount(){
+    this.GetAdressesDestination();
+    this.CodePostalGenerate();
+    this.CheckRedux();
+  }
+
+  CheckRedux = async () => {
+    const CheckValues = this.props.OriginState;
+    function checkProperties(obj) {
+      for (var key in obj) {
+        if (obj[key] !== null && obj[key] != "") return false;
+      }
+      return true;
+    }
+    if (checkProperties(CheckValues) === false) {
+      this.getSingleCountry(CheckValues.country);
+      this.getSingleState(CheckValues.state, CheckValues.country);
+      this.getAllStates(CheckValues.country);
+    } 
+  }
+
   onChangeVerify = (newText, state) => {
     this.setState({
       [state]: newText
@@ -89,8 +112,7 @@ export default class Destination extends Component {
     });
   }
   
-  componentWillMount(){
-    this.GetAdressesDestination();
+  CodePostalGenerate = async () =>{
     const code_country = this.props.navigation.getParam("code_country");
     const info = this.props.navigation.getParam("info");
     if(typeof code_country !== "undefined"){

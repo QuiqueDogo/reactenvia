@@ -83,7 +83,8 @@ export default class GenerateGuide extends Component {
         <HeaderHome title="Generar Guias" user="" pag="Generate" />
         <View style={styles.Division}>
             <View style={styles.cardGenerate}>
-                <ScrollView style={{width:"100%", flex:1,}} showsVerticalScrollIndicator={false}>
+                <ScrollView style={{width:"100%", flex:1,}} 
+                contentContainerStyle={{ justifyContent:"center"}} showsVerticalScrollIndicator={false}>
                     {change == false &&
                       <ActivityIndicator animating={true} size="large" color="#039aab" />
                     }
